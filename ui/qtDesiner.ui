@@ -49,7 +49,7 @@
      <number>0</number>
     </property>
     <item row="0" column="1">
-     <widget class="QFrame" name="sites_frame">
+     <widget class="QFrame" name="frame_sites">
       <property name="styleSheet">
        <string notr="true">QFrame{
 background-color:#83a836;
@@ -64,7 +64,7 @@ background-color:#83a836;
      </widget>
     </item>
     <item row="0" column="0" rowspan="7">
-     <widget class="QFrame" name="nav_frame">
+     <widget class="QFrame" name="frame_left">
       <property name="styleSheet">
        <string notr="true">QFrame{
 background-color:#83a836;
@@ -85,7 +85,7 @@ background-color:#43454f;
         <number>11</number>
        </property>
        <item row="2" column="0">
-        <spacer name="horizontalSpacer">
+        <spacer name="spacer_pname_l">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -98,7 +98,7 @@ background-color:#43454f;
         </spacer>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_picon">
          <property name="minimumSize">
           <size>
            <width>60</width>
@@ -123,7 +123,7 @@ background-color:#43454f;
         </widget>
        </item>
        <item row="2" column="3">
-        <spacer name="horizontalSpacer_2">
+        <spacer name="spacer_pname_r">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -136,7 +136,7 @@ background-color:#43454f;
         </spacer>
        </item>
        <item row="3" column="0" colspan="4">
-        <widget class="QFrame" name="frame_4">
+        <widget class="QFrame" name="nav_frame">
          <property name="minimumSize">
           <size>
            <width>220</width>
@@ -156,7 +156,7 @@ background-color:#43454f;
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="1">
-           <spacer name="verticalSpacer_2">
+           <spacer name="spacer_gbnav_u">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -172,7 +172,7 @@ background-color:#43454f;
            </spacer>
           </item>
           <item row="2" column="1">
-           <spacer name="verticalSpacer_3">
+           <spacer name="spacer_gbnav_d">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -188,7 +188,7 @@ background-color:#43454f;
            </spacer>
           </item>
           <item row="1" column="2">
-           <spacer name="horizontalSpacer_3">
+           <spacer name="spacer_gbnav_l">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -201,7 +201,7 @@ background-color:#43454f;
            </spacer>
           </item>
           <item row="1" column="0">
-           <spacer name="horizontalSpacer_4">
+           <spacer name="spacer_gbnav_r">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -214,7 +214,7 @@ background-color:#43454f;
            </spacer>
           </item>
           <item row="1" column="1">
-           <widget class="QGroupBox" name="groupBox">
+           <widget class="QGroupBox" name="groupBox_nav">
             <property name="minimumSize">
              <size>
               <width>220</width>
@@ -236,7 +236,7 @@ background-color:#43454f;
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QRadioButton" name="radioButton">
+              <widget class="QRadioButton" name="radioButton_add">
                <property name="styleSheet">
                 <string notr="true">QRadioButton {
 	font: 16pt &quot;Reem Kufi&quot;;
@@ -277,7 +277,7 @@ QRadioButton::indicator:unchecked {
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="radioButton_2">
+              <widget class="QRadioButton" name="radioButton_monitored">
                <property name="styleSheet">
                 <string notr="true">QRadioButton {
 	font: 16pt &quot;Reem Kufi&quot;;
@@ -318,7 +318,7 @@ QRadioButton::indicator:unchecked {
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="radioButton_3">
+              <widget class="QRadioButton" name="radioButton_options">
                <property name="styleSheet">
                 <string notr="true">QRadioButton {
 	font: 16pt &quot;Reem Kufi&quot;;
@@ -359,7 +359,7 @@ QRadioButton::indicator:unchecked {
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="radioButton_4">
+              <widget class="QRadioButton" name="radioButton_about">
                <property name="styleSheet">
                 <string notr="true">QRadioButton {
 	font: 16pt &quot;Reem Kufi&quot;;
@@ -406,7 +406,7 @@ QRadioButton::indicator:unchecked {
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_pname">
          <property name="styleSheet">
           <string notr="true">QLabel{
 	font-size: 20px;
@@ -419,7 +419,7 @@ QRadioButton::indicator:unchecked {
         </widget>
        </item>
        <item row="1" column="1" colspan="2">
-        <spacer name="verticalSpacer">
+        <spacer name="spacer_pname_u">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -445,9 +445,9 @@ background-color:#f2ede1
 }</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="monitored_page">
+      <widget class="QWidget" name="page_monitored">
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
@@ -475,7 +475,7 @@ background-color:#f2ede1
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="options_page">
+      <widget class="QWidget" name="page_options">
        <widget class="QDial" name="dial">
         <property name="geometry">
          <rect>
@@ -487,7 +487,7 @@ background-color:#f2ede1
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="create_page">
+      <widget class="QWidget" name="page_add">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -504,21 +504,8 @@ background-color:#f2ede1
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item row="7" column="8">
-         <spacer name="horizontalSpacer_11">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="12" column="1" colspan="7">
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="label_link">
           <property name="styleSheet">
            <string notr="true">QLabel{
 	font-size: 23px;
@@ -532,7 +519,7 @@ background-color:#f2ede1
          </widget>
         </item>
         <item row="8" column="1" colspan="7">
-         <spacer name="verticalSpacer_8">
+         <spacer name="spacer_login_d">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -545,7 +532,7 @@ background-color:#f2ede1
          </spacer>
         </item>
         <item row="13" column="8">
-         <spacer name="horizontalSpacer_7">
+         <spacer name="spacer_link_r">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -561,7 +548,7 @@ background-color:#f2ede1
          </spacer>
         </item>
         <item row="11" column="1" colspan="7">
-         <spacer name="verticalSpacer_7">
+         <spacer name="spacer_link_u">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -574,7 +561,7 @@ background-color:#f2ede1
          </spacer>
         </item>
         <item row="15" column="0" colspan="9">
-         <widget class="QFrame" name="frame">
+         <widget class="QFrame" name="frame_bottom">
           <property name="styleSheet">
            <string notr="true">QFrame{
 background-color: #fff;
@@ -589,7 +576,7 @@ padding: 10px;
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,2,1,1">
            <item>
-            <spacer name="horizontalSpacer_9">
+            <spacer name="horizontalSpacer_l">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -602,7 +589,7 @@ padding: 10px;
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pushButton_atc">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -642,10 +629,13 @@ color: #fff;
              <property name="text">
               <string>Add to cart</string>
              </property>
+             <property name="shortcut">
+              <string>Return</string>
+             </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_8">
+            <spacer name="horizontalSpacer_c">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -658,7 +648,7 @@ color: #fff;
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="pushButton_buy">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -698,7 +688,7 @@ color: #83a836;
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_10">
+            <spacer name="horizontalSpacer_r">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -714,7 +704,7 @@ color: #83a836;
          </widget>
         </item>
         <item row="10" column="1" colspan="2">
-         <widget class="QLineEdit" name="passwordLineEdit">
+         <widget class="QLineEdit" name="lineEdit_password">
           <property name="minimumSize">
            <size>
             <width>20</width>
@@ -729,11 +719,6 @@ border-radius: 5px;
 font: 12pt &quot;Corbel&quot;;
 color: #43454f;
 padding:10px;
-}
-
-::placeholder { 
-  color: red;
-  opacity: 1; 
 }
 </string>
           </property>
@@ -754,21 +739,8 @@ padding:10px;
           </property>
          </widget>
         </item>
-        <item row="1" column="1" rowspan="3" colspan="5">
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="10" column="3">
-         <spacer name="horizontalSpacer_5">
+         <spacer name="spacer_email_l">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -781,7 +753,7 @@ padding:10px;
          </spacer>
         </item>
         <item row="9" column="4" colspan="4">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label_email">
           <property name="styleSheet">
            <string notr="true">QLabel{
 	font-size: 23px;
@@ -795,7 +767,7 @@ padding:10px;
          </widget>
         </item>
         <item row="7" column="6" colspan="2">
-         <spacer name="horizontalSpacer_13">
+         <spacer name="spacer_search_r">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -808,7 +780,7 @@ padding:10px;
          </spacer>
         </item>
         <item row="14" column="1" colspan="7">
-         <spacer name="verticalSpacer_4">
+         <spacer name="spacer_link_d">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -821,7 +793,7 @@ padding:10px;
          </spacer>
         </item>
         <item row="13" column="1" colspan="7">
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="QLineEdit" name="lineEdit_link">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -833,7 +805,7 @@ padding:10px;
 background-color: white;
 border: 1 solid #ddd;
 border-radius: 5px;
-font: 13pt &quot;Corbel&quot;;
+font: 12pt &quot;Corbel&quot;;
 color: #43454f;
 padding:10px;
 }</string>
@@ -844,7 +816,7 @@ padding:10px;
          </widget>
         </item>
         <item row="7" column="4">
-         <spacer name="horizontalSpacer_12">
+         <spacer name="spacer_search_l">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -857,7 +829,7 @@ padding:10px;
          </spacer>
         </item>
         <item row="7" column="5">
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="label_img_search">
           <property name="maximumSize">
            <size>
             <width>80</width>
@@ -882,7 +854,7 @@ border:none;
          </widget>
         </item>
         <item row="7" column="1" colspan="2">
-         <widget class="QLineEdit" name="loginLineEdit">
+         <widget class="QLineEdit" name="lineEdit_login">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -900,9 +872,9 @@ border:none;
 background-color: white;
 border: 1 solid #ddd;
 border-radius: 5px;
-font: 13pt &quot;Corbel&quot;;
+font: 12pt &quot;Corbel&quot;;
 color: #43454f;
-padding: 10px;
+padding:10px;
 }</string>
           </property>
           <property name="inputMask">
@@ -920,7 +892,7 @@ padding: 10px;
          </widget>
         </item>
         <item row="9" column="1" colspan="2">
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_password">
           <property name="styleSheet">
            <string notr="true">QLabel{
 	font-size: 23px;
@@ -934,7 +906,7 @@ padding: 10px;
          </widget>
         </item>
         <item row="10" column="4" colspan="4">
-         <widget class="QLineEdit" name="lineEdit_4">
+         <widget class="QLineEdit" name="lineEdit_email">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -946,7 +918,7 @@ padding: 10px;
 background-color: white;
 border: 1 solid #ddd;
 border-radius: 5px;
-font: 13pt &quot;Corbel&quot;;
+font: 12pt &quot;Corbel&quot;;
 color: #43454f;
 padding:10px;
 }</string>
@@ -963,7 +935,7 @@ padding:10px;
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="label_login">
           <property name="styleSheet">
            <string notr="true">QLabel{
 	font-size: 23px;
@@ -977,7 +949,7 @@ padding:10px;
          </widget>
         </item>
         <item row="13" column="0">
-         <spacer name="horizontalSpacer_6">
+         <spacer name="spacer_link_l">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -993,7 +965,7 @@ padding:10px;
          </spacer>
         </item>
         <item row="0" column="1" colspan="7">
-         <widget class="QLabel" name="label_9">
+         <widget class="QLabel" name="label_title">
           <property name="styleSheet">
            <string notr="true">QLabel{
 	text-align: center;
@@ -1010,6 +982,19 @@ padding:10px;
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+        </item>
+        <item row="1" column="1" rowspan="3" colspan="7">
+         <spacer name="spacer_login_u">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
