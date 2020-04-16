@@ -1,28 +1,116 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'qtDesiner.ui'
-##
-## Created by: Qt User Interface Compiler version 5.14.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
     QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
     QPixmap, QRadialGradient)
-from PySide2.QtWidgets import QMainWindow
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import *
 import sys
 
+class StyleSheet():
+    def __init__(self):
+        self.lineEdit = """
+                QLineEdit{
+                     background-color: white;
+                     border: 1 solid #ddd;
+                     border-radius: 5px;
+                     font: 12pt "Corbel";
+                     color: #43454f;
+                     padding:10px;
+                }
+                """
+        self.label_lineEdit = """
+                QLabel{
+                    font-size: 23px;
+                    font: 12pt "Corbel";
+                    color: #43454f;
+                }
+                """
+        self.label_title = """
+        QLabel{
+            text-align: center;
+            font: 23pt "Corbel";
+            color: #43454f;
+        }
+        """
 
-# import sourse_rc
-# import s_delete_rc
+        self.btn_radio= """
+        QRadioButton {
+            font: 16pt 'Reem Kufi';
+            font-size: 23px;
+            font: 13pt 'Corbel';
+            color:        #7b826b;
+        }
+        QRadioButton::indicator {
+            background-color: #a8ad9e;
+            width: 13px;
+            height: 13px;
+            border-radius: 11px;
+            border: 5px solid #788f49;
+        }
+        QRadioButton::indicator:checked {
+            background-color:		#43454f;
+            border:                		5px solid #83a836;
+            border-radius:         	11px;
+        }
+        QRadioButton:checked {
+            color:      #83a836;
+            border:        none;
+        }
+        QRadioButton::indicator:unchecked {
+            background-color:    #7b826b;
+            border:                 5px solid #7b826b;
+        }
+        """
+        self.btn_light = """
+        QPushButton{
+            background-color:  #fff;
+            border: 1 solid #83a836;
+            border-radius: 20px;
+            font: 13pt "Corbel";
+            padding:6px;
+            color: #83a836;
+        }
+        QPushButton:hover{
+            background-color:  #aaa;
+            border: 1 solid #ddd;
+            color: #fff;
+        }
+        QPushButton:pressed{
+            background-color:  #43454f;
+            border: 1 solid #ddd;
+            color: #fff;
+        }
+        """
+
+        self.btn_dark = """
+        QPushButton{
+            background-color:  #43454f;
+            border: 1 solid #ddd;
+            border-radius: 20px;
+            font: 13pt "Corbel";
+            padding:6px;
+            color: #fff;
+        }
+        QPushButton:hover{
+            background-color:  #aaa;
+            border: 1 solid #ddd;
+            color: #fff;
+        }
+        QPushButton:pressed{
+            background-color:  #fff;
+            border: 1 solid #83a836;
+            color: #83a836;
+        }
+        """
+# class StackWidgets(QStackWidgets):
+#     def __init__(self):
+#         super(StackWidgets, self).__init__()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.styles = StyleSheet()
         self.init_win()
         self.set_start_state()
 
@@ -31,7 +119,7 @@ class MainWindow(QMainWindow):
 
     def init_win(self):
         self.setGeometry(100, 100, 900, 600)
-        self.setStyleSheet(u"")
+        self.setWindowIcon(QIcon('img/icon.png'))
         self.centralwidget = QWidget(self)
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(2)
@@ -39,7 +127,6 @@ class MainWindow(QMainWindow):
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setMinimumSize(QSize(900, 500))
-        self.centralwidget.setStyleSheet(u"")
         self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -51,9 +138,7 @@ class MainWindow(QMainWindow):
 
     def init_sites(self):
         self.frame_sites = QFrame(self.centralwidget)
-        self.frame_sites.setStyleSheet(u"QFrame{\n"
-                                       "background-color:#83a836;\n"
-                                       "}")
+        self.frame_sites.setStyleSheet("""QFrame{background-color:#83a836;}""")
         self.frame_sites.setFrameShape(QFrame.StyledPanel)
         self.frame_sites.setFrameShadow(QFrame.Raised)
 
@@ -62,29 +147,20 @@ class MainWindow(QMainWindow):
 
     def init_stack(self):
         self.stackedWidget = QStackedWidget(self.centralwidget)
-        self.stackedWidget.setStyleSheet(u"QWidget{\n"
-                                         "background-color:#f2ede1\n"
-                                         "}")
+        self.stackedWidget.setStyleSheet("""QWidget{background-color:#f2ede1;}""")
         self.init_page_monitored()
         self.init_page_ops()
         self.init_page_about()
         self.init_page_add()
-
         self.gridLayout.addWidget(self.stackedWidget, 1, 1, 1, 1)
 
 
     def init_page_add(self):
         self.page_add = QWidget()
-        self.page_add.setStyleSheet(u"")
         self.gridLayout_4 = QGridLayout(self.page_add)
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
         self.label_link = QLabel(self.page_add)
-        self.label_link.setStyleSheet(u"QLabel{\n"
-                                      "	font-size: 23px;\n"
-                                      "	font: 12pt \"Corbel\";\n"
-                                      "    color:        #43454f;\n"
-                                      "}")
-
+        self.label_link.setStyleSheet(self.styles.label_lineEdit)
         self.gridLayout_4.addWidget(self.label_link, 12, 1, 1, 7)
 
         self.spacer_login_d = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -113,34 +189,7 @@ class MainWindow(QMainWindow):
 
         self.pushButton_atc = QPushButton(self.frame_bottom)
         self.pushButton_atc.setMinimumSize(QSize(0, 40))
-        self.pushButton_atc.setStyleSheet(u"QPushButton{\n"
-                                          "background-color:  #fff;\n"
-                                          "border: 1 solid #83a836;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #83a836;\n"
-                                          "}\n"
-                                          "\n"
-                                          "QPushButton:hover{\n"
-                                          "background-color:  #aaa;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #fff;\n"
-                                          "}\n"
-                                          "\n"
-                                          "\n"
-                                          "\n"
-                                          "QPushButton:pressed{\n"
-                                          "background-color:  #43454f;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #fff;\n"
-                                          "}")
+        self.pushButton_atc.setStyleSheet(self.styles.btn_light)
 
         self.horizontalLayout.addWidget(self.pushButton_atc)
 
@@ -150,31 +199,7 @@ class MainWindow(QMainWindow):
 
         self.pushButton_buy = QPushButton(self.frame_bottom)
         self.pushButton_buy.setMinimumSize(QSize(0, 40))
-        self.pushButton_buy.setStyleSheet(u"QPushButton{\n"
-                                          "background-color:  #43454f;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #fff;\n"
-                                          "}\n"
-                                          "QPushButton:hover{\n"
-                                          "background-color:  #aaa;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #fff;\n"
-                                          "}\n"
-                                          "\n"
-                                          "QPushButton:pressed{\n"
-                                          "background-color:  #fff;\n"
-                                          "border: 1 solid #83a836;\n"
-                                          "border-radius: 20px;\n"
-                                          "font: 13pt \"Corbel\";\n"
-                                          "padding:6px;\n"
-                                          "color: #83a836;\n"
-                                          "}")
+        self.pushButton_buy.setStyleSheet(self.styles.btn_dark)
 
         self.horizontalLayout.addWidget(self.pushButton_buy)
 
@@ -192,137 +217,72 @@ class MainWindow(QMainWindow):
 
         self.lineEdit_password = QLineEdit(self.page_add)
         self.lineEdit_password.setMinimumSize(QSize(20, 60))
-        self.lineEdit_password.setStyleSheet(u"QLineEdit{\n"
-                                             "background-color: white;\n"
-                                             "border: 1 solid #ddd;\n"
-                                             "border-radius: 5px;\n"
-                                             "font: 12pt \"Corbel\";\n"
-                                             "color: #43454f;\n"
-                                             "padding:10px;\n"
-                                             "}\n"
-                                             "")
+        self.lineEdit_password.setStyleSheet(self.styles.lineEdit)
         self.lineEdit_password.setEchoMode(QLineEdit.Password)
         self.lineEdit_password.setReadOnly(False)
-
         self.gridLayout_4.addWidget(self.lineEdit_password, 10, 1, 1, 2)
 
         self.spacer_email_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.gridLayout_4.addItem(self.spacer_email_l, 10, 3, 1, 1)
 
         self.label_email = QLabel(self.page_add)
-        self.label_email.setStyleSheet(u"QLabel{\n"
-                                       "	font-size: 23px;\n"
-                                       "	font: 12pt \"Corbel\";\n"
-                                       "    color:        #43454f;\n"
-                                       "}")
-
+        self.label_email.setStyleSheet(self.styles.label_lineEdit)
         self.gridLayout_4.addWidget(self.label_email, 9, 4, 1, 4)
 
         self.spacer_search_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.gridLayout_4.addItem(self.spacer_search_r, 7, 6, 1, 2)
-
         self.spacer_link_d = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
         self.gridLayout_4.addItem(self.spacer_link_d, 14, 1, 1, 7)
 
         self.lineEdit_link = QLineEdit(self.page_add)
         self.lineEdit_link.setMinimumSize(QSize(0, 60))
-        self.lineEdit_link.setStyleSheet(u"QLineEdit{\n"
-                                         "background-color: white;\n"
-                                         "border: 1 solid #ddd;\n"
-                                         "border-radius: 5px;\n"
-                                         "font: 12pt \"Corbel\";\n"
-                                         "color: #43454f;\n"
-                                         "padding:10px;\n"
-                                         "}")
-
+        self.lineEdit_link.setStyleSheet(self.styles.lineEdit)
         self.gridLayout_4.addWidget(self.lineEdit_link, 13, 1, 1, 7)
 
         self.spacer_search_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
         self.gridLayout_4.addItem(self.spacer_search_l, 7, 4, 1, 1)
 
         self.label_img_search = QLabel(self.page_add)
         self.label_img_search.setMaximumSize(QSize(80, 80))
-        self.label_img_search.setStyleSheet(u"QLabel{\n"
-                                            "border: 1px solid #000; \n"
-                                            "border:none;\n"
-                                            "}")
+        self.label_img_search.setStyleSheet("""QLabel{border:none;}""")
         self.label_img_search.setPixmap(QPixmap(u"img/search.png"))
         self.label_img_search.setScaledContents(True)
-
         self.gridLayout_4.addWidget(self.label_img_search, 7, 5, 1, 1)
 
         self.lineEdit_login = QLineEdit(self.page_add)
         self.lineEdit_login.setMinimumSize(QSize(0, 60))
         self.lineEdit_login.setSizeIncrement(QSize(40, 40))
-        self.lineEdit_login.setStyleSheet(u"QLineEdit{\n"
-                                          "background-color: white;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 5px;\n"
-                                          "font: 12pt \"Corbel\";\n"
-                                          "color: #43454f;\n"
-                                          "padding:10px;\n"
-                                          "}")
+        self.lineEdit_login.setStyleSheet(self.styles.lineEdit)
         self.lineEdit_login.setMaxLength(32767)
-
         self.gridLayout_4.addWidget(self.lineEdit_login, 7, 1, 1, 2)
 
         self.label_password = QLabel(self.page_add)
-        self.label_password.setStyleSheet(u"QLabel{\n"
-                                          "	font-size: 23px;\n"
-                                          "	font: 12pt \"Corbel\";\n"
-                                          "    color:        #43454f;\n"
-                                          "}")
-
+        self.label_password.setStyleSheet(self.styles.label_lineEdit)
         self.gridLayout_4.addWidget(self.label_password, 9, 1, 1, 2)
 
         self.lineEdit_email = QLineEdit(self.page_add)
         self.lineEdit_email.setMinimumSize(QSize(0, 60))
-        self.lineEdit_email.setStyleSheet(u"QLineEdit{\n"
-                                          "background-color: white;\n"
-                                          "border: 1 solid #ddd;\n"
-                                          "border-radius: 5px;\n"
-                                          "font: 12pt \"Corbel\";\n"
-                                          "color: #43454f;\n"
-                                          "padding:10px;\n"
-                                          "}")
+        self.lineEdit_email.setStyleSheet(self.styles.lineEdit)
         self.lineEdit_email.setFrame(True)
         self.lineEdit_email.setEchoMode(QLineEdit.Normal)
-
         self.gridLayout_4.addWidget(self.lineEdit_email, 10, 4, 1, 4)
 
         self.label_login = QLabel(self.page_add)
-        self.label_login.setStyleSheet(u"QLabel{\n"
-                                       "	font-size: 23px;\n"
-                                       "	font: 12pt \"Corbel\";\n"
-                                       "    color:        #43454f;\n"
-                                       "}")
-
+        self.label_login.setStyleSheet(self.styles.label_lineEdit)
         self.gridLayout_4.addWidget(self.label_login, 6, 1, 1, 1)
 
         self.spacer_link_l = QSpacerItem(40, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
-
         self.gridLayout_4.addItem(self.spacer_link_l, 13, 0, 1, 1)
 
         self.label_title = QLabel(self.page_add)
-        self.label_title.setStyleSheet(u"QLabel{\n"
-                                       "	text-align: center;\n"
-                                       "	font-size: 23px;\n"
-                                       "	font: 23pt \"Corbel\";\n"
-                                       "    color:        #43454f;\n"
-                                       "}")
+        self.label_title.setStyleSheet(self.styles.label_title)
         self.label_title.setAlignment(Qt.AlignCenter)
-
         self.gridLayout_4.addWidget(self.label_title, 0, 1, 1, 7)
 
         self.spacer_login_u = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
         self.gridLayout_4.addItem(self.spacer_login_u, 1, 1, 3, 7)
 
-        self.gridLayout_4.setRowStretch(0, 1)
+        self.gridLayout_4.setRowStretch(0, 0)
         self.gridLayout_4.setRowStretch(8, 1)
         self.gridLayout_4.setRowStretch(11, 1)
         self.gridLayout_4.setRowStretch(14, 1)
@@ -346,8 +306,6 @@ class MainWindow(QMainWindow):
         self.scrollArea = QScrollArea(self.page_monitored)
         self.scrollArea.setStyleSheet(u"QScrollArea{\n"
                                       "	border: none;\n"
-                                      "\n"
-                                      "\n"
                                       "}")
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.scrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
@@ -414,10 +372,7 @@ class MainWindow(QMainWindow):
 
         self.label_img_link_list = QLabel(self.frame_about_e)
         self.label_img_link_list.setMaximumSize(QSize(20, 20))
-        self.label_img_link_list.setStyleSheet(u"QLabel{\n"
-                                               "	border: none;\n"
-                                               "\n"
-                                               "}")
+        self.label_img_link_list.setStyleSheet("""QLabel{border: none;}""")
         self.label_img_link_list.setPixmap(QPixmap(u"img/link.png"))
         self.label_img_link_list.setScaledContents(True)
 
@@ -428,7 +383,7 @@ class MainWindow(QMainWindow):
         self.label_img_stat.setStyleSheet(u"QLabel{\n"
                                           "	border: none;\n"
                                           "}")
-        self.label_img_stat.setPixmap(QPixmap(u"img/loading.png"))
+        self.label_img_stat.setPixmap(QPixmap("img/loading.png"))
         self.label_img_stat.setScaledContents(True)
 
         self.gridLayout_8.addWidget(self.label_img_stat, 2, 0, 1, 1)
@@ -442,36 +397,18 @@ class MainWindow(QMainWindow):
         self.pushButton_delete = QPushButton(self.frame_list_e)
 
         icon = QIcon()
-        icon.addFile(u"img/delete.png", QSize(), QIcon.Selected, QIcon.Off)
+        icon.addFile("img/delete.png", QSize(), QIcon.Selected, QIcon.Off)
         self.pushButton_delete.setIcon(icon)
         self.pushButton_delete.setIconSize(QSize(50, 50))
 
-        self.pushButton_delete.setStyleSheet(u"QPushButton{\n"
-                                             "max-width:50px;\n"
-                                             "max-height: 50px;\n"
-                                             "min-width:50px;\n"
-                                             "min-height: 50px;\n"
-                                             "border:none;\n"
-                                             "border-radius: 0px;\n"
-                                             # "background-image: url(img/searching.png);\n"
-                                             # "border-image: url(:/qss_icons/rc/delete.png);\n"
-                                             # "background-size: cover;\n"
-                                             "}\n"
-                                             "")
+        self.pushButton_delete.setStyleSheet("""QPushButton{border:none;}""")
 
         self.horizontalLayout_2.addWidget(self.pushButton_delete)
 
         self.gridLayout_7.addWidget(self.frame_list_e, 4, 0, 1, 1)
 
         self.label = QLabel(self.scrollAreaWidgetContents)
-        self.label.setStyleSheet(u"QLabel{\n"
-                                 "	text-align: center;\n"
-                                 "	font-size: 23px;\n"
-                                 "	font: 23pt \"Corbel\";\n"
-                                 "    color:        #43454f;\n"
-                                 "	padding: 30px;\n"
-                                 "	border-bottom: 0.5px solid #aaa;\n"
-                                 "}")
+        self.label.setStyleSheet(self.styles.label_title)
         self.label.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_7.addWidget(self.label, 0, 0, 1, 1)
@@ -558,9 +495,7 @@ class MainWindow(QMainWindow):
 
     def init_nav(self):
         self.frame_left = QFrame(self.centralwidget)
-        self.frame_left.setStyleSheet(u"QFrame{\n"
-                                      "background-color:#43454f;\n"
-                                      "}")
+        self.frame_left.setStyleSheet("""QFrame{ background-color:#43454f;}""")
         self.frame_left.setFrameShape(QFrame.StyledPanel)
         self.frame_left.setFrameShadow(QFrame.Raised)
         self.gridLayout_2 = QGridLayout(self.frame_left)
@@ -572,7 +507,7 @@ class MainWindow(QMainWindow):
         self.label_picon = QLabel(self.frame_left)
         self.label_picon.setMinimumSize(QSize(60, 60))
         self.label_picon.setMaximumSize(QSize(60, 60))
-        self.label_picon.setPixmap(QPixmap(u"../../shop_monitoring_python/ui/img/icon.png"))
+        self.label_picon.setPixmap(QPixmap("img/icon.png"))
         self.label_picon.setScaledContents(True)
 
         self.gridLayout_2.addWidget(self.label_picon, 2, 1, 1, 1)
@@ -583,9 +518,7 @@ class MainWindow(QMainWindow):
 
         self.nav_frame = QFrame(self.frame_left)
         self.nav_frame.setMinimumSize(QSize(220, 300))
-        self.nav_frame.setStyleSheet(u"QFrame{\n"
-                                     "background-color:#43454f;\n"
-                                     "}")
+        self.nav_frame.setStyleSheet("""QFrame{ background-color:#43454f;}""")
         self.nav_frame.setFrameShape(QFrame.StyledPanel)
         self.nav_frame.setFrameShadow(QFrame.Raised)
         self.gridLayout_3 = QGridLayout(self.nav_frame)
@@ -607,60 +540,29 @@ class MainWindow(QMainWindow):
 
         self.groupBox_nav = QGroupBox(self.nav_frame)
         self.groupBox_nav.setMinimumSize(QSize(220, 350))
-        self.groupBox_nav.setStyleSheet(u"QGroupBox{\n"
-                                        "	background-image: url(img/radioline.png);\n"
-                                        "	border: none;\n"
-                                        "}\n"
-                                        "")
+        self.groupBox_nav.setStyleSheet("""QGroupBox{background-image: url(img/radioline.png); border: none;}""")
 
-        rbutton_css= """
-        QRadioButton {
-            font: 16pt 'Reem Kufi';
-            font-size: 23px;
-            font: 13pt 'Corbel';
-            color:        #7b826b;
-        }
-        QRadioButton::indicator {
-            background-color: #a8ad9e;
-            width: 13px;
-            height: 13px;
-            border-radius: 11px;
-            border: 5px solid #788f49;
-        }
-        QRadioButton::indicator:checked {
-            background-color:		#43454f;
-            border:                		5px solid #83a836;
-            border-radius:         	11px;
-        }
-        QRadioButton:checked {
-            color:      #83a836;
-            border:        none;
-        }
-        QRadioButton::indicator:unchecked {
-            background-color:    #7b826b;
-            border:                 5px solid #7b826b;
-        }
-        """
+
         self.verticalLayout = QVBoxLayout(self.groupBox_nav)
 
         self.radioButton_add = QRadioButton(self.groupBox_nav)
         self.radioButton_add.toggled.connect(lambda: self.go_to_page(3))
-        self.radioButton_add.setStyleSheet(rbutton_css)
+        self.radioButton_add.setStyleSheet(self.styles.btn_radio)
         self.verticalLayout.addWidget(self.radioButton_add)
 
         self.radioButton_monitored = QRadioButton(self.groupBox_nav)
         self.radioButton_monitored.toggled.connect(lambda: self.go_to_page(0))
-        self.radioButton_monitored.setStyleSheet(rbutton_css)
+        self.radioButton_monitored.setStyleSheet(self.styles.btn_radio)
         self.verticalLayout.addWidget(self.radioButton_monitored)
 
         self.radioButton_options = QRadioButton(self.groupBox_nav)
         self.radioButton_options.toggled.connect(lambda: self.go_to_page(1))
-        self.radioButton_options.setStyleSheet(rbutton_css)
+        self.radioButton_options.setStyleSheet(self.styles.btn_radio)
         self.verticalLayout.addWidget(self.radioButton_options)
 
         self.radioButton_about = QRadioButton(self.groupBox_nav)
         self.radioButton_about.toggled.connect(lambda: self.go_to_page(2))
-        self.radioButton_about.setStyleSheet(rbutton_css)
+        self.radioButton_about.setStyleSheet(self.styles.btn_radio)
         self.verticalLayout.addWidget(self.radioButton_about)
 
         self.gridLayout_3.addWidget(self.groupBox_nav, 1, 1, 1, 1)
@@ -693,55 +595,51 @@ class MainWindow(QMainWindow):
         self.menubar.setGeometry(QRect(0, 0, 900, 26))
         self.setMenuBar(self.menubar)
 
-        self.retranslateUi(self)
+        self.set_text()
 
         self.stackedWidget.setCurrentIndex(0)
 
         QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label_stat.setText(QCoreApplication.translate("MainWindow", u"in progress", None))
-        self.label_list_e_name.setText(
-                QCoreApplication.translate("MainWindow", u"BUTY HALOWE ASICS GEL-ROCKET 9 1071A030-400 47",None))
-        self.label_link_list.setText(QCoreApplication.translate("MainWindow", u"check hire", None))
-        self.label_img_link_list.setText("")
-        self.label_img_stat.setText("")
-        self.pushButton_delete.setText("")
-        self.label.setText(QCoreApplication.translate("MainWindow", u"List of your monitered objects", None))
-        self.label_about_version.setText(QCoreApplication.translate("MainWindow", u"Version 1.0.0", None))
-        self.label_about_name.setText(QCoreApplication.translate("MainWindow", u"WebCheck", None))
-        self.label_abou_c.setText(QCoreApplication.translate("MainWindow", u"\u00a9 All rights reserved", None))
-        self.label_link.setText(QCoreApplication.translate("MainWindow", u"Link", None))
-        self.pushButton_atc.setText(QCoreApplication.translate("MainWindow", u"Add to cart", None))
+
+    def set_text(self):
+        #main
+        self.setWindowTitle("WebCheck")
+
+        #nav
+        self.label_pname.setText("WebCheck        ")
+        self.groupBox_nav.setTitle("")
+        self.radioButton_add.setText(" Add")
+        self.radioButton_monitored.setText(" Monitored")
+        self.radioButton_options.setText(" Options")
+        self.radioButton_about.setText(" About")
+
+        #monitored page
+        self.label.setText("List of your monitered objects")
+        self.label_list_e_name.setText("BUTY HALOWE ASICS GEL-ROCKET 9 1071A030-400 47")
+        self.label_stat.setText("in progress")
+        self.label_link_list.setText("check hire")
+
+        #about page
+        self.label_about_name.setText("WebCheck")
+        self.label_about_version.setText("Version 1.0.0")
+        self.label_abou_c.setText("\u00a9 All rights reserved")
+
+        #add page
+        self.label_title.setText("Add new monitoring object")
+        self.label_link.setText("Link")
+        self.label_email.setText("Email")
+        self.label_password.setText("Password")
+        self.label_login.setText("Login or email")
+        self.lineEdit_link.setPlaceholderText("link to the page that needs to be monitored")
+        self.lineEdit_password.setPlaceholderText("password from your account")
+        self.lineEdit_login.setPlaceholderText("login or email from your account")
+        self.lineEdit_email.setPlaceholderText("email to which the message will be sent")
+        self.pushButton_buy.setText("Buy")
+        self.pushButton_atc.setText("Add to cart")
         # if QT_CONFIG(shortcut)
         self.pushButton_atc.setShortcut(QCoreApplication.translate("MainWindow", u"Return", None))
         # endif // QT_CONFIG(shortcut)
-        self.pushButton_buy.setText(QCoreApplication.translate("MainWindow", u"Buy", None))
-        self.lineEdit_password.setInputMask("")
-        self.lineEdit_password.setText("")
-        self.lineEdit_password.setPlaceholderText(
-                QCoreApplication.translate("MainWindow", u"password from your account", None))
-        self.label_email.setText(QCoreApplication.translate("MainWindow", u"Email", None))
-        self.lineEdit_link.setPlaceholderText(
-                QCoreApplication.translate("MainWindow", u"link to the page that needs to be monitored", None))
-        self.label_img_search.setText("")
-        self.lineEdit_login.setInputMask("")
-        self.lineEdit_login.setText("")
-        self.lineEdit_login.setPlaceholderText(
-                QCoreApplication.translate("MainWindow", u"login or email from your account", None))
-        self.label_password.setText(QCoreApplication.translate("MainWindow", u"Password", None))
-        self.lineEdit_email.setPlaceholderText(
-                QCoreApplication.translate("MainWindow", u"email to which the message will be sent", None))
-        self.label_login.setText(QCoreApplication.translate("MainWindow", u"Login or email", None))
-        self.label_title.setText(QCoreApplication.translate("MainWindow", u"Add new monitoring object", None))
-        self.label_picon.setText("")
-        self.groupBox_nav.setTitle("")
-        self.radioButton_add.setText(QCoreApplication.translate("MainWindow", u"   Add", None))
-        self.radioButton_monitored.setText(QCoreApplication.translate("MainWindow", u"   Monitored", None))
-        self.radioButton_options.setText(QCoreApplication.translate("MainWindow", u"   Options", None))
-        self.radioButton_about.setText(QCoreApplication.translate("MainWindow", u"   About", None))
-        self.label_pname.setText(QCoreApplication.translate("MainWindow", u"WebCheck          ", None))
 
 
     def go_to_page(self, index):
@@ -755,9 +653,11 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentIndex(3)
 
 
-def window():
-        app = QApplication(sys.argv)
-        win = MainWindow()
-        win.show()
-        sys.exit(app.exec_())
-window()
+def main():
+    app = QApplication(sys.argv)
+    win = MainWindow()
+    win.show()
+    sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    main()
