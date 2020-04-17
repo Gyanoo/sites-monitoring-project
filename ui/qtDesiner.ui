@@ -255,8 +255,8 @@ QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>627</width>
-             <height>479</height>
+             <width>609</width>
+             <height>258</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_7">
@@ -1309,7 +1309,6 @@ background-color:#43454f;
             </property>
             <property name="styleSheet">
              <string notr="true">QGroupBox{
-	background-image: url(:/newPrefix/radioline.png);
 	border: none;
 }
 
@@ -1537,8 +1536,6 @@ QRadioButton::indicator:unchecked {
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="img/sourse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
