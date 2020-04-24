@@ -1,16 +1,18 @@
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
+                            QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+                           QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
+                           QPixmap, QRadialGradient)
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import (QApplication, QMainWindow, QWidget, QFrame,
-    QStackedWidget, QGridLayout, QLabel, QSpacerItem, QSizePolicy, QGroupBox,
-    QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QRadioButton, QScrollArea,
-    QAbstractScrollArea)
+                               QStackedWidget, QGridLayout, QLabel, QSpacerItem, QSizePolicy, QGroupBox,
+                               QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QRadioButton, QScrollArea,
+                               QAbstractScrollArea)
 import sys
+import element
 
-class StyleSheet(object):
+
+class StyleSheet:
     def __init__(self):
         self.lineEdit = """
                 QLineEdit{
@@ -37,7 +39,7 @@ class StyleSheet(object):
         }
         """
 
-        self.btn_radio= """
+        self.btn_radio = """
         QRadioButton {
             font: 16pt 'Reem Kufi';
             font-size: 23px;
@@ -166,7 +168,9 @@ class StyleSheet(object):
         }
         """
 
+
 styles = StyleSheet()
+
 
 class SitesFrame(QFrame):
     def __init__(self, parent=None):
@@ -191,7 +195,7 @@ class NavFrame(QFrame):
         self.gridLayout.setContentsMargins(11, -1, 11, -1)
         self.gridLayout.addWidget(self.frame_nav, 3, 0, 1, 4)
 
-        #set program img and name
+        # set program img and name
         self.label_img = QLabel(self)
         self.label_img.setFixedSize(QSize(60, 60))
         self.label_img.setPixmap(QPixmap("img/icon.png"))
@@ -209,8 +213,8 @@ class NavFrame(QFrame):
         self.gridLayout.addItem(self.spacer_name_r, 2, 3, 1, 1)
         self.gridLayout.addItem(self.spacer_name_t, 1, 1, 1, 2)
 
-        #set bottom layout for keeping gb in it
-        self.gridLayout_b= QGridLayout(self.frame_nav)
+        # set bottom layout for keeping gb in it
+        self.gridLayout_b = QGridLayout(self.frame_nav)
         self.spacer_gb_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.spacer_gb_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.spacer_gb_t = QSpacerItem(0, 20, QSizePolicy.Minimum, QSizePolicy.Maximum)
@@ -220,14 +224,14 @@ class NavFrame(QFrame):
         self.gridLayout_b.addItem(self.spacer_gb_t, 0, 1, 1, 1)
         self.gridLayout_b.addItem(self.spacer_gb_b, 2, 1, 1, 1)
 
-        #set gb and radio buttons
-        self.groupBox = QGroupBox("",self.frame_nav)
+        # set gb and radio buttons
+        self.groupBox = QGroupBox("", self.frame_nav)
         self.gridLayout_b.addWidget(self.groupBox, 1, 1, 1, 1)
         self.groupBox.setMinimumSize(QSize(220, 350))
         self.groupBox.setStyleSheet("""QGroupBox{background-image: url(img/radioline.png); border: none;}""")
         self.verticalLayout_gb = QVBoxLayout(self.groupBox)
 
-        self.radioButton_add = QRadioButton(" Add",self.groupBox)
+        self.radioButton_add = QRadioButton(" Add", self.groupBox)
         self.radioButton_add.setStyleSheet(styles.btn_radio)
         self.verticalLayout_gb.addWidget(self.radioButton_add)
 
@@ -264,7 +268,7 @@ class PageAllegroAdd(QWidget):
         self.gridLayout.setColumnStretch(7, 2)
         self.gridLayout.setColumnStretch(8, 5)
 
-        #create lineEdits
+        # create lineEdits
         self.lineEdit_login = QLineEdit(self)
         self.lineEdit_login.setMinimumSize(QSize(0, 60))
         self.lineEdit_login.setSizeIncrement(QSize(40, 40))
@@ -295,7 +299,7 @@ class PageAllegroAdd(QWidget):
         self.gridLayout.addWidget(self.lineEdit_link, 13, 1, 1, 7)
         self.lineEdit_link.setPlaceholderText("link to the page that needs to be monitored")
 
-        #Create Labels
+        # Create Labels
         self.label_title = QLabel("Add new monitoring object", self)
         self.label_title.setStyleSheet(styles.label_title)
         self.label_title.setAlignment(Qt.AlignCenter)
@@ -305,7 +309,8 @@ class PageAllegroAdd(QWidget):
         self.label_login.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_login, 6, 1, 1, 1)
 
-        url_link = "<a href=\"https://allegro.pl/\" title=\"Go to allegro\"><img src=\"img/search.png\" height=\"80\" width=\"80\"></a>"
+        url_link = '<a href="https://allegro.pl/" title="Go to allegro"><img src="img/search.png" height="80" ' \
+                   'width="80"></a> '
         self.label_img_search = QLabel(url_link, self)
         self.label_img_search.setMaximumSize(QSize(80, 80))
         self.label_img_search.setStyleSheet("""QLabel{border:none;}""")
@@ -326,7 +331,7 @@ class PageAllegroAdd(QWidget):
         self.label_link.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_link, 12, 1, 1, 7)
 
-        #Create spacers
+        # Create spacers
         self.spacer_search_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.gridLayout.addItem(self.spacer_search_l, 7, 4, 1, 1)
 
@@ -354,7 +359,7 @@ class PageAllegroAdd(QWidget):
         self.spacer_link_b = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.gridLayout.addItem(self.spacer_link_b, 14, 1, 1, 7)
 
-        #create frame bottom
+        # create frame bottom
         self.frame_bottom = QFrame(self)
         self.frame_bottom.setStyleSheet("""QFrame{background-color: #fff; padding: 10px;}""")
         self.frame_bottom.setFrameShape(QFrame.StyledPanel)
@@ -369,7 +374,7 @@ class PageAllegroAdd(QWidget):
         self.pushButton_atc.setMinimumSize(QSize(0, 40))
         self.pushButton_atc.setStyleSheet(styles.btn_light)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_atc)
-        self.pushButton_atc.setShortcut(QCoreApplication.translate("MainWindow", u"Return", None))
+        self.pushButton_atc.setShortcut(QCoreApplication.translate('MainWindow', u"Return", None))
 
         self.spacer_frame_bottom_c = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_c)
@@ -398,7 +403,7 @@ class ElementAllegroMonitored(QFrame):
         self.setFrameShadow(QFrame.Raised)
         self.horizontalLayout = QHBoxLayout(self)
 
-        #create description frame and layout
+        # create description frame and layout
         self.frame_description = QFrame(self)
         self.frame_description.setMaximumSize(QSize(440, 16777215))
         self.frame_description.setStyleSheet("""QFrame{border: none;}""")
@@ -407,7 +412,7 @@ class ElementAllegroMonitored(QFrame):
         self.gridLayout_description = QGridLayout(self.frame_description)
         self.horizontalLayout.addWidget(self.frame_description)
 
-        #fill description layout
+        # fill description layout
         self.label_name = QLabel(name, self.frame_description)
         self.label_name.setStyleSheet(styles.label_allegro_monitored_name)
         self.label_name.setTextFormat(Qt.MarkdownText)
@@ -415,7 +420,7 @@ class ElementAllegroMonitored(QFrame):
         self.label_name.setWordWrap(False)
         self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 2)
 
-        url_link = "<a href=\""+link+"\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check hire</a>"
+        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check hire</a>"
         self.label_link = QLabel(url_link, self.frame_description)
         self.label_link.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 1)
@@ -443,7 +448,7 @@ class ElementAllegroMonitored(QFrame):
         self.label_img_stat.setScaledContents(True)
         self.gridLayout_description.addWidget(self.label_img_stat, 2, 0, 1, 1)
 
-        #create spacer and delete btn
+        # create spacer and delete btn
         self.spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout.addItem(self.spacer)
 
@@ -488,9 +493,15 @@ class PageAllegroMonitored(QWidget):
         self.spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.gridLayout_scroll_area.addItem(self.spacer, 5, 0, 1, 1)
 
-        # TODO : add list of element
-        self.element = ElementAllegroMonitored("BUTY HALOWE ASICS GEL-ROCKET 9 1071A030-400 47", "https://allegro.pl/", True, self.scrollAreaWidgetContents)
+        self.element = ElementAllegroMonitored("BUTY HALOWE ASICS GEL-ROCKET 9 1071A030-400 47", "https://allegro.pl/",
+                                               True, self.scrollAreaWidgetContents)
         self.gridLayout_scroll_area.addWidget(self.element, 4, 0, 1, 1)
+
+        self.load_list(None)
+
+    # TODO : add list of element
+    def load_list(self, list_elements):
+        pass
 
 
 class PageAllegroOptions(QWidget):
@@ -562,7 +573,7 @@ class MainWindow(QMainWindow):
         self.set_start_state()
 
     def set_start_state(self):
-        #set nav btn connection
+        # set nav btn connection
         self.navFrame.radioButton_add.toggled.connect(lambda: self.go_to_page(0))
         self.navFrame.radioButton_monitored.toggled.connect(lambda: self.go_to_page(1))
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
@@ -575,7 +586,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon('img/icon.png'))
         self.setWindowTitle("WebCheck")
 
-        #set centralWidget
+        # set centralWidget
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(2)
         sizePolicy.setVerticalStretch(2)
@@ -584,7 +595,7 @@ class MainWindow(QMainWindow):
         self.centralWidget.setMinimumSize(QSize(900, 500))
         self.setCentralWidget(self.centralWidget)
 
-        #set grid layout central
+        # set grid layout central
         self.gridLayout_central.setSpacing(0)
         self.gridLayout_central.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_central.setRowStretch(0, 1)
@@ -594,7 +605,6 @@ class MainWindow(QMainWindow):
         self.gridLayout_central.addWidget(self.navFrame, 0, 0, 9, 1)
         self.gridLayout_central.addWidget(self.sitesFrame, 0, 1, 1, 1)
         self.gridLayout_central.addWidget(self.stackedWidget, 1, 1, 1, 1)
-
 
     def go_to_page(self, index):
         if index == 0:
@@ -612,6 +622,7 @@ def main():
     win = MainWindow()
     win.show()
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     main()
