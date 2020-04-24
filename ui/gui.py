@@ -9,167 +9,13 @@ from PySide2.QtWidgets import (QApplication, QMainWindow, QWidget, QFrame,
                                QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QRadioButton, QScrollArea,
                                QAbstractScrollArea)
 import sys
-import element
+# import element
+from ui import stylesheet as styles
+import os
+# from PySide2 import sip
+import read_write_data as data
 
-
-class StyleSheet:
-    def __init__(self):
-        self.lineEdit = """
-                QLineEdit{
-                     background-color: white;
-                     border: 1 solid #ddd;
-                     border-radius: 5px;
-                     font: 12pt "Corbel";
-                     color: #43454f;
-                     padding:10px;
-                }
-                """
-        self.label_lineEdit = """
-                QLabel{
-                    font-size: 23px;
-                    font: 12pt "Corbel";
-                    color: #43454f;
-                }
-                """
-        self.label_title = """
-        QLabel{
-            text-align: center;
-            font: 23pt "Corbel";
-            color: #43454f;
-        }
-        """
-
-        self.btn_radio = """
-        QRadioButton {
-            font: 16pt 'Reem Kufi';
-            font-size: 23px;
-            font: 13pt 'Corbel';
-            color:        #7b826b;
-        }
-        QRadioButton::indicator {
-            background-color: #a8ad9e;
-            width: 13px;
-            height: 13px;
-            border-radius: 11px;
-            border: 5px solid #788f49;
-        }
-        QRadioButton::indicator:checked {
-            background-color:		#43454f;
-            border:                		5px solid #83a836;
-            border-radius:         	11px;
-        }
-        QRadioButton:checked {
-            color:      #83a836;
-            border:        none;
-        }
-        QRadioButton::indicator:unchecked {
-            background-color:    #7b826b;
-            border: 5px solid #7b826b;
-        }
-        """
-        self.btn_light = """
-        QPushButton{
-            background-color:  #fff;
-            border: 1 solid #83a836;
-            border-radius: 20px;
-            font: 13pt "Corbel";
-            padding:6px;
-            color: #83a836;
-        }
-        QPushButton:hover{
-            background-color:  #aaa;
-            border: 1 solid #ddd;
-            color: #fff;
-        }
-        QPushButton:pressed{
-            background-color:  #43454f;
-            border: 1 solid #ddd;
-            color: #fff;
-        }
-        """
-
-        self.btn_dark = """
-        QPushButton{
-            background-color:  #43454f;
-            border: 1 solid #ddd;
-            border-radius: 20px;
-            font: 13pt "Corbel";
-            padding:6px;
-            color: #fff;
-        }
-        QPushButton:hover{
-            background-color:  #aaa;
-            border: 1 solid #ddd;
-            color: #fff;
-        }
-        QPushButton:pressed{
-            background-color:  #fff;
-            border: 1 solid #83a836;
-            color: #83a836;
-        }
-        """
-
-        self.label_icon_name = """
-        QLabel{
-            font-size: 20px;
-            color: white;
-            font: 16pt "Reem Kufi";
-        }
-        """
-        self.frame_about = """
-        QFrame{
-            margin: 0px;
-            max-height:400px;
-            max-width: 600px;
-            background-color: #fff;
-            border-radius: 20%;
-        }
-        """
-        self.label_about_c = """
-        QLabel{
-            margin: 0 40px 40px 40px;
-            color: #555;
-            font: 15pt "Corbel";
-        }
-        """
-        self.label_about_name = """
-        QLabel{
-            font-size: 20px;
-            color: #43454f;
-            font: 25pt "Reem Kufi";
-        }
-        """
-        self.label_about_version = """
-        QLabel{
-            margin: 0 40px 40px 40px;
-            padding-top: 30px;
-            border-top: 1px solid #aaa;
-            border-radius: none;
-            color: #555;
-            font: 15pt "Corbel";
-        }
-        """
-        self.label_allegro_monitored_stat = """
-        QLabel{
-            border: none;
-            font-size: 23px;
-            font: 10pt "Corbel";
-            color: #43454f;
-        }
-        """
-        self.label_allegro_monitored_name = """
-        QLabel{
-            font: 75 12pt "Noto Serif Lao";
-            border: none;
-            font-size: 23px;
-            font: 10pt "Corbel";
-            font: 75 12pt "Noto Serif Lao";
-            color: #43454f;
-        }
-        """
-
-
-styles = StyleSheet()
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 class SitesFrame(QFrame):
@@ -198,7 +44,9 @@ class NavFrame(QFrame):
         # set program img and name
         self.label_img = QLabel(self)
         self.label_img.setFixedSize(QSize(60, 60))
-        self.label_img.setPixmap(QPixmap("img/icon.png"))
+
+        self.label_img.setPixmap(QPixmap(os.path.join(path, 'img/icon.png')))
+        # self.label_img.setPixmap(QPixmap("../img/icon.png"))
         self.label_img.setScaledContents(True)
         self.gridLayout.addWidget(self.label_img, 2, 1, 1, 1)
 
@@ -228,7 +76,7 @@ class NavFrame(QFrame):
         self.groupBox = QGroupBox("", self.frame_nav)
         self.gridLayout_b.addWidget(self.groupBox, 1, 1, 1, 1)
         self.groupBox.setMinimumSize(QSize(220, 350))
-        self.groupBox.setStyleSheet("""QGroupBox{background-image: url(img/radioline.png); border: none;}""")
+        self.groupBox.setStyleSheet("""QGroupBox{background-image: url(ui/img/radioline.png);  border: none;}""")
         self.verticalLayout_gb = QVBoxLayout(self.groupBox)
 
         self.radioButton_add = QRadioButton(" Add", self.groupBox)
@@ -314,7 +162,8 @@ class PageAllegroAdd(QWidget):
         self.label_img_search = QLabel(url_link, self)
         self.label_img_search.setMaximumSize(QSize(80, 80))
         self.label_img_search.setStyleSheet("""QLabel{border:none;}""")
-        self.label_img_search.setPixmap(QPixmap(u"img/search.png"))
+        self.label_img_search.setPixmap(QPixmap(os.path.join(path, "img/search.png")))
+        # self.label_img_search.setPixmap(QPixmap(u"img/search.png"))
         self.label_img_search.setScaledContents(True)
         self.label_img_search.setOpenExternalLinks(True)
         self.gridLayout.addWidget(self.label_img_search, 7, 5, 1, 1)
@@ -371,6 +220,7 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_l)
 
         self.pushButton_atc = QPushButton("Add to cart", self.frame_bottom)
+        self.pushButton_atc.clicked.connect(lambda: self.add_to_cart())
         self.pushButton_atc.setMinimumSize(QSize(0, 40))
         self.pushButton_atc.setStyleSheet(styles.btn_light)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_atc)
@@ -393,8 +243,46 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(3, 1)
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
 
+    def add_to_cart(self):
+        no_warnings = True
+        if self.lineEdit_email.text() == "":
+            self.lineEdit_email.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_email.setStyleSheet(styles.lineEdit)
+            email = self.lineEdit_email.text()
+        if self.lineEdit_login.text() == "":
+            self.lineEdit_login.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_login.setStyleSheet(styles.lineEdit)
+            login = self.lineEdit_login.text()
+        if self.lineEdit_link.text() == "":
+            self.lineEdit_link.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_link.setStyleSheet(styles.lineEdit)
+            link = self.lineEdit_link.text()
+
+        if self.lineEdit_password.text() == "":
+            self.lineEdit_password.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_password.setStyleSheet(styles.lineEdit)
+            password = self.lineEdit_password.text()
+        if no_warnings:
+            self.lineEdit_login.clear()
+            self.lineEdit_password.clear()
+            self.lineEdit_email.clear()
+            self.lineEdit_link.clear()
+            data.add_monitored_elements(link, link, False)
+
 
 class ElementAllegroMonitored(QFrame):
+
+    def on_delete(self, link):
+        data.delete_monitored_element(link)
+
     def __init__(self, name, link, is_done, parent=None):
         QFrame.__init__(self, parent)
         self.setMinimumSize(QSize(0, 140))
@@ -433,18 +321,21 @@ class ElementAllegroMonitored(QFrame):
         self.label_img_link = QLabel(self.frame_description)
         self.label_img_link.setMaximumSize(QSize(20, 20))
         self.label_img_link.setStyleSheet("""QLabel{border: none;}""")
-        self.label_img_link.setPixmap(QPixmap(u"img/link.png"))
+        self.label_img_link.setPixmap(QPixmap(os.path.join(path, "img/link.png")))
+        # self.label_img_link.setPixmap(QPixmap(u"img/link.png"))
         self.label_img_link.setScaledContents(True)
         self.gridLayout_description.addWidget(self.label_img_link, 1, 0, 1, 1)
 
         self.label_img_stat = QLabel("done", self.frame_description)
         if is_done:
             self.label_stat.setText("done")
+            self.label_img_stat.setPixmap(QPixmap(os.path.join(path, "img/check.png")))
         else:
             self.label_stat.setText("in progress")
+            self.label_img_stat.setPixmap(QPixmap(os.path.join(path, "img/loading.png")))
         self.label_img_stat.setMaximumSize(QSize(20, 20))
         self.label_img_stat.setStyleSheet("""QLabel{border: none;}""")
-        self.label_img_stat.setPixmap(QPixmap("img/loading.png"))
+        # self.label_img_stat.setPixmap(QPixmap("img/loading.png"))
         self.label_img_stat.setScaledContents(True)
         self.gridLayout_description.addWidget(self.label_img_stat, 2, 0, 1, 1)
 
@@ -453,8 +344,10 @@ class ElementAllegroMonitored(QFrame):
         self.horizontalLayout.addItem(self.spacer)
 
         self.pushButton_delete = QPushButton(self)
+        self.pushButton_delete.clicked.connect(lambda: self.on_delete(link))
         icon = QIcon()
-        icon.addFile("img/delete.png", QSize(), QIcon.Selected, QIcon.Off)
+        icon.addFile(os.path.join(path, "img/delete.png"), QSize(), QIcon.Selected, QIcon.Off)
+        # icon.addFile("img/delete.png", QSize(), QIcon.Selected, QIcon.Off)
         self.pushButton_delete.setIcon(icon)
         self.pushButton_delete.setIconSize(QSize(50, 50))
         self.pushButton_delete.setStyleSheet("""QPushButton{border:none;}""")
@@ -488,20 +381,19 @@ class PageAllegroMonitored(QWidget):
         self.label_title = QLabel("List of your monitored objects", self.scrollAreaWidgetContents)
         self.label_title.setStyleSheet(styles.label_title)
         self.label_title.setAlignment(Qt.AlignCenter)
-        self.gridLayout_scroll_area.addWidget(self.label_title, 0, 0, 1, 1)
+        self.gridLayout_scroll_area.addWidget(self.label_title)
 
         self.spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout_scroll_area.addItem(self.spacer, 5, 0, 1, 1)
 
-        self.element = ElementAllegroMonitored("BUTY HALOWE ASICS GEL-ROCKET 9 1071A030-400 47", "https://allegro.pl/",
-                                               True, self.scrollAreaWidgetContents)
-        self.gridLayout_scroll_area.addWidget(self.element, 4, 0, 1, 1)
+        self.load_list()
 
-        self.load_list(None)
+    def load_list(self):
+        elements = data.read_monitored_elements()
+        for element in elements:
+            e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], self.scrollAreaWidgetContents)
+            self.gridLayout_scroll_area.addWidget(e)
 
-    # TODO : add list of element
-    def load_list(self, list_elements):
-        pass
+        self.gridLayout_scroll_area.addItem(self.spacer)
 
 
 class PageAllegroOptions(QWidget):
@@ -515,7 +407,6 @@ class PageAbout(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self)
         parent.addWidget(self)
-        self.styles = StyleSheet()
         self.gridLayout_about = QGridLayout(self)
 
         self.frame_about = QFrame(self)
@@ -583,7 +474,9 @@ class MainWindow(QMainWindow):
     def init_window(self):
         # set window
         self.setGeometry(100, 100, 900, 600)
-        self.setWindowIcon(QIcon('img/icon.png'))
+        import os
+        self.setWindowIcon(QIcon(os.path.join(path, './img/icon.png')))
+        # self.setWindowIcon(QIcon('./img/icon.png'))
         self.setWindowTitle("WebCheck")
 
         # set centralWidget

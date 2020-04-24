@@ -1,6 +1,6 @@
 import ui.gui
 import sys
-
+# import ui.stylesheet
 
 def main():
     app = ui.gui.QApplication(sys.argv)

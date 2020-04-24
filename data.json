@@ -1,0 +1,19 @@
+{
+  "monitored_elements": [
+    {
+      "name": "Asics Gel Rocked 8",
+      "link": "https://allegro.pl/",
+      "is_done": false
+    },
+    {
+      "name": "S\u0142uchawki HyperX Cloud Alpha ",
+      "link": "https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118",
+      "is_done": true
+    },
+    {
+      "name": "Apple iPhone 11",
+      "link": "https://allegro.pl/oferta/apple-iphone-11-64gb-a13-dual-sim-zielony-8752755558?bi_s=ads&bi_m=listing%3Adesktop%3Acategory&bi_c=MDAzZjE0MmYtNTFmMy00YWZlLTgwNzktOWY2ZTg3OGRkMzBhAA&bi_t=ape&referrer=proxy&emission_unit_id=b0da8330-667f-4c27-a495-084a70aea6af",
+      "is_done": false
+    }
+  ]
+}
