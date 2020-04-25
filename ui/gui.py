@@ -1,3 +1,5 @@
+import webbrowser
+
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
                             QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
@@ -157,17 +159,6 @@ class PageAllegroAdd(QWidget):
         self.label_login.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_login, 6, 1, 1, 1)
 
-        url_link = '<a href="https://allegro.pl/" title="Go to allegro"><img src="img/search.png" height="80" ' \
-                   'width="80"></a> '
-        self.label_img_search = QLabel(url_link, self)
-        self.label_img_search.setMaximumSize(QSize(80, 80))
-        self.label_img_search.setStyleSheet("""QLabel{border:none;}""")
-        self.label_img_search.setPixmap(QPixmap(os.path.join(path, "img/search.png")))
-        # self.label_img_search.setPixmap(QPixmap(u"img/search.png"))
-        self.label_img_search.setScaledContents(True)
-        self.label_img_search.setOpenExternalLinks(True)
-        self.gridLayout.addWidget(self.label_img_search, 7, 5, 1, 1)
-
         self.label_password = QLabel("Password", self)
         self.label_password.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_password, 9, 1, 1, 2)
@@ -179,6 +170,15 @@ class PageAllegroAdd(QWidget):
         self.label_link = QLabel("Link", self)
         self.label_link.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_link, 12, 1, 1, 7)
+
+        self.pushButton_search = QPushButton(self)
+        self.pushButton_search.clicked.connect(lambda: webbrowser.open('https://allegro.pl/'))
+        icon = QIcon()
+        icon.addFile(os.path.join(path, "img/search.png"), QSize(), QIcon.Selected, QIcon.Off)
+        self.pushButton_search.setIcon(icon)
+        self.pushButton_search.setIconSize(QSize(80, 80))
+        self.pushButton_search.setStyleSheet("""QPushButton{border:none;}""")
+        self.gridLayout.addWidget(self.pushButton_search, 7, 5, 1, 1)
 
         # Create spacers
         self.spacer_search_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -220,7 +220,6 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_l)
 
         self.pushButton_atc = QPushButton("Add to cart", self.frame_bottom)
-        self.pushButton_atc.clicked.connect(lambda: self.add_to_cart())
         self.pushButton_atc.setMinimumSize(QSize(0, 40))
         self.pushButton_atc.setStyleSheet(styles.btn_light)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_atc)
@@ -244,13 +243,22 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
 
     def add_to_cart(self):
+        # check if fields was filled properly
         no_warnings = True
+        is_email = False
+        is_pwd = False
         if self.lineEdit_email.text() == "":
             self.lineEdit_email.setStyleSheet(styles.lineEdit_warning)
             no_warnings = False
         else:
             self.lineEdit_email.setStyleSheet(styles.lineEdit)
             email = self.lineEdit_email.text()
+            for symbol in email:
+                if symbol == '@':
+                    is_email = True
+            if not is_email:
+                self.lineEdit_email.setStyleSheet(styles.lineEdit_warning)
+                no_warnings = False
         if self.lineEdit_login.text() == "":
             self.lineEdit_login.setStyleSheet(styles.lineEdit_warning)
             no_warnings = False
@@ -270,12 +278,14 @@ class PageAllegroAdd(QWidget):
         else:
             self.lineEdit_password.setStyleSheet(styles.lineEdit)
             password = self.lineEdit_password.text()
+
         if no_warnings:
             self.lineEdit_login.clear()
             self.lineEdit_password.clear()
             self.lineEdit_email.clear()
             self.lineEdit_link.clear()
-            data.add_monitored_elements(link, link, False)
+            data.add_monitored_elements(link, False)
+        return data.get_element(link)
 
 
 class ElementAllegroMonitored(QFrame):
@@ -390,10 +400,14 @@ class PageAllegroMonitored(QWidget):
     def load_list(self):
         elements = data.read_monitored_elements()
         for element in elements:
-            e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], self.scrollAreaWidgetContents)
+            e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'],
+                                        self.scrollAreaWidgetContents)
             self.gridLayout_scroll_area.addWidget(e)
 
         self.gridLayout_scroll_area.addItem(self.spacer)
+
+    def add_to_list(self, name, link, is_done):
+        print(name)
 
 
 class PageAllegroOptions(QWidget):
@@ -470,6 +484,12 @@ class MainWindow(QMainWindow):
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
         self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
         self.navFrame.radioButton_add.setChecked(True)
+        self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.add_to_cart())
+
+    def add_to_cart(self):
+        element = self.stackedWidget.pageAllegroAdd.add_to_cart()
+        if element is not None:
+            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"])
 
     def init_window(self):
         # set window
