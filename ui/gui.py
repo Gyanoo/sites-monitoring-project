@@ -1,20 +1,21 @@
 import webbrowser
+from time import sleep
 
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-                            QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
+                            QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QTimer)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-                           QPixmap, QRadialGradient)
+                           QPixmap, QRadialGradient, QMovie)
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import (QApplication, QMainWindow, QWidget, QFrame,
                                QStackedWidget, QGridLayout, QLabel, QSpacerItem, QSizePolicy, QGroupBox,
                                QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QRadioButton, QScrollArea,
-                               QAbstractScrollArea)
+                               QAbstractScrollArea, QMessageBox)
 import sys
-# import element
+from selenium.common.exceptions import InvalidArgumentException
+
 from ui import stylesheet as styles
 import os
-# from PySide2 import sip
 import read_write_data as data
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -98,6 +99,25 @@ class NavFrame(QFrame):
         self.verticalLayout_gb.addWidget(self.radioButton_about)
 
 
+class PageLoading(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.gridLayout = QGridLayout(self)
+        parent.addWidget(self)
+        self.label_animation = QLabel("Loading...", self)
+        self.gridLayout.addWidget(self.label_animation, 1, 1, 1, 1)
+        self.label_animation.setStyleSheet("""QLabel{font-size: 20px; color: #43454f; font: 23pt "Corbel"}""")
+
+        self.spacer_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addItem(self.spacer_l, 1, 0, 1, 1)
+        self.spacer_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addItem(self.spacer_r, 1, 2, 1, 1)
+        self.spacer_t = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addItem(self.spacer_l, 0, 1, 1, 2)
+        self.spacer_b = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout.addItem(self.spacer_r, 2, 1, 1, 2)
+
+
 class PageAllegroAdd(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
@@ -155,6 +175,11 @@ class PageAllegroAdd(QWidget):
         self.label_title.setAlignment(Qt.AlignCenter)
         self.gridLayout.addWidget(self.label_title, 0, 1, 1, 7)
 
+        self.label_info = QLabel("", self)
+        self.label_info.setStyleSheet(styles.label_info_wrong)
+        self.label_info.setAlignment(Qt.AlignCenter)
+        self.gridLayout.addWidget(self.label_info, 1, 1, 1, 7)
+
         self.label_login = QLabel("Login of email", self)
         self.label_login.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_login, 6, 1, 1, 1)
@@ -178,6 +203,7 @@ class PageAllegroAdd(QWidget):
         self.pushButton_search.setIcon(icon)
         self.pushButton_search.setIconSize(QSize(80, 80))
         self.pushButton_search.setStyleSheet("""QPushButton{border:none;}""")
+        self.pushButton_search.setCursor(QCursor(Qt.PointingHandCursor))
         self.gridLayout.addWidget(self.pushButton_search, 7, 5, 1, 1)
 
         # Create spacers
@@ -188,7 +214,7 @@ class PageAllegroAdd(QWidget):
         self.gridLayout.addItem(self.spacer_search_r, 7, 6, 1, 2)
 
         self.spacer_search_t = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_search_t, 1, 1, 3, 7)
+        self.gridLayout.addItem(self.spacer_search_t, 2, 1, 3, 7)
 
         self.spacer_search_b = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.gridLayout.addItem(self.spacer_search_b, 8, 1, 1, 7)
@@ -223,12 +249,13 @@ class PageAllegroAdd(QWidget):
         self.pushButton_atc.setMinimumSize(QSize(0, 40))
         self.pushButton_atc.setStyleSheet(styles.btn_light)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_atc)
-        self.pushButton_atc.setShortcut(QCoreApplication.translate('MainWindow', u"Return", None))
+        self.pushButton_atc.setShortcut("Return")
 
         self.spacer_frame_bottom_c = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_c)
 
         self.pushButton_buy = QPushButton("Buy", self.frame_bottom)
+        self.pushButton_buy.clicked.connect(lambda: self.on_buy())
         self.pushButton_buy.setMinimumSize(QSize(0, 40))
         self.pushButton_buy.setStyleSheet(styles.btn_dark)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_buy)
@@ -241,12 +268,16 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(2, 2)
         self.horizontalLayout_frame_bottom.setStretch(3, 1)
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
+        self.timer = QTimer(self)
 
     def add_to_cart(self):
         # check if fields was filled properly
         no_warnings = True
         is_email = False
-        is_pwd = False
+        link = ""
+        login = ""
+        email = ""
+        password = ""
         if self.lineEdit_email.text() == "":
             self.lineEdit_email.setStyleSheet(styles.lineEdit_warning)
             no_warnings = False
@@ -284,14 +315,38 @@ class PageAllegroAdd(QWidget):
             self.lineEdit_password.clear()
             self.lineEdit_email.clear()
             self.lineEdit_link.clear()
-            data.add_monitored_elements(link, False)
+            try:
+                data.add_monitored_elements(login, email, password, link)
+            except InvalidArgumentException:
+                self.set_info_text("Warning. Wrong link submitted", True)
+            except KeyError:
+                self.set_info_text("Error. This page has already monitored", True)
+            else:
+                self.set_info_text("Info. Object was successfully added", False)
+                self.lineEdit_login.clear()
+                self.lineEdit_password.clear()
+                self.lineEdit_email.clear()
+                self.lineEdit_link.clear()
+        else:
+            self.set_info_text("Warning. Fill all field properly", True)
+
         return data.get_element(link)
+
+    def on_buy(self):
+        pass
+
+    def set_info_text(self, text, is_warning):
+        self.label_info.setText(text)
+        if is_warning:
+            self.label_info.setStyleSheet(styles.label_info_wrong)
+        else:
+            self.label_info.setStyleSheet(styles.label_info_right)
+        self.timer.setInterval(5000)
+        self.timer.timeout.connect(lambda: self.label_info.setText(""))
+        self.timer.start()
 
 
 class ElementAllegroMonitored(QFrame):
-
-    def on_delete(self, link):
-        data.delete_monitored_element(link)
 
     def __init__(self, name, link, is_done, parent=None):
         QFrame.__init__(self, parent)
@@ -354,14 +409,21 @@ class ElementAllegroMonitored(QFrame):
         self.horizontalLayout.addItem(self.spacer)
 
         self.pushButton_delete = QPushButton(self)
+        # self.pushButton_delete.clicked.connect( lambda: self.deleteLater())
         self.pushButton_delete.clicked.connect(lambda: self.on_delete(link))
         icon = QIcon()
         icon.addFile(os.path.join(path, "img/delete.png"), QSize(), QIcon.Selected, QIcon.Off)
-        # icon.addFile("img/delete.png", QSize(), QIcon.Selected, QIcon.Off)
+        # icon.Active.addFile(os.path.join(path, "img/icon.png"), QSize(), QIcon.Selected, QIcon.Off)
         self.pushButton_delete.setIcon(icon)
         self.pushButton_delete.setIconSize(QSize(50, 50))
-        self.pushButton_delete.setStyleSheet("""QPushButton{border:none;}""")
+        self.pushButton_delete.setStyleSheet("""QPushButton{border:none; }""")
+        self.pushButton_delete.setCursor(QCursor(Qt.PointingHandCursor))
+        # self.pushButton_delete.ico
         self.horizontalLayout.addWidget(self.pushButton_delete)
+
+    def on_delete(self, link):
+        data.delete_monitored_element(link)
+        self.deleteLater()
 
 
 class PageAllegroMonitored(QWidget):
@@ -407,14 +469,27 @@ class PageAllegroMonitored(QWidget):
         self.gridLayout_scroll_area.addItem(self.spacer)
 
     def add_to_list(self, name, link, is_done):
-        print(name)
+        self.gridLayout_scroll_area.removeItem(self.spacer)
+        e = ElementAllegroMonitored(name, link, is_done)
+        self.gridLayout_scroll_area.addWidget(e)
+        self.gridLayout_scroll_area.addItem(self.spacer)
 
 
 class PageAllegroOptions(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self)
-        self.gridLayout = QGridLayout(self)
         parent.addWidget(self)
+        self.gridLayout = QGridLayout(self)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+
+        self.frame = QFrame(self)
+        self.frame.setStyleSheet("""QFrame{background-color: white}""")
+        self.gridLayout.addWidget(self.frame, 0, 1, 1, 1)
+
+        self.pushButton_auto = QPushButton(self)
+        self.pushButton_auto.setText("Autofill")
+        self.pushButton_auto.setStyleSheet(styles.btn_allegro_ops_auto)
+        self.gridLayout.addWidget(self.pushButton_auto, 0, 0, 1, 1)
 
 
 class PageAbout(QWidget):
@@ -464,11 +539,16 @@ class StackedWidget(QStackedWidget):
         self.pageAllegroMonitored = PageAllegroMonitored(self)
         self.pageAllegroOptions = PageAllegroOptions(self)
         self.pageAbout = PageAbout(self)
+        self.pageLoading = PageLoading(self)
+
+    def go_to_loading(self):
+        self.setCurrentIndex(4)
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.setStyleSheet(styles.main_window)
         self.centralWidget = QWidget(self)
         self.gridLayout_central = QGridLayout(self.centralWidget)
         self.navFrame = NavFrame(self.centralWidget)
@@ -476,6 +556,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget = StackedWidget(self.centralWidget)
         self.init_window()
         self.set_start_state()
+        self.go_to_page(2)
 
     def set_start_state(self):
         # set nav btn connection
@@ -493,10 +574,9 @@ class MainWindow(QMainWindow):
 
     def init_window(self):
         # set window
-        self.setGeometry(100, 100, 900, 600)
+        self.setGeometry(100, 100, 900, 540)
         import os
         self.setWindowIcon(QIcon(os.path.join(path, './img/icon.png')))
-        # self.setWindowIcon(QIcon('./img/icon.png'))
         self.setWindowTitle("WebCheck")
 
         # set centralWidget
@@ -505,7 +585,7 @@ class MainWindow(QMainWindow):
         sizePolicy.setVerticalStretch(2)
         sizePolicy.setHeightForWidth(self.centralWidget.sizePolicy().hasHeightForWidth())
         self.centralWidget.setSizePolicy(sizePolicy)
-        self.centralWidget.setMinimumSize(QSize(900, 500))
+        self.centralWidget.setMinimumSize(QSize(900, 540))
         self.setCentralWidget(self.centralWidget)
 
         # set grid layout central
@@ -528,6 +608,8 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentIndex(2)
         elif index == 3:
             self.stackedWidget.setCurrentIndex(3)
+        elif index == 4:
+            self.stackedWidget.setCurrentIndex(4)
 
 
 def main():

@@ -35,6 +35,22 @@ QLabel{
 }
 """
 
+label_info_wrong = """
+QLabel{
+    text-align: center;
+    font: 10pt "Corbel";
+    color: #db0000;
+}
+"""
+
+label_info_right = """
+QLabel{
+    text-align: center;
+    font: 10pt "Corbel";
+    color: #83a836;
+}
+"""
+
 btn_radio = """
 QRadioButton {
     font: 16pt 'Reem Kufi';
@@ -164,6 +180,92 @@ QLabel{
 }
 """
 
+main_window = """
+ QScrollBar:vertical
+ {
+     background-color: #2A2929;
+     width: 17px;
+     margin: 15px 3px 15px 3px;
+     border: 1px transparent #2A2929;
+     border-radius: 5px;
+ }
 
-def main():
-    pass
+ QScrollBar::handle:vertical
+ {
+     background-color: #43454f;         /* #605F5F; */
+     min-height: 5px;
+     border-radius: 5px;
+ }
+
+ QScrollBar::sub-line:vertical
+ {
+     margin: 3px 0px 3px 0px;
+     border-image: url(:/qss_icons/rc/up_arrow_disabled.png);
+     height: 10px;
+     width: 10px;
+     subcontrol-position: top;
+     subcontrol-origin: margin;
+ }
+
+ QScrollBar::add-line:vertical
+ {
+     margin: 3px 0px 3px 0px;
+     border-image: url(:/qss_icons/rc/down_arrow_disabled.png);
+     height: 10px;
+     width: 10px;
+     subcontrol-position: bottom;
+     subcontrol-origin: margin;
+ }
+
+ QScrollBar::sub-line:vertical:hover,QScrollBar::sub-line:vertical:on
+ {
+
+     border-image: url(:/qss_icons/rc/up_arrow.png);
+     height: 10px;
+     width: 10px;
+     subcontrol-position: top;
+     subcontrol-origin: margin;
+ }
+
+
+ QScrollBar::add-line:vertical:hover, QScrollBar::add-line:vertical:on
+ {
+     border-image: url(:/qss_icons/rc/down_arrow.png);
+     height: 10px;
+     width: 10px;
+     subcontrol-position: bottom;
+     subcontrol-origin: margin;
+ }
+
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical
+ {
+     background: none;
+ }
+
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
+ {
+     background: none;
+ }
+
+
+"""
+
+btn_allegro_ops_auto = """
+QPushButton{
+    border-bottom: 1px solid #aaa;
+    font: 13pt "Corbel";
+    padding:6px;
+    color: #83a836;
+}
+QPushButton:hover{
+    background-color:  #aaa;
+    color: #fff;
+}
+QPushButton:pressed{
+    background-color:  #fff;
+    color: #83a836;
+}
+"""
+
+

@@ -1,24 +1,44 @@
 {
   "monitored_elements": [
     {
-      "name": "Asics Gel Rocked 8",
-      "link": "https://allegro.pl/",
-      "is_done": false
+      "name": "BUTY M\u0118SKIE SPORTOWE DO BIEGANIA G...",
+      "link": "https://allegro.pl/oferta/buty-meskie-sportowe-do-biegania-gel-kayano-asics-8458213744?bi_s=ads&bi_m=listing%3Adesktop%3Aqueryandcategory&bi_c=NzBjNzBlMGItMTI2NC00ZmZhLTgzOGYtMWE4MWZkZDRhMmYwAA&bi_t=ape&referrer=proxy&emission_unit_id=c658d27c-89a0-46a3-8b51-4cddd0f15a33",
+      "is_done": false,
+      "login": "ooogyano@gmail.com'",
+      "password": "Python123",
+      "email_to_send": "yevhnenii.oros@gmail.com"
     },
     {
       "name": "S\u0142uchawki HyperX Cloud Alpha ",
       "link": "https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118",
-      "is_done": true
+      "is_done": true,
+      "login": "ooogyano@gmail.com'",
+      "password": "Python123",
+      "email_to_send": "yevhnenii.oros@gmail.com"
     },
     {
       "name": "Apple iPhone 11",
       "link": "https://allegro.pl/oferta/apple-iphone-11-64gb-a13-dual-sim-zielony-8752755558?bi_s=ads&bi_m=listing%3Adesktop%3Acategory&bi_c=MDAzZjE0MmYtNTFmMy00YWZlLTgwNzktOWY2ZTg3OGRkMzBhAA&bi_t=ape&referrer=proxy&emission_unit_id=b0da8330-667f-4c27-a495-084a70aea6af",
-      "is_done": false
+      "is_done": false,
+      "login": "ooogyano@gmail.com'",
+      "password": "Python123",
+      "email_to_send": "yevhnenii.oros@gmail.com"
     },
     {
-      "name": "IPHONE 11 64GB RED CZERWONY NOWY G...",
-      "link": "https://allegro.pl/oferta/iphone-11-64gb-red-czerwony-nowy-gw-apple-od-reki-8817870462?reco_id=1d92b713-86dd-11ea-a373-ecf4bbd61370&sid=f8bddad5d737919e6c726c989b66bdbe96499e13bc806f55bd0c404f69ac7020",
-      "is_done": false
+      "name": "Filtr oleju silnika - Spin On - 20...",
+      "link": "https://allegro.pl/oferta/filtr-oleju-silnika-spin-on-207002628-9004576092?bi_s=ads&bi_m=listing%3Adesktop%3Acategory&bi_c=NTk3YjM1ZTMtNTNjYy00M2U0LWE1NzYtODFmNWY3OWJiNWM1AA&bi_t=ape&referrer=proxy&emission_unit_id=de1d43bd-554e-42ed-be04-5faf5b7c152c",
+      "is_done": false,
+      "login": "ooogyano@gmail.com",
+      "password": "Python123",
+      "email_to_send": "yevhnenii.oros@gmail.com"
+    },
+    {
+      "name": "4x Opony 205/55R16 Letnie Jed\u017a Bez...",
+      "link": "https://allegro.pl/oferta/4x-opony-205-55r16-letnie-jedz-bezpiecznie-8874877726?bi_c=StrefaOkazji_Karuzela&bi_m=mpage&",
+      "is_done": false,
+      "login": "ooogyano@gmail.com'",
+      "password": "Python123",
+      "email_to_send": "yevhenii.oros@gmail.com"
     }
   ]
 }

@@ -78,8 +78,9 @@ class CheckIfPriceLower:
             self.driver.quit()
 
 
-# AllegroLogin('ooogyano@gmail.com', 'Python123')
-# CheckChanges('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '/html/body')
-# CheckChanges('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '')
-# CheckIfPriceLower('https://allegro.pl/oferta/rebel-splendor-edycja-polska-8166800174?bi_m=mpage&','/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]', 100.0)
-# CheckIfPriceLower('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '/html/body/h1', 100.0)
+if __name__ == "__main__":
+    AllegroLogin('ooogyano@gmail.com', 'Python123')
+    # CheckChanges('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '/html/body')
+    # CheckChanges('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '')
+    # CheckIfPriceLower('https://allegro.pl/oferta/rebel-splendor-edycja-polska-8166800174?bi_m=mpage&','/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]', 100.0)
+    # CheckIfPriceLower('file:///Users/michal/Desktop/stare%20ale%20nie%20jare/enroll2.html', '/html/body/h1', 100.0)

@@ -23,4 +23,5 @@ class SendEmail:
         server.sendmail('my.pro9ram@gmail.com', email_to, text)
         server.close()
 
+
 send = SendEmail("yevhenii.oros@gmail.com", "Alegro changes", "https://allegro.pl/")

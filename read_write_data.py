@@ -15,17 +15,23 @@ def read_monitored_elements():
     return elements_list
 
 
-def add_monitored_elements(link, is_done):
+def add_monitored_elements(login, email_to_send, password, link):
     data = read_json_file()
-    name = get_name(link)
     for e in data["monitored_elements"]:
         if e['link'] == link and e['is_done'] is False:
             print("This page is already monitored")
-            return
+            raise KeyError
         elif e['link'] == link and e['is_done'] is True:
             e["is_done"] = False
-
-    element = {'name': name, 'link': link, 'is_done': is_done}
+    name = get_name(link)
+    element = {
+                'name': name,
+                'link': link,
+                'is_done': False,
+                'login': login,
+                'password': password,
+                'email_to_send': email_to_send
+               }
     data["monitored_elements"].append(element)
     with open("data.json", "w") as file:
         json.dump(data, file, indent=2)
