@@ -505,14 +505,17 @@ class ElementAllegroMonitored(QFrame):
         # self.pushButton_delete.ico
         self.horizontalLayout.addWidget(self.pushButton_delete)
 
-        self.is_on = True
+        self.is_on = data.get_switch_state(link);
         self.pushButton_switch = QPushButton(self)
         self.pushButton_switch.clicked.connect(lambda: self.on_switch(link))
         self.icon_on = QIcon()
         self.icon_off = QIcon()
         self.icon_on.addFile(os.path.join(path, "img/switch_on.png"), QSize(), QIcon.Selected, QIcon.On)
         self.icon_off.addFile(os.path.join(path, "img/switch_off.png"), QSize(), QIcon.Selected, QIcon.Off)
-        self.pushButton_switch.setIcon(self.icon_on)
+        if self.is_on:
+            self.pushButton_switch.setIcon(self.icon_on)
+        else:
+            self.pushButton_switch.setIcon(self.icon_off)
         self.pushButton_switch.setIconSize(QSize(100, 40))
         self.pushButton_switch.setStyleSheet("""QPushButton{border:none; }""")
         self.pushButton_switch.setCursor(QCursor(Qt.PointingHandCursor))
