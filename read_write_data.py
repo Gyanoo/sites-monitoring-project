@@ -109,7 +109,11 @@ def switch_state(is_on_now, link):
     with open("data.json", "w") as file:
         file.write(json.dumps(data, indent=2))
 
-
+def get_switch_state(link):
+    data = read_json_file()
+    for e in data["monitored_elements"]:
+        if e['link'] == link:
+            return e['is_on']
 
 
 # if __name__ == "__main__":
