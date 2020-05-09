@@ -7,9 +7,10 @@
       "login": "@",
       "password": "@",
       "email_to_send": "@",
-      "price": 10.0,
-      "time": 100,
-      "xpath": "div[0]"
+      "price": 200.0,
+      "time": 12,
+      "xpath": "div[0]",
+      "is_on": true
     }
   ]
 }

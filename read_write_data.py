@@ -33,7 +33,8 @@ def add_monitored_elements(login, email_to_send, password, link, price, xpath, t
                 'email_to_send': email_to_send,
                 'price': price,
                 'xpath': xpath,
-                'time': time
+                'time': time,
+                'is_on': True
                }
     data["monitored_elements"].append(element)
     with open("data.json", "w") as file:
@@ -98,6 +99,17 @@ def change_price_time(link, price, time):
             # data["monitored_elements"].append(e)
     with open("data.json", "w") as file:
         file.write(json.dumps(data, indent=2))
+
+
+def switch_state(is_on_now, link):
+    data = read_json_file()
+    for e in data["monitored_elements"]:
+        if e['link'] == link:
+            e['is_on'] = is_on_now
+    with open("data.json", "w") as file:
+        file.write(json.dumps(data, indent=2))
+
+
 
 
 # if __name__ == "__main__":
