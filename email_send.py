@@ -2,26 +2,31 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+def create_message(price, link):
+    return "<h1>Hey!\n Price of one of your monitored items has dropped below the maximal_price you've set!\n</h1>" \
+           "<h4>Price of this item: <a href=" + link +"> click!</a> is now " + price + ".\n\n\n</h4>" \
+            "To unsubscribe this link remove it from your monitored items list. \n " \
+            "This message was generated automatically by 'WebCheck'"
 
-class SendEmail:
-    def __init__(self, email_to, subject, link):
-        massageHTML = '<h1>Changes were found</h1> <p>To check click <a href="' + link + '">here<a><p>'
-        massagePlain = 'Changes were found To check click here'
-        message = MIMEMultipart('alternative')
-        message['From'] = 'my.pro9ram@gmail.com'
-        message['To'] = email_to
-        message['Subject'] = subject
+def send_email(email_to, link, price):
+    # messageHTML = '<h1>Changes were found</h1> <p>To check click <a href="' + link + '">here<a><p>'
+    messageHTML = create_message(price, link)
+    messagePlain = 'Changes were found To check click here'
+    message = MIMEMultipart('alternative')
+    message['From'] = 'my.pro9ram@gmail.com'
+    message['To'] = email_to
+    message['Subject'] = "Price of one of monitored items changed!"
 
-        message.attach(MIMEText(massagePlain, 'plain'))
-        message.attach(MIMEText(massageHTML, 'html'))
+    message.attach(MIMEText(messagePlain, 'plain'))
+    message.attach(MIMEText(messageHTML, 'html'))
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.login('my.pro9ram@gmail.com', '<myProgram>')
-        text = message.as_string()
-        server.sendmail('my.pro9ram@gmail.com', email_to, text)
-        server.close()
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('my.pro9ram@gmail.com', '<myProgram>')
+    text = message.as_string()
+    server.sendmail('my.pro9ram@gmail.com', email_to, text)
+    server.close()
 
 
-send = SendEmail("yevhenii.oros@gmail.com", "Alegro changes", "https://allegro.pl/")
+# send = SendEmail("yevhenii.oros@gmail.com", "Alegro changes", "https://allegro.pl/")
