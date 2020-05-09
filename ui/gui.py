@@ -1,5 +1,7 @@
 import webbrowser
 from time import sleep
+import monitoring
+import email_send
 
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
                             QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QTimer)
@@ -51,7 +53,7 @@ class NavFrame(QFrame):
         self.label_img.setPixmap(QPixmap(os.path.join(path, 'img/icon.png')))
         # self.label_img.setPixmap(QPixmap("../img/icon.png"))
         self.label_img.setScaledContents(True)
-        self.gridLayout.addWidget(self.label_img, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_img, 0, 6, 1, 1)
 
         self.label_name = QLabel("WebCheck        ", self)
         self.label_name.setStyleSheet(styles.label_icon_name)
@@ -144,30 +146,48 @@ class PageAllegroAdd(QWidget):
         self.lineEdit_login.setSizeIncrement(QSize(40, 40))
         self.lineEdit_login.setStyleSheet(styles.lineEdit)
         self.lineEdit_login.setMaxLength(32767)
-        self.gridLayout.addWidget(self.lineEdit_login, 7, 1, 1, 2)
-        self.lineEdit_login.setPlaceholderText("login or email from your account")
+        self.gridLayout.addWidget(self.lineEdit_login, 4, 1, 1, 2)
+        self.lineEdit_login.setPlaceholderText("login or email of your account")
 
         self.lineEdit_password = QLineEdit(self)
         self.lineEdit_password.setMinimumSize(QSize(20, 60))
         self.lineEdit_password.setStyleSheet(styles.lineEdit)
         self.lineEdit_password.setEchoMode(QLineEdit.Password)
         self.lineEdit_password.setReadOnly(False)
-        self.gridLayout.addWidget(self.lineEdit_password, 10, 1, 1, 2)
-        self.lineEdit_password.setPlaceholderText("password from your account")
+        self.gridLayout.addWidget(self.lineEdit_password, 7, 1, 1, 2)
+        self.lineEdit_password.setPlaceholderText("password of your account")
 
         self.lineEdit_email = QLineEdit(self)
         self.lineEdit_email.setMinimumSize(QSize(0, 60))
         self.lineEdit_email.setStyleSheet(styles.lineEdit)
         self.lineEdit_email.setFrame(True)
         self.lineEdit_email.setEchoMode(QLineEdit.Normal)
-        self.gridLayout.addWidget(self.lineEdit_email, 10, 4, 1, 4)
-        self.lineEdit_email.setPlaceholderText("email to which the message will be sent")
+        self.gridLayout.addWidget(self.lineEdit_email, 7, 4, 1, 4)
+        self.lineEdit_email.setPlaceholderText("email to which the notification will be sent")
 
         self.lineEdit_link = QLineEdit(self)
         self.lineEdit_link.setMinimumSize(QSize(0, 60))
         self.lineEdit_link.setStyleSheet(styles.lineEdit)
-        self.gridLayout.addWidget(self.lineEdit_link, 13, 1, 1, 7)
-        self.lineEdit_link.setPlaceholderText("link to the page that needs to be monitored")
+        self.gridLayout.addWidget(self.lineEdit_link, 10, 1, 1, 7)
+        self.lineEdit_link.setPlaceholderText("link to the page that you want to monitor")
+
+        self.lineEdit_price = QLineEdit(self)
+        self.lineEdit_price.setMinimumSize(QSize(0, 60))
+        self.lineEdit_price.setStyleSheet(styles.lineEdit)
+        self.gridLayout.addWidget(self.lineEdit_price, 12, 1, 1, 2)
+        self.lineEdit_price.setPlaceholderText("Price below which to notificate")
+
+        self.lineEdit_xpath = QLineEdit(self)
+        self.lineEdit_xpath.setMinimumSize(QSize(0, 60))
+        self.lineEdit_xpath.setStyleSheet(styles.lineEdit)
+        self.gridLayout.addWidget(self.lineEdit_xpath, 12, 4, 1, 2)
+        self.lineEdit_xpath.setPlaceholderText("XPATH of element with the price")
+
+        self.lineEdit_time = QLineEdit(self)
+        self.lineEdit_time.setMinimumSize(QSize(0, 60))
+        self.lineEdit_time.setStyleSheet(styles.lineEdit)
+        self.gridLayout.addWidget(self.lineEdit_time, 12, 7, 1, 1)
+        self.lineEdit_time.setPlaceholderText("interval between refreshes")
 
         # Create Labels
         self.label_title = QLabel("Add new monitoring object", self)
@@ -180,21 +200,33 @@ class PageAllegroAdd(QWidget):
         self.label_info.setAlignment(Qt.AlignCenter)
         self.gridLayout.addWidget(self.label_info, 1, 1, 1, 7)
 
-        self.label_login = QLabel("Login of email", self)
+        self.label_login = QLabel("Email login", self)
         self.label_login.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_login, 6, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_login, 3, 1, 1, 1)
 
-        self.label_password = QLabel("Password", self)
+        self.label_password = QLabel("Email password", self)
         self.label_password.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_password, 9, 1, 1, 2)
+        self.gridLayout.addWidget(self.label_password, 6, 1, 1, 2)
 
-        self.label_email = QLabel("Email", self)
+        self.label_email = QLabel("Email to notificate", self)
         self.label_email.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_email, 9, 4, 1, 4)
+        self.gridLayout.addWidget(self.label_email, 6, 4, 1, 4)
 
-        self.label_link = QLabel("Link", self)
+        self.label_link = QLabel("Product link", self)
         self.label_link.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_link, 12, 1, 1, 7)
+        self.gridLayout.addWidget(self.label_link, 9, 1, 1, 7)
+
+        self.label_price = QLabel("Price", self)
+        self.label_price.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout.addWidget(self.label_price, 11, 1, 1, 2)
+
+        self.label_xpath = QLabel("Monitored element", self)
+        self.label_xpath.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout.addWidget(self.label_xpath, 11, 4, 1, 2)
+
+        self.label_time = QLabel("Refresh time[s]", self)
+        self.label_time.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout.addWidget(self.label_time, 11, 7, 1, 1)
 
         self.pushButton_search = QPushButton(self)
         self.pushButton_search.clicked.connect(lambda: webbrowser.open('https://allegro.pl/'))
@@ -204,7 +236,7 @@ class PageAllegroAdd(QWidget):
         self.pushButton_search.setIconSize(QSize(80, 80))
         self.pushButton_search.setStyleSheet("""QPushButton{border:none;}""")
         self.pushButton_search.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout.addWidget(self.pushButton_search, 7, 5, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_search, 4, 5, 1, 1)
 
         # Create spacers
         self.spacer_search_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -254,11 +286,11 @@ class PageAllegroAdd(QWidget):
         self.spacer_frame_bottom_c = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_c)
 
-        self.pushButton_buy = QPushButton("Buy", self.frame_bottom)
-        self.pushButton_buy.clicked.connect(lambda: self.on_buy())
-        self.pushButton_buy.setMinimumSize(QSize(0, 40))
-        self.pushButton_buy.setStyleSheet(styles.btn_dark)
-        self.horizontalLayout_frame_bottom.addWidget(self.pushButton_buy)
+        self.pushButton_monitor = QPushButton("Monitor", self.frame_bottom)
+        self.pushButton_monitor.clicked.connect(lambda: self.on_monitor())
+        self.pushButton_monitor.setMinimumSize(QSize(0, 40))
+        self.pushButton_monitor.setStyleSheet(styles.btn_dark)
+        self.horizontalLayout_frame_bottom.addWidget(self.pushButton_monitor)
 
         self.spacer_frame_bottom_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_r)
@@ -271,13 +303,16 @@ class PageAllegroAdd(QWidget):
         self.timer = QTimer(self)
 
     def add_to_cart(self):
-        # check if fields was filled properly
+        # check if fields were filled properly
         no_warnings = True
         is_email = False
         link = ""
         login = ""
         email = ""
         password = ""
+        xpath = ""
+        price = 0
+        time = 60
         if self.lineEdit_email.text() == "":
             self.lineEdit_email.setStyleSheet(styles.lineEdit_warning)
             no_warnings = False
@@ -310,13 +345,37 @@ class PageAllegroAdd(QWidget):
             self.lineEdit_password.setStyleSheet(styles.lineEdit)
             password = self.lineEdit_password.text()
 
+        if self.lineEdit_price.text() == "":
+            self.lineEdit_price.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_price.setStyleSheet(styles.lineEdit)
+            price = float(self.lineEdit_price.text())
+
+        if self.lineEdit_xpath.text() == "":
+            self.lineEdit_xpath.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_xpath.setStyleSheet(styles.lineEdit)
+            xpath = self.lineEdit_xpath.text()
+
+        if self.lineEdit_time.text() == "":
+            self.lineEdit_time.setStyleSheet(styles.lineEdit_warning)
+            no_warnings = False
+        else:
+            self.lineEdit_time.setStyleSheet(styles.lineEdit)
+            time = int(self.lineEdit_time.text())
+
         if no_warnings:
             self.lineEdit_login.clear()
             self.lineEdit_password.clear()
             self.lineEdit_email.clear()
             self.lineEdit_link.clear()
+            self.lineEdit_price.clear()
+            self.lineEdit_xpath.clear()
+            self.lineEdit_time.clear()
             try:
-                data.add_monitored_elements(login, email, password, link)
+                data.add_monitored_elements(login, email, password, link, price, xpath, time)
             except InvalidArgumentException:
                 self.set_info_text("Warning. Wrong link submitted", True)
             except KeyError:
@@ -327,13 +386,18 @@ class PageAllegroAdd(QWidget):
                 self.lineEdit_password.clear()
                 self.lineEdit_email.clear()
                 self.lineEdit_link.clear()
+                self.lineEdit_price.clear()
+                self.lineEdit_xpath.clear()
+                self.lineEdit_time.clear()
         else:
             self.set_info_text("Warning. Fill all field properly", True)
 
         return data.get_element(link)
 
-    def on_buy(self):
-        pass
+    def on_monitor(self):
+        new_price = monitoring.check_if_price_lower(self.label_link, self.label_xpath, self.label_price, self.label_time)
+        email_send.send_email(self.label_email, self.label_link, new_price)
+
 
     def set_info_text(self, text, is_warning):
         self.label_info.setText(text)
@@ -348,9 +412,9 @@ class PageAllegroAdd(QWidget):
 
 class ElementAllegroMonitored(QFrame):
 
-    def __init__(self, name, link, is_done, parent=None):
+    def __init__(self, name, link, is_done, price, xpath, time, parent=None):
         QFrame.__init__(self, parent)
-        self.setMinimumSize(QSize(0, 140))
+        self.setMinimumSize(QSize(0, 10))
         self.setStyleSheet("""QFrame{border-bottom: 0.5px solid #aaa;}""")
         self.setFrameShape(QFrame.StyledPanel)
         self.setFrameShadow(QFrame.Raised)
@@ -371,17 +435,39 @@ class ElementAllegroMonitored(QFrame):
         self.label_name.setTextFormat(Qt.MarkdownText)
         self.label_name.setAlignment(Qt.AlignJustify | Qt.AlignVCenter)
         self.label_name.setWordWrap(False)
-        self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 2)
+        self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 4)
 
-        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check hire</a>"
+        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check here</a>"
         self.label_link = QLabel(url_link, self.frame_description)
         self.label_link.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 1)
         self.label_link.setOpenExternalLinks(True)
 
+
+        #TODO dodac zmiane stanu: disabled/enabled
         self.label_stat = QLabel(self.frame_description)
         self.label_stat.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_stat, 2, 1, 1, 1)
+        self.gridLayout_description.addWidget(self.label_stat, 1, 3, 1, 1)
+
+        self.label_new_time = QLabel("Actual refresh time[s]: " + str(time)+" s", self.frame_description)
+        self.label_new_time.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_description.addWidget(self.label_new_time, 2, 0, 1, 3)
+
+        self.lineEdit_new_time = QLineEdit(self.frame_description)
+        self.lineEdit_new_time.setMinimumSize(QSize(0, 33))
+        self.lineEdit_new_time.setStyleSheet(styles.lineEdit)
+        self.gridLayout_description.addWidget(self.lineEdit_new_time, 2, 2, 1, 2)
+        self.lineEdit_new_time.setPlaceholderText("Set new interval")
+
+        self.label_new_price = QLabel("Actual price: " + str(price), self)
+        self.label_new_price.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_description.addWidget(self.label_new_price, 3, 0, 1, 3)
+
+        self.lineEdit_new_price = QLineEdit(self)
+        self.lineEdit_new_price.setMinimumSize(QSize(0, 35))
+        self.lineEdit_new_price.setStyleSheet(styles.lineEdit)
+        self.gridLayout_description.addWidget(self.lineEdit_new_price, 3, 2, 1, 2)
+        self.lineEdit_new_price.setPlaceholderText("Set new price")
 
         self.label_img_link = QLabel(self.frame_description)
         self.label_img_link.setMaximumSize(QSize(20, 20))
@@ -402,7 +488,7 @@ class ElementAllegroMonitored(QFrame):
         self.label_img_stat.setStyleSheet("""QLabel{border: none;}""")
         # self.label_img_stat.setPixmap(QPixmap("img/loading.png"))
         self.label_img_stat.setScaledContents(True)
-        self.gridLayout_description.addWidget(self.label_img_stat, 2, 0, 1, 1)
+        self.gridLayout_description.addWidget(self.label_img_stat, 1, 2, 1, 1)
 
         # create spacer and delete btn
         self.spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -421,9 +507,28 @@ class ElementAllegroMonitored(QFrame):
         # self.pushButton_delete.ico
         self.horizontalLayout.addWidget(self.pushButton_delete)
 
+        self.pushButton_submit = QPushButton(self)
+        self.pushButton_submit.clicked.connect(lambda: self.on_submit(link))
+        icon = QIcon()
+        icon.addFile(os.path.join(path, "img/submit.png"), QSize(), QIcon.Selected, QIcon.Off)
+        self.pushButton_submit.setIcon(icon)
+        self.pushButton_submit.setIconSize(QSize(100, 20))
+        self.pushButton_submit.setStyleSheet("""QPushButton{border:none; }""")
+        self.pushButton_submit.setCursor(QCursor(Qt.PointingHandCursor))
+        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 2, 1, 2)
+
     def on_delete(self, link):
         data.delete_monitored_element(link)
         self.deleteLater()
+
+    def on_submit(self, link):
+        data.change_price_time(link, self.lineEdit_new_price.text(), self.lineEdit_new_time.text())
+        if self.lineEdit_new_price.text() != '':
+            self.label_new_price.setText("Actual price: " +  self.lineEdit_new_price.text())
+        if self.lineEdit_new_time.text() != '':
+            self.label_new_time.setText("Actual refresh time[s]: " + self.lineEdit_new_time.text() + " s")
+        self.lineEdit_new_time.clear()
+        self.lineEdit_new_price.clear()
 
 
 class PageAllegroMonitored(QWidget):
@@ -462,15 +567,16 @@ class PageAllegroMonitored(QWidget):
     def load_list(self):
         elements = data.read_monitored_elements()
         for element in elements:
-            e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'],
+            e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], element['price'],
+                                        element['xpath'], element['time'],
                                         self.scrollAreaWidgetContents)
             self.gridLayout_scroll_area.addWidget(e)
 
         self.gridLayout_scroll_area.addItem(self.spacer)
 
-    def add_to_list(self, name, link, is_done):
+    def add_to_list(self, name, link, is_done, price, xpath, time):
         self.gridLayout_scroll_area.removeItem(self.spacer)
-        e = ElementAllegroMonitored(name, link, is_done)
+        e = ElementAllegroMonitored(name, link, is_done, price, xpath, time)
         self.gridLayout_scroll_area.addWidget(e)
         self.gridLayout_scroll_area.addItem(self.spacer)
 
@@ -520,15 +626,20 @@ class PageAbout(QWidget):
         self.label_about_name.setAlignment(Qt.AlignCenter)
         self.gridLayout_frame_about.addWidget(self.label_about_name, 0, 1, 1, 1)
 
+        self.label_about_name = QLabel("Made by Eugene Oros & Michał Piotrowski", self.frame_about)
+        self.label_about_name.setStyleSheet(styles.label_about_name)
+        self.label_about_name.setAlignment(Qt.AlignCenter)
+        self.gridLayout_frame_about.addWidget(self.label_about_name, 1, 1, 1, 1)
+
         self.label_about_version = QLabel("Version 1.0.0", self.frame_about)
         self.label_about_version.setStyleSheet(styles.label_about_version)
         self.label_about_version.setAlignment(Qt.AlignCenter)
-        self.gridLayout_frame_about.addWidget(self.label_about_version, 1, 0, 1, 3)
+        self.gridLayout_frame_about.addWidget(self.label_about_version, 2, 0, 1, 3)
 
         self.label_about_c = QLabel("\u00a9 All rights reserved", self.frame_about)
         self.label_about_c.setStyleSheet(styles.label_about_c)
         self.label_about_c.setAlignment(Qt.AlignCenter)
-        self.gridLayout_frame_about.addWidget(self.label_about_c, 2, 0, 1, 3)
+        self.gridLayout_frame_about.addWidget(self.label_about_c, 3, 0, 1, 3)
 
 
 class StackedWidget(QStackedWidget):
@@ -556,7 +667,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget = StackedWidget(self.centralWidget)
         self.init_window()
         self.set_start_state()
-        self.go_to_page(2)
+        self.go_to_page(3)
 
     def set_start_state(self):
         # set nav btn connection
@@ -564,13 +675,14 @@ class MainWindow(QMainWindow):
         self.navFrame.radioButton_monitored.toggled.connect(lambda: self.go_to_page(1))
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
         self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
-        self.navFrame.radioButton_add.setChecked(True)
+        self.navFrame.radioButton_about.setChecked(True)
         self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.add_to_cart())
 
     def add_to_cart(self):
         element = self.stackedWidget.pageAllegroAdd.add_to_cart()
         if element is not None:
-            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"])
+            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"],
+                                                                element["price"], element["xpath"], element["time"])
 
     def init_window(self):
         # set window
