@@ -287,7 +287,7 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_c)
 
         self.pushButton_monitor = QPushButton("Monitor", self.frame_bottom)
-        self.pushButton_monitor.clicked.connect(lambda: self.on_monitor())
+        self.pushButton_monitor.clicked.connect(lambda: self.new_link_handler(True))
         self.pushButton_monitor.setMinimumSize(QSize(0, 40))
         self.pushButton_monitor.setStyleSheet(styles.btn_dark)
         self.horizontalLayout_frame_bottom.addWidget(self.pushButton_monitor)
@@ -302,7 +302,7 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
         self.timer = QTimer(self)
 
-    def add_to_cart(self):
+    def new_link_handler(self, is_monitoring):
         # check if fields were filled properly
         no_warnings = True
         is_email = False
@@ -391,13 +391,13 @@ class PageAllegroAdd(QWidget):
                 self.lineEdit_time.clear()
         else:
             self.set_info_text("Warning. Fill all field properly", True)
-
+        #TODO w tym miejscu wywolac funkcje monitoring_main(data.get_element(link))
+        #z rozroznieniem czy chcemy monitorowac czy kupic- masz od tego zmienna is_monitoring
         return data.get_element(link)
 
-    def on_monitor(self):
-        new_price = monitoring.check_if_price_lower(self.label_link, self.label_xpath, self.label_price, self.label_time)
-        email_send.send_email(self.label_email, self.label_link, new_price)
-
+    # def on_monitor(self):
+    #     new_price = monitoring.check_if_price_lower(self.label_link, self.label_xpath, self.label_price, self.label_time)
+    #     email_send.send_email(self.label_email, self.label_link, new_price)
 
     def set_info_text(self, text, is_warning):
         self.label_info.setText(text)
@@ -437,14 +437,12 @@ class ElementAllegroMonitored(QFrame):
         self.label_name.setWordWrap(False)
         self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 4)
 
-        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check here</a>"
+        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check product</a>"
         self.label_link = QLabel(url_link, self.frame_description)
         self.label_link.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 1)
         self.label_link.setOpenExternalLinks(True)
 
-
-        #TODO dodac zmiane stanu: disabled/enabled
         self.label_stat = QLabel(self.frame_description)
         self.label_stat.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_stat, 1, 3, 1, 1)
@@ -507,6 +505,19 @@ class ElementAllegroMonitored(QFrame):
         # self.pushButton_delete.ico
         self.horizontalLayout.addWidget(self.pushButton_delete)
 
+        self.is_on = True
+        self.pushButton_switch = QPushButton(self)
+        self.pushButton_switch.clicked.connect(lambda: self.on_switch(link))
+        self.icon_on = QIcon()
+        self.icon_off = QIcon()
+        self.icon_on.addFile(os.path.join(path, "img/switch_on.png"), QSize(), QIcon.Selected, QIcon.On)
+        self.icon_off.addFile(os.path.join(path, "img/switch_off.png"), QSize(), QIcon.Selected, QIcon.Off)
+        self.pushButton_switch.setIcon(self.icon_on)
+        self.pushButton_switch.setIconSize(QSize(100, 40))
+        self.pushButton_switch.setStyleSheet("""QPushButton{border:none; }""")
+        self.pushButton_switch.setCursor(QCursor(Qt.PointingHandCursor))
+        self.gridLayout_description.addWidget(self.pushButton_switch, 4, 1, 1, 1)
+
         self.pushButton_submit = QPushButton(self)
         self.pushButton_submit.clicked.connect(lambda: self.on_submit(link))
         icon = QIcon()
@@ -515,12 +526,15 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_submit.setIconSize(QSize(100, 20))
         self.pushButton_submit.setStyleSheet("""QPushButton{border:none; }""")
         self.pushButton_submit.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 2, 1, 2)
+        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 3, 1, 1)
 
+
+#TODO odwolanie sie do monitoring_main()- zkillowanie procesu odpowiedzialnego za monitorowanie danego elementu
     def on_delete(self, link):
         data.delete_monitored_element(link)
         self.deleteLater()
 
+#TODO odwolanie sie do monitoring_main()- zkillowanie procesu dla danego linku i wywolanie go dla nowej ceny/czasu/obu
     def on_submit(self, link):
         data.change_price_time(link, self.lineEdit_new_price.text(), self.lineEdit_new_time.text())
         if self.lineEdit_new_price.text() != '':
@@ -529,6 +543,18 @@ class ElementAllegroMonitored(QFrame):
             self.label_new_time.setText("Actual refresh time[s]: " + self.lineEdit_new_time.text() + " s")
         self.lineEdit_new_time.clear()
         self.lineEdit_new_price.clear()
+
+#TODO uspienie procesu odpowiedzialnego za monitorowanie tej strony, lubzabicie procesu. na wznowieniu
+#puszczenie monitorowania od nowa- mozna dane wyjac z jsona i na tym puscic od nowa proces (chyba najlatwiej)
+    def on_switch(self, link):
+        if self.is_on:
+            self.pushButton_switch.setIcon(self.icon_off)
+            self.is_on = False
+            data.switch_state(self.is_on, link)
+        else:
+            self.pushButton_switch.setIcon(self.icon_on)
+            self.is_on = True
+            data.switch_state(self.is_on, link)
 
 
 class PageAllegroMonitored(QWidget):
@@ -676,10 +702,10 @@ class MainWindow(QMainWindow):
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
         self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
         self.navFrame.radioButton_about.setChecked(True)
-        self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.add_to_cart())
+        self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.new_link_handler(True))
 
-    def add_to_cart(self):
-        element = self.stackedWidget.pageAllegroAdd.add_to_cart()
+    def new_link_handler(self, is_monitor):
+        element = self.stackedWidget.pageAllegroAdd.new_link_handler(is_monitor)
         if element is not None:
             self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"],
                                                                 element["price"], element["xpath"], element["time"])
