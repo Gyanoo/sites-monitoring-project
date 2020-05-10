@@ -146,11 +146,18 @@ QLabel{
 """
 label_about_name = """
 QLabel{
-    font-size: 20px;
     color: #43454f;
     font: 25pt "Reem Kufi";
 }
 """
+
+label_about_made = """
+QLabel{
+    color: #83a836;
+    font: 15pt "Reem Kufi";
+}
+"""
+
 label_about_version = """
 QLabel{
     margin: 0 40px 40px 40px;

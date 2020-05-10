@@ -2,11 +2,13 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+
 def create_message(price, link):
     return "<h1>Hey!\n Price of one of your monitored items has dropped below the maximal_price you've set!\n</h1>" \
            "<h4>Price of this item: <a href=" + link +"> click!</a> is now " + price + ".\n\n\n</h4>" \
             "To unsubscribe this link remove it from your monitored items list. \n " \
             "This message was generated automatically by 'WebCheck'"
+
 
 def send_email(email_to, link, price):
     # messageHTML = '<h1>Changes were found</h1> <p>To check click <a href="' + link + '">here<a><p>'

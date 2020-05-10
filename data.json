@@ -10,7 +10,43 @@
       "price": 200.0,
       "time": 12,
       "xpath": "div[0]",
-      "is_on": true
+      "is_on": false
+    },
+    {
+      "name": "APPLE IPHONE 8 64GB - WYB\u00d3R KOLOR\u00d3W + GRATISY",
+      "link": "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&",
+      "is_done": false,
+      "login": "@",
+      "password": "@",
+      "email_to_send": "@",
+      "price": 200.0,
+      "time": 12,
+      "xpath": "div[0]",
+      "is_on": false
+    },
+    {
+      "name": "APPLE IPHONE 8 64GB - WYB\u00d3R KOLOR\u00d3W + GRATISY",
+      "link": "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&",
+      "is_done": false,
+      "login": "@",
+      "password": "@",
+      "email_to_send": "@",
+      "price": 200.0,
+      "time": 12,
+      "xpath": "div[0]",
+      "is_on": false
+    },
+    {
+      "name": "APPLE IPHONE 8 64GB - WYB\u00d3R KOLOR\u00d3W + GRATISY",
+      "link": "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&",
+      "is_done": false,
+      "login": "@",
+      "password": "@",
+      "email_to_send": "@",
+      "price": 200.0,
+      "time": 12,
+      "xpath": "div[0]",
+      "is_on": false
     }
   ]
 }

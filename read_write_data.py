@@ -109,6 +109,7 @@ def switch_state(is_on_now, link):
     with open("data.json", "w") as file:
         file.write(json.dumps(data, indent=2))
 
+
 def get_switch_state(link):
     data = read_json_file()
     for e in data["monitored_elements"]:
@@ -116,9 +117,9 @@ def get_switch_state(link):
             return e['is_on']
 
 
-# if __name__ == "__main__":
-    # print(read_monitored_elements())
-    # add_monitored_elements("https://allegro.pl/oferta/iphone-11-64gb-red-czerwony-nowy-gw-apple-od-reki-8817870462?reco_id=1d92b713-86dd-11ea-a373-ecf4bbd61370&sid=f8bddad5d737919e6c726c989b66bdbe96499e13bc806f55bd0c404f69ac7020",
-    #                        False)
-    # print(get_element("sfdad"))
-    # get_name("https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118")
+if __name__ == "__main__":
+    print(read_monitored_elements())
+    add_monitored_elements("https://allegro.pl/oferta/iphone-11-64gb-red-czerwony-nowy-gw-apple-od-reki-8817870462?reco_id=1d92b713-86dd-11ea-a373-ecf4bbd61370&sid=f8bddad5d737919e6c726c989b66bdbe96499e13bc806f55bd0c404f69ac7020",
+                           False)
+    print(get_element("sfdad"))
+    get_name("https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118")

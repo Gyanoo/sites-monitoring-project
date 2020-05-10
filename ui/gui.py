@@ -49,11 +49,10 @@ class NavFrame(QFrame):
         # set program img and name
         self.label_img = QLabel(self)
         self.label_img.setFixedSize(QSize(60, 60))
-
         self.label_img.setPixmap(QPixmap(os.path.join(path, 'img/icon.png')))
         # self.label_img.setPixmap(QPixmap("../img/icon.png"))
         self.label_img.setScaledContents(True)
-        self.gridLayout.addWidget(self.label_img, 0, 6, 1, 1)
+        self.gridLayout.addWidget(self.label_img, 2, 1, 1, 1)
 
         self.label_name = QLabel("WebCheck        ", self)
         self.label_name.setStyleSheet(styles.label_icon_name)
@@ -126,19 +125,32 @@ class PageAllegroAdd(QWidget):
         parent.addWidget(self)
         self.gridLayout = QGridLayout(self)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setRowStretch(0, 0)
+        self.gridLayout.setRowStretch(0, 1)
+        self.gridLayout.setRowStretch(1, 1)
+        self.gridLayout.setRowStretch(2, 1)
+        self.gridLayout.setRowStretch(3, 1)
+        self.gridLayout.setRowStretch(4, 1)
+        self.gridLayout.setRowStretch(5, 1)
+        self.gridLayout.setRowStretch(6, 1)
+        self.gridLayout.setRowStretch(7, 1)
         self.gridLayout.setRowStretch(8, 1)
+        self.gridLayout.setRowStretch(9, 1)
+        self.gridLayout.setRowStretch(10, 1)
         self.gridLayout.setRowStretch(11, 1)
-        self.gridLayout.setRowStretch(14, 1)
+        self.gridLayout.setRowStretch(12, 1)
+        self.gridLayout.setRowStretch(13, 1)
+        self.gridLayout.setRowStretch(14, 2)
+        self.gridLayout.setRowStretch(15, 1)
         self.gridLayout.setColumnStretch(0, 5)
         self.gridLayout.setColumnStretch(1, 5)
-        self.gridLayout.setColumnStretch(2, 5)
-        self.gridLayout.setColumnStretch(3, 1)
-        self.gridLayout.setColumnStretch(4, 4)
+        self.gridLayout.setColumnStretch(2, 1)
+        self.gridLayout.setColumnStretch(3, 2)
+        self.gridLayout.setColumnStretch(4, 1)
         self.gridLayout.setColumnStretch(5, 2)
-        self.gridLayout.setColumnStretch(6, 2)
+        self.gridLayout.setColumnStretch(6, 1)
         self.gridLayout.setColumnStretch(7, 2)
-        self.gridLayout.setColumnStretch(8, 5)
+        self.gridLayout.setColumnStretch(8, 3)
+        self.gridLayout.setColumnStretch(9, 5)
 
         # create lineEdits
         self.lineEdit_login = QLineEdit(self)
@@ -146,7 +158,7 @@ class PageAllegroAdd(QWidget):
         self.lineEdit_login.setSizeIncrement(QSize(40, 40))
         self.lineEdit_login.setStyleSheet(styles.lineEdit)
         self.lineEdit_login.setMaxLength(32767)
-        self.gridLayout.addWidget(self.lineEdit_login, 4, 1, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_login, 4, 1, 1, 3)
         self.lineEdit_login.setPlaceholderText("login or email of your account")
 
         self.lineEdit_password = QLineEdit(self)
@@ -154,7 +166,7 @@ class PageAllegroAdd(QWidget):
         self.lineEdit_password.setStyleSheet(styles.lineEdit)
         self.lineEdit_password.setEchoMode(QLineEdit.Password)
         self.lineEdit_password.setReadOnly(False)
-        self.gridLayout.addWidget(self.lineEdit_password, 7, 1, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_password, 7, 1, 1, 3)
         self.lineEdit_password.setPlaceholderText("password of your account")
 
         self.lineEdit_email = QLineEdit(self)
@@ -162,116 +174,119 @@ class PageAllegroAdd(QWidget):
         self.lineEdit_email.setStyleSheet(styles.lineEdit)
         self.lineEdit_email.setFrame(True)
         self.lineEdit_email.setEchoMode(QLineEdit.Normal)
-        self.gridLayout.addWidget(self.lineEdit_email, 7, 4, 1, 4)
+        self.gridLayout.addWidget(self.lineEdit_email, 7, 5, 1, 4)
         self.lineEdit_email.setPlaceholderText("email to which the notification will be sent")
 
         self.lineEdit_link = QLineEdit(self)
         self.lineEdit_link.setMinimumSize(QSize(0, 60))
         self.lineEdit_link.setStyleSheet(styles.lineEdit)
-        self.gridLayout.addWidget(self.lineEdit_link, 10, 1, 1, 7)
+        self.gridLayout.addWidget(self.lineEdit_link, 10, 1, 1, 8)
         self.lineEdit_link.setPlaceholderText("link to the page that you want to monitor")
 
         self.lineEdit_price = QLineEdit(self)
         self.lineEdit_price.setMinimumSize(QSize(0, 60))
         self.lineEdit_price.setStyleSheet(styles.lineEdit)
-        self.gridLayout.addWidget(self.lineEdit_price, 12, 1, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_price, 13, 1, 1, 1)
         self.lineEdit_price.setPlaceholderText("Price below which to notificate")
 
         self.lineEdit_xpath = QLineEdit(self)
         self.lineEdit_xpath.setMinimumSize(QSize(0, 60))
         self.lineEdit_xpath.setStyleSheet(styles.lineEdit)
-        self.gridLayout.addWidget(self.lineEdit_xpath, 12, 4, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_xpath, 13, 3, 1, 3)
         self.lineEdit_xpath.setPlaceholderText("XPATH of element with the price")
 
         self.lineEdit_time = QLineEdit(self)
         self.lineEdit_time.setMinimumSize(QSize(0, 60))
         self.lineEdit_time.setStyleSheet(styles.lineEdit)
-        self.gridLayout.addWidget(self.lineEdit_time, 12, 7, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_time, 13, 7, 1, 2)
         self.lineEdit_time.setPlaceholderText("interval between refreshes")
 
         # Create Labels
         self.label_title = QLabel("Add new monitoring object", self)
         self.label_title.setStyleSheet(styles.label_title)
         self.label_title.setAlignment(Qt.AlignCenter)
-        self.gridLayout.addWidget(self.label_title, 0, 1, 1, 7)
+        self.gridLayout.addWidget(self.label_title, 0, 1, 1, 8)
 
         self.label_info = QLabel("", self)
         self.label_info.setStyleSheet(styles.label_info_wrong)
         self.label_info.setAlignment(Qt.AlignCenter)
-        self.gridLayout.addWidget(self.label_info, 1, 1, 1, 7)
+        self.gridLayout.addWidget(self.label_info, 1, 1, 1, 8)
 
         self.label_login = QLabel("Email login", self)
         self.label_login.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_login, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_login, 3, 1, 1, 3)
 
         self.label_password = QLabel("Email password", self)
         self.label_password.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_password, 6, 1, 1, 2)
+        self.gridLayout.addWidget(self.label_password, 6, 1, 1, 3)
 
         self.label_email = QLabel("Email to notificate", self)
         self.label_email.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_email, 6, 4, 1, 4)
+        self.gridLayout.addWidget(self.label_email, 6, 5, 1, 4)
 
         self.label_link = QLabel("Product link", self)
         self.label_link.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_link, 9, 1, 1, 7)
+        self.gridLayout.addWidget(self.label_link, 9, 1, 1, 8)
 
         self.label_price = QLabel("Price", self)
         self.label_price.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_price, 11, 1, 1, 2)
+        self.gridLayout.addWidget(self.label_price, 12, 1, 1, 1)
 
         self.label_xpath = QLabel("Monitored element", self)
         self.label_xpath.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_xpath, 11, 4, 1, 2)
+        self.gridLayout.addWidget(self.label_xpath, 12, 3, 1, 3)
 
         self.label_time = QLabel("Refresh time[s]", self)
         self.label_time.setStyleSheet(styles.label_lineEdit)
-        self.gridLayout.addWidget(self.label_time, 11, 7, 1, 1)
+        self.gridLayout.addWidget(self.label_time, 12, 7, 1, 2)
 
         self.pushButton_search = QPushButton(self)
         self.pushButton_search.clicked.connect(lambda: webbrowser.open('https://allegro.pl/'))
         icon = QIcon()
         icon.addFile(os.path.join(path, "img/search.png"), QSize(), QIcon.Selected, QIcon.Off)
         self.pushButton_search.setIcon(icon)
-        self.pushButton_search.setIconSize(QSize(80, 80))
+        self.pushButton_search.setIconSize(QSize(100, 100))
         self.pushButton_search.setStyleSheet("""QPushButton{border:none;}""")
         self.pushButton_search.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout.addWidget(self.pushButton_search, 4, 5, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_search, 3, 7, 3, 1)
 
         # Create spacers
         self.spacer_search_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout.addItem(self.spacer_search_l, 7, 4, 1, 1)
+        self.gridLayout.addItem(self.spacer_search_l, 5, 5, 1, 2)
 
         self.spacer_search_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout.addItem(self.spacer_search_r, 7, 6, 1, 2)
+        self.gridLayout.addItem(self.spacer_search_r, 5, 8, 1, 1)
 
         self.spacer_search_t = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_search_t, 2, 1, 3, 7)
+        self.gridLayout.addItem(self.spacer_search_t, 2, 1, 1, 8)
 
         self.spacer_search_b = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_search_b, 8, 1, 1, 7)
+        self.gridLayout.addItem(self.spacer_search_b, 5, 1, 1, 8)
 
         self.spacer_email_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        self.gridLayout.addItem(self.spacer_email_l, 10, 3, 1, 1)
+        self.gridLayout.addItem(self.spacer_email_l, 7, 4, 1, 1)
 
         self.spacer_link_l = QSpacerItem(40, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
         self.gridLayout.addItem(self.spacer_link_l, 13, 0, 1, 1)
 
         self.spacer_link_r = QSpacerItem(40, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
-        self.gridLayout.addItem(self.spacer_link_r, 13, 8, 1, 1)
+        self.gridLayout.addItem(self.spacer_link_r, 13, 9, 1, 1)
 
         self.spacer_link_t = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_link_t, 11, 1, 1, 7)
+        self.gridLayout.addItem(self.spacer_link_t, 8, 1, 1, 8)
 
         self.spacer_link_b = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_link_b, 14, 1, 1, 7)
+        self.gridLayout.addItem(self.spacer_link_b, 11, 1, 1, 8)
+
+        self.spacer_price_b = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.gridLayout.addItem(self.spacer_price_b, 14, 1, 1, 7)
 
         # create frame bottom
         self.frame_bottom = QFrame(self)
         self.frame_bottom.setStyleSheet("""QFrame{background-color: #fff; padding: 10px;}""")
         self.frame_bottom.setFrameShape(QFrame.StyledPanel)
         self.frame_bottom.setFrameShadow(QFrame.Raised)
-        self.gridLayout.addWidget(self.frame_bottom, 15, 0, 1, 9)
+        self.gridLayout.addWidget(self.frame_bottom, 15, 0, 1, 10)
         self.horizontalLayout_frame_bottom = QHBoxLayout(self.frame_bottom)
 
         self.spacer_frame_bottom_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -414,7 +429,7 @@ class ElementAllegroMonitored(QFrame):
 
     def __init__(self, name, link, is_done, price, xpath, time, parent=None):
         QFrame.__init__(self, parent)
-        self.setMinimumSize(QSize(0, 10))
+        self.setMinimumSize(QSize(0, 300))
         self.setStyleSheet("""QFrame{border-bottom: 0.5px solid #aaa;}""")
         self.setFrameShape(QFrame.StyledPanel)
         self.setFrameShadow(QFrame.Raised)
@@ -422,12 +437,17 @@ class ElementAllegroMonitored(QFrame):
 
         # create description frame and layout
         self.frame_description = QFrame(self)
-        self.frame_description.setMaximumSize(QSize(440, 16777215))
+        self.frame_description.setMinimumSize(QSize(440, 16777215))
         self.frame_description.setStyleSheet("""QFrame{border: none;}""")
         self.frame_description.setFrameShape(QFrame.StyledPanel)
         self.frame_description.setFrameShadow(QFrame.Raised)
         self.gridLayout_description = QGridLayout(self.frame_description)
         self.horizontalLayout.addWidget(self.frame_description)
+        self.gridLayout_description.setColumnStretch(0, 1)
+        self.gridLayout_description.setColumnStretch(1, 2)
+        self.gridLayout_description.setColumnStretch(2, 3)
+        self.gridLayout_description.setColumnStretch(3, 1)
+        self.gridLayout_description.setColumnStretch(4, 6)
 
         # fill description layout
         self.label_name = QLabel(name, self.frame_description)
@@ -435,43 +455,46 @@ class ElementAllegroMonitored(QFrame):
         self.label_name.setTextFormat(Qt.MarkdownText)
         self.label_name.setAlignment(Qt.AlignJustify | Qt.AlignVCenter)
         self.label_name.setWordWrap(False)
-        self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 4)
+        self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 5)
 
         url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check product</a>"
         self.label_link = QLabel(url_link, self.frame_description)
         self.label_link.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 1)
+        self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 2)
         self.label_link.setOpenExternalLinks(True)
 
         self.label_stat = QLabel(self.frame_description)
         self.label_stat.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_stat, 1, 3, 1, 1)
+        self.gridLayout_description.addWidget(self.label_stat, 1, 4, 1, 1)
+
+        self.label_is_on = QLabel(self.frame_description)
+        self.label_is_on.setStyleSheet(styles.label_allegro_monitored_stat)
+        self.gridLayout_description.addWidget(self.label_is_on, 4, 0, 1, 2)
 
         self.label_new_time = QLabel("Actual refresh time[s]: " + str(time)+" s", self.frame_description)
-        self.label_new_time.setStyleSheet(styles.label_lineEdit)
+        self.label_new_time.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_new_time, 2, 0, 1, 3)
 
         self.lineEdit_new_time = QLineEdit(self.frame_description)
         self.lineEdit_new_time.setMinimumSize(QSize(0, 33))
         self.lineEdit_new_time.setStyleSheet(styles.lineEdit)
-        self.gridLayout_description.addWidget(self.lineEdit_new_time, 2, 2, 1, 2)
+        self.gridLayout_description.addWidget(self.lineEdit_new_time, 2, 3, 1, 2)
         self.lineEdit_new_time.setPlaceholderText("Set new interval")
 
         self.label_new_price = QLabel("Actual price: " + str(price), self)
-        self.label_new_price.setStyleSheet(styles.label_lineEdit)
+        self.label_new_price.setStyleSheet(styles.label_allegro_monitored_stat)
         self.gridLayout_description.addWidget(self.label_new_price, 3, 0, 1, 3)
 
         self.lineEdit_new_price = QLineEdit(self)
         self.lineEdit_new_price.setMinimumSize(QSize(0, 35))
         self.lineEdit_new_price.setStyleSheet(styles.lineEdit)
-        self.gridLayout_description.addWidget(self.lineEdit_new_price, 3, 2, 1, 2)
+        self.gridLayout_description.addWidget(self.lineEdit_new_price, 3, 3, 1, 2)
         self.lineEdit_new_price.setPlaceholderText("Set new price")
 
         self.label_img_link = QLabel(self.frame_description)
         self.label_img_link.setMaximumSize(QSize(20, 20))
         self.label_img_link.setStyleSheet("""QLabel{border: none;}""")
         self.label_img_link.setPixmap(QPixmap(os.path.join(path, "img/link.png")))
-        # self.label_img_link.setPixmap(QPixmap(u"img/link.png"))
         self.label_img_link.setScaledContents(True)
         self.gridLayout_description.addWidget(self.label_img_link, 1, 0, 1, 1)
 
@@ -484,9 +507,8 @@ class ElementAllegroMonitored(QFrame):
             self.label_img_stat.setPixmap(QPixmap(os.path.join(path, "img/loading.png")))
         self.label_img_stat.setMaximumSize(QSize(20, 20))
         self.label_img_stat.setStyleSheet("""QLabel{border: none;}""")
-        # self.label_img_stat.setPixmap(QPixmap("img/loading.png"))
         self.label_img_stat.setScaledContents(True)
-        self.gridLayout_description.addWidget(self.label_img_stat, 1, 2, 1, 1)
+        self.gridLayout_description.addWidget(self.label_img_stat, 1, 3, 1, 1)
 
         # create spacer and delete btn
         self.spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -505,7 +527,7 @@ class ElementAllegroMonitored(QFrame):
         # self.pushButton_delete.ico
         self.horizontalLayout.addWidget(self.pushButton_delete)
 
-        self.is_on = data.get_switch_state(link);
+        self.is_on = data.get_switch_state(link)
         self.pushButton_switch = QPushButton(self)
         self.pushButton_switch.clicked.connect(lambda: self.on_switch(link))
         self.icon_on = QIcon()
@@ -513,23 +535,22 @@ class ElementAllegroMonitored(QFrame):
         self.icon_on.addFile(os.path.join(path, "img/switch_on.png"), QSize(), QIcon.Selected, QIcon.On)
         self.icon_off.addFile(os.path.join(path, "img/switch_off.png"), QSize(), QIcon.Selected, QIcon.Off)
         if self.is_on:
+            self.label_is_on.setText("undo")
             self.pushButton_switch.setIcon(self.icon_on)
         else:
+            self.label_is_on.setText("do")
             self.pushButton_switch.setIcon(self.icon_off)
         self.pushButton_switch.setIconSize(QSize(100, 40))
         self.pushButton_switch.setStyleSheet("""QPushButton{border:none; }""")
         self.pushButton_switch.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_switch, 4, 1, 1, 1)
+        self.gridLayout_description.addWidget(self.pushButton_switch, 4, 2, 1, 1)
 
-        self.pushButton_submit = QPushButton(self)
+        self.pushButton_submit = QPushButton("Save", self)
         self.pushButton_submit.clicked.connect(lambda: self.on_submit(link))
-        icon = QIcon()
-        icon.addFile(os.path.join(path, "img/submit.png"), QSize(), QIcon.Selected, QIcon.Off)
-        self.pushButton_submit.setIcon(icon)
         self.pushButton_submit.setIconSize(QSize(100, 20))
-        self.pushButton_submit.setStyleSheet("""QPushButton{border:none; }""")
+        self.pushButton_submit.setStyleSheet(styles.btn_dark)
         self.pushButton_submit.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 3, 1, 1)
+        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 3, 1, 2)
 
 
 #TODO odwolanie sie do monitoring_main()- zkillowanie procesu odpowiedzialnego za monitorowanie danego elementu
@@ -551,10 +572,12 @@ class ElementAllegroMonitored(QFrame):
 #puszczenie monitorowania od nowa- mozna dane wyjac z jsona i na tym puscic od nowa proces (chyba najlatwiej)
     def on_switch(self, link):
         if self.is_on:
+            self.label_is_on.setText("do")
             self.pushButton_switch.setIcon(self.icon_off)
             self.is_on = False
             data.switch_state(self.is_on, link)
         else:
+            self.label_is_on.setText("undo")
             self.pushButton_switch.setIcon(self.icon_on)
             self.is_on = True
             data.switch_state(self.is_on, link)
@@ -638,7 +661,7 @@ class PageAbout(QWidget):
         self.frame_about.setStyleSheet(styles.frame_about)
         self.frame_about.setFrameShape(QFrame.StyledPanel)
         self.frame_about.setFrameShadow(QFrame.Raised)
-        self.gridLayout_about.addWidget(self.frame_about, 0, 0, 1, 1)
+        self.gridLayout_about.addWidget(self.frame_about, 0, 1, 1, 1)
 
         self.gridLayout_frame_about = QGridLayout(self.frame_about)
         self.gridLayout_frame_about.setContentsMargins(-1, 60, -1, -1)
@@ -656,7 +679,7 @@ class PageAbout(QWidget):
         self.gridLayout_frame_about.addWidget(self.label_about_name, 0, 1, 1, 1)
 
         self.label_about_name = QLabel("Made by Eugene Oros & Michał Piotrowski", self.frame_about)
-        self.label_about_name.setStyleSheet(styles.label_about_name)
+        self.label_about_name.setStyleSheet(styles.label_about_made)
         self.label_about_name.setAlignment(Qt.AlignCenter)
         self.gridLayout_frame_about.addWidget(self.label_about_name, 1, 1, 1, 1)
 
@@ -696,7 +719,6 @@ class MainWindow(QMainWindow):
         self.stackedWidget = StackedWidget(self.centralWidget)
         self.init_window()
         self.set_start_state()
-        self.go_to_page(3)
 
     def set_start_state(self):
         # set nav btn connection
@@ -704,7 +726,7 @@ class MainWindow(QMainWindow):
         self.navFrame.radioButton_monitored.toggled.connect(lambda: self.go_to_page(1))
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
         self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
-        self.navFrame.radioButton_about.setChecked(True)
+        self.navFrame.radioButton_add.setChecked(True)
         self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.new_link_handler(True))
 
     def new_link_handler(self, is_monitor):
@@ -715,7 +737,7 @@ class MainWindow(QMainWindow):
 
     def init_window(self):
         # set window
-        self.setGeometry(100, 100, 900, 540)
+        self.setGeometry(100, 100, 900, 620)
         import os
         self.setWindowIcon(QIcon(os.path.join(path, './img/icon.png')))
         self.setWindowTitle("WebCheck")
