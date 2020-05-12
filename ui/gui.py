@@ -19,8 +19,13 @@ from selenium.common.exceptions import InvalidArgumentException
 from ui import stylesheet as styles
 import os
 import read_write_data as data
+import monitoring_main
+import multiprocessing
 
 path = os.path.dirname(os.path.abspath(__file__))
+# p2 = multiprocessing.Process(target=monitoring_main.start_monitor)
+# p2.start()
+# p2.join()
 
 
 class SitesFrame(QFrame):
@@ -545,13 +550,12 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_switch.setCursor(QCursor(Qt.PointingHandCursor))
         self.gridLayout_description.addWidget(self.pushButton_switch, 4, 2, 1, 1)
 
-        self.pushButton_submit = QPushButton("Save", self)
-        self.pushButton_submit.clicked.connect(lambda: self.on_submit(link))
-        self.pushButton_submit.setIconSize(QSize(100, 20))
-        self.pushButton_submit.setStyleSheet(styles.btn_dark)
-        self.pushButton_submit.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_submit, 4, 3, 1, 2)
-
+        self.pushButton_save_changes = QPushButton("Save", self)
+        self.pushButton_save_changes.clicked.connect(lambda: self.on_save_changes(link))
+        self.pushButton_save_changes.setIconSize(QSize(100, 20))
+        self.pushButton_save_changes.setStyleSheet(styles.btn_dark)
+        self.pushButton_save_changes.setCursor(QCursor(Qt.PointingHandCursor))
+        self.gridLayout_description.addWidget(self.pushButton_save_changes, 4, 3, 1, 2)
 
 #TODO odwolanie sie do monitoring_main()- zkillowanie procesu odpowiedzialnego za monitorowanie danego elementu
     def on_delete(self, link):
@@ -559,7 +563,7 @@ class ElementAllegroMonitored(QFrame):
         self.deleteLater()
 
 #TODO odwolanie sie do monitoring_main()- zkillowanie procesu dla danego linku i wywolanie go dla nowej ceny/czasu/obu
-    def on_submit(self, link):
+    def on_save_changes(self, link):
         data.change_price_time(link, self.lineEdit_new_price.text(), self.lineEdit_new_time.text())
         if self.lineEdit_new_price.text() != '':
             self.label_new_price.setText("Actual price: " +  self.lineEdit_new_price.text())
@@ -571,6 +575,7 @@ class ElementAllegroMonitored(QFrame):
 #TODO uspienie procesu odpowiedzialnego za monitorowanie tej strony, lubzabicie procesu. na wznowieniu
 #puszczenie monitorowania od nowa- mozna dane wyjac z jsona i na tym puscic od nowa proces (chyba najlatwiej)
     def on_switch(self, link):
+        m.stop_run_monitor()
         if self.is_on:
             self.label_is_on.setText("do")
             self.pushButton_switch.setIcon(self.icon_off)
@@ -732,8 +737,7 @@ class MainWindow(QMainWindow):
     def new_link_handler(self, is_monitor):
         element = self.stackedWidget.pageAllegroAdd.new_link_handler(is_monitor)
         if element is not None:
-            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"],
-                                                                element["price"], element["xpath"], element["time"])
+            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"], element["price"], element["xpath"], element["time"])
 
     def init_window(self):
         # set window

@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 
 def create_message(price, link):
     return "<h1>Hey!\n Price of one of your monitored items has dropped below the maximal_price you've set!\n</h1>" \
-           "<h4>Price of this item: <a href=" + link +"> click!</a> is now " + price + ".\n\n\n</h4>" \
+           "<h4>Price of this item: <a href=" + str(link) +"> click!</a> is now " + str(price) + ".\n\n\n</h4>" \
             "To unsubscribe this link remove it from your monitored items list. \n " \
             "This message was generated automatically by 'WebCheck'"
 
@@ -31,4 +31,5 @@ def send_email(email_to, link, price):
     server.close()
 
 
-# send = SendEmail("yevhenii.oros@gmail.com", "Alegro changes", "https://allegro.pl/")
+if __name__ == "__main__":
+    send_email( "yevhenii.oros@gmail.com", "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&", 200.0)
