@@ -1,6 +1,6 @@
 import webbrowser
 from time import sleep
-import monitoring
+import login
 import email_send
 
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
@@ -19,7 +19,7 @@ from selenium.common.exceptions import InvalidArgumentException
 from ui import stylesheet as styles
 import os
 import read_write_data as data
-import monitoring_main
+import monitoring
 import multiprocessing
 
 path = os.path.dirname(os.path.abspath(__file__))
@@ -125,9 +125,10 @@ class PageLoading(QWidget):
 
 
 class PageAllegroAdd(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, shared_dict=None):
         QWidget.__init__(self, parent)
         parent.addWidget(self)
+        self.shared_dict = shared_dict
         self.gridLayout = QGridLayout(self)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setRowStretch(0, 1)
@@ -396,6 +397,7 @@ class PageAllegroAdd(QWidget):
             self.lineEdit_time.clear()
             try:
                 data.add_monitored_elements(login, email, password, link, price, xpath, time)
+                self.shared_dict['isTerminatedP2'] = True
             except InvalidArgumentException:
                 self.set_info_text("Warning. Wrong link submitted", True)
             except KeyError:
@@ -411,8 +413,6 @@ class PageAllegroAdd(QWidget):
                 self.lineEdit_time.clear()
         else:
             self.set_info_text("Warning. Fill all field properly", True)
-        #TODO w tym miejscu wywolac funkcje monitoring_main(data.get_element(link))
-        #z rozroznieniem czy chcemy monitorowac czy kupic- masz od tego zmienna is_monitoring
         return data.get_element(link)
 
     # def on_monitor(self):
@@ -432,8 +432,9 @@ class PageAllegroAdd(QWidget):
 
 class ElementAllegroMonitored(QFrame):
 
-    def __init__(self, name, link, is_done, price, xpath, time, parent=None):
+    def __init__(self, name, link, is_done, price, xpath, time, parent=None, shared_dict=None):
         QFrame.__init__(self, parent)
+        self.shared_dict = shared_dict
         self.setMinimumSize(QSize(0, 300))
         self.setStyleSheet("""QFrame{border-bottom: 0.5px solid #aaa;}""")
         self.setFrameShape(QFrame.StyledPanel)
@@ -557,12 +558,11 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_save_changes.setCursor(QCursor(Qt.PointingHandCursor))
         self.gridLayout_description.addWidget(self.pushButton_save_changes, 4, 3, 1, 2)
 
-#TODO odwolanie sie do monitoring_main()- zkillowanie procesu odpowiedzialnego za monitorowanie danego elementu
     def on_delete(self, link):
         data.delete_monitored_element(link)
         self.deleteLater()
+        self.shared_dict['isTerminatedP2'] = True
 
-#TODO odwolanie sie do monitoring_main()- zkillowanie procesu dla danego linku i wywolanie go dla nowej ceny/czasu/obu
     def on_save_changes(self, link):
         data.change_price_time(link, self.lineEdit_new_price.text(), self.lineEdit_new_time.text())
         if self.lineEdit_new_price.text() != '':
@@ -571,11 +571,10 @@ class ElementAllegroMonitored(QFrame):
             self.label_new_time.setText("Actual refresh time[s]: " + self.lineEdit_new_time.text() + " s")
         self.lineEdit_new_time.clear()
         self.lineEdit_new_price.clear()
+        self.shared_dict['isTerminatedP2'] = True
 
-#TODO uspienie procesu odpowiedzialnego za monitorowanie tej strony, lubzabicie procesu. na wznowieniu
-#puszczenie monitorowania od nowa- mozna dane wyjac z jsona i na tym puscic od nowa proces (chyba najlatwiej)
     def on_switch(self, link):
-        m.stop_run_monitor()
+        # m.stop_run_monitor()
         if self.is_on:
             self.label_is_on.setText("do")
             self.pushButton_switch.setIcon(self.icon_off)
@@ -586,12 +585,15 @@ class ElementAllegroMonitored(QFrame):
             self.pushButton_switch.setIcon(self.icon_on)
             self.is_on = True
             data.switch_state(self.is_on, link)
+        self.shared_dict['isTerminatedP2'] = True
 
 
 class PageAllegroMonitored(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, shared_dict=None):
         QWidget.__init__(self)
         parent.addWidget(self)
+        self.shared_dict = shared_dict
+        self.parent = parent
         self.setLayoutDirection(Qt.LeftToRight)
 
         self.gridLayout = QGridLayout(self)
@@ -626,7 +628,7 @@ class PageAllegroMonitored(QWidget):
         for element in elements:
             e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], element['price'],
                                         element['xpath'], element['time'],
-                                        self.scrollAreaWidgetContents)
+                                        self.scrollAreaWidgetContents, self.shared_dict)
             self.gridLayout_scroll_area.addWidget(e)
 
         self.gridLayout_scroll_area.addItem(self.spacer)
@@ -700,11 +702,11 @@ class PageAbout(QWidget):
 
 
 class StackedWidget(QStackedWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, shared_dict=None):
         QStackedWidget.__init__(self, parent)
         self.setStyleSheet("""QWidget{background-color:#f2ede1;}""")
-        self.pageAllegroAdd = PageAllegroAdd(self)
-        self.pageAllegroMonitored = PageAllegroMonitored(self)
+        self.pageAllegroAdd = PageAllegroAdd(self, shared_dict)
+        self.pageAllegroMonitored = PageAllegroMonitored(self, shared_dict)
         self.pageAllegroOptions = PageAllegroOptions(self)
         self.pageAbout = PageAbout(self)
         self.pageLoading = PageLoading(self)
@@ -714,14 +716,15 @@ class StackedWidget(QStackedWidget):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, shared_dict):
         super(MainWindow, self).__init__()
+        self.shared_dict = shared_dict
         self.setStyleSheet(styles.main_window)
         self.centralWidget = QWidget(self)
         self.gridLayout_central = QGridLayout(self.centralWidget)
         self.navFrame = NavFrame(self.centralWidget)
         self.sitesFrame = SitesFrame(self.centralWidget)
-        self.stackedWidget = StackedWidget(self.centralWidget)
+        self.stackedWidget = StackedWidget(self.centralWidget, self.shared_dict)
         self.init_window()
         self.set_start_state()
 

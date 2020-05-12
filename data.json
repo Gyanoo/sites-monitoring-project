@@ -22,7 +22,7 @@
       "price": 200.0,
       "time": 11,
       "xpath": "div[0]",
-      "is_on": true
+      "is_on": false
     },
     {
       "name": "APPLE IPHONE 8 64GB - WYB\u00d3R KOLOR\u00d3W + GRATISY",
@@ -32,8 +32,8 @@
       "password": "@",
       "email_to_send": "yevhenii.oros@gmail.com",
       "price": 200.0,
-      "time": 5,
-      "xpath": "div[0]",
+      "time": 10,
+      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]/span[1]",
       "is_on": true
     },
     {
@@ -46,7 +46,7 @@
       "price": 200.0,
       "time": 22,
       "xpath": "div[0]",
-      "is_on": true
+      "is_on": false
     }
   ]
 }
