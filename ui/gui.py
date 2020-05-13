@@ -218,11 +218,11 @@ class PageAllegroAdd(QWidget):
         self.label_info.setAlignment(Qt.AlignCenter)
         self.gridLayout.addWidget(self.label_info, 1, 1, 1, 8)
 
-        self.label_login = QLabel("Email login", self)
+        self.label_login = QLabel("Allegro login", self)
         self.label_login.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_login, 3, 1, 1, 3)
 
-        self.label_password = QLabel("Email password", self)
+        self.label_password = QLabel("Allegro password", self)
         self.label_password.setStyleSheet(styles.label_lineEdit)
         self.gridLayout.addWidget(self.label_password, 6, 1, 1, 3)
 
