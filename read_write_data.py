@@ -117,6 +117,20 @@ def get_switch_state(link):
             return e['is_on']
 
 
+# def get_allegro_login_password():
+#     data = read_json_file()
+#     for e in data["allegro_credentials"]:
+#         return e["login"], e["password"]
+#
+#
+# def change_allegro_login_password(login, password):
+#     data = read_json_file()
+#     e = data["allegro_credentials"]
+#     e["login"] = login
+#     e["password"] = password
+#     with open("data.json", "w") as file:
+#         file.write(json.dumps(data, indent=1))
+
 if __name__ == "__main__":
     print(read_monitored_elements())
     add_monitored_elements("https://allegro.pl/oferta/iphone-11-64gb-red-czerwony-nowy-gw-apple-od-reki-8817870462?reco_id=1d92b713-86dd-11ea-a373-ecf4bbd61370&sid=f8bddad5d737919e6c726c989b66bdbe96499e13bc806f55bd0c404f69ac7020",

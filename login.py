@@ -11,7 +11,7 @@ def allegro_login(mail, password):
     driver.implicitly_wait(30)
 
     url_login = 'https://allegro.pl/login/form?authorization_uri=https:%2F%2Fallegro.pl%2Fauth%2Foauth%2Fauthorize%3Fclient_id%3Dtb5SFf3cRxEyspDN%26redirect_uri%3Dhttps:%2F%2Fallegro.pl%2Flogin%2Fauth%26response_type%3Dcode%26state%3DhgnqyY&oauth=true'
-    url_to_check = 'https://allegro.pl/oferta/uppercut-deluxe-matte-clay-matowa-glinka-probka-3g-8761913887?bi_s=ads&bi_m=listing%3Adesktop%3Aquery&bi_c=NjVmYjI3ZmMtYjk3Zi00ZWM5LTkwNDItMzgxOTljYmVkN2U4AA&bi_t=ape&referrer=proxy&emission_unit_id=d7895d7b-eba6-4200-9ddf-35bc512a4015'
+    # url_to_check = 'https://allegro.pl/oferta/uppercut-deluxe-matte-clay-matowa-glinka-probka-3g-8761913887?bi_s=ads&bi_m=listing%3Adesktop%3Aquery&bi_c=NjVmYjI3ZmMtYjk3Zi00ZWM5LTkwNDItMzgxOTljYmVkN2U4AA&bi_t=ape&referrer=proxy&emission_unit_id=d7895d7b-eba6-4200-9ddf-35bc512a4015'
     driver.get(url_login)
     driver.set_window_size(1100, 750)
     driver.find_element_by_xpath("//*[contains(text(), 'przejdź dalej')]").click()
@@ -19,8 +19,8 @@ def allegro_login(mail, password):
     driver.find_element_by_id( 'password').send_keys(password)
     driver.find_element_by_id( 'login-button').click()
     WebDriverWait(driver, 10).until(ec.presence_of_element_located(('name', 'string')))
-    driver.get(url_to_check)
-    driver.find_element_by_id('add-to-cart-button').click()
+    # driver.get(url_to_check)
+    # driver.find_element_by_id('add-to-cart-button').click()
     sleep(10)
     driver.quit()
 
