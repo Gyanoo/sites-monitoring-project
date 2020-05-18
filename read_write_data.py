@@ -1,7 +1,7 @@
 import json
 from selenium import webdriver
 
-
+#dodac sleepa jak zczyta pustego jsona
 def read_json_file():
     with open("data.json") as file:
         data = json.load(file)
@@ -115,21 +115,6 @@ def get_switch_state(link):
     for e in data["monitored_elements"]:
         if e['link'] == link:
             return e['is_on']
-
-
-# def get_allegro_login_password():
-#     data = read_json_file()
-#     for e in data["allegro_credentials"]:
-#         return e["login"], e["password"]
-#
-#
-# def change_allegro_login_password(login, password):
-#     data = read_json_file()
-#     e = data["allegro_credentials"]
-#     e["login"] = login
-#     e["password"] = password
-#     with open("data.json", "w") as file:
-#         file.write(json.dumps(data, indent=1))
 
 if __name__ == "__main__":
     print(read_monitored_elements())

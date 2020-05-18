@@ -28,6 +28,3 @@ if __name__ == "__main__":
         #         p2.terminate()
         #         break
 
-    # main()
-
-    # p2.join()

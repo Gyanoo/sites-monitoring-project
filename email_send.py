@@ -11,7 +11,6 @@ def create_message(price, link):
 
 
 def send_email(email_to, link, price):
-    # messageHTML = '<h1>Changes were found</h1> <p>To check click <a href="' + link + '">here<a><p>'
     messageHTML = create_message(price, link)
     messagePlain = 'Changes were found To check click here'
     message = MIMEMultipart('alternative')
@@ -32,4 +31,4 @@ def send_email(email_to, link, price):
 
 
 if __name__ == "__main__":
-    send_email( "yevhenii.oros@gmail.com", "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&", 200.0)
+    send_email( "oogyano@gmail.com", "https://allegro.pl/oferta/apple-iphone-8-64gb-wybor-kolorow-gratisy-7857564686?bi_m=mpage&", 200.0)

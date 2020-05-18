@@ -1,18 +1,6 @@
 {
   "monitored_elements": [
     {
-      "name": "APPLE IPHONE 8 64GB - WYB\u00d3R KOLOR\u00d3W + GRATISY",
-      "link": "https://allegro.pl/oferta/uppercut-deluxe-matte-clay-matowa-glinka-probka-3g-8761913887?bi_s=ads&bi_m=listing%3Adesktop%3Aquery&bi_c=NjVmYjI3ZmMtYjk3Zi00ZWM5LTkwNDItMzgxOTljYmVkN2U4AA&bi_t=ape&referrer=proxy&emission_unit_id=d7895d7b-eba6-4200-9ddf-35bc512a4015",
-      "is_done": false,
-      "login": "ooogyano@gmail.com",
-      "password": "Python123",
-      "email_to_send": "oogyano@gmail.com",
-      "price": 5.0,
-      "time": 5,
-      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[4]/div/div[1]",
-      "is_on": true
-    },
-    {
       "name": "Reuzel Matte Clay matowa wodna pomada - pr\u00f3bka 3g",
       "link": "https://allegro.pl/oferta/reuzel-matte-clay-matowa-wodna-pomada-probka-3g-8762003786?reco_id=4822e2ce-951c-11ea-9896-b02628c81c90&sid=041047f9c36843e364ecb91b45c568a2755aa386fe7e14ee7421a14291fbf951",
       "is_done": false,
@@ -22,6 +10,18 @@
       "price": 2.0,
       "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]",
       "time": 10,
+      "is_on": true
+    },
+    {
+      "name": "Zestaw Prysznicowy Natryskowy z wylewk\u0105 LUCAS REA",
+      "link": "https://allegro.pl/oferta/zestaw-prysznicowy-natryskowy-z-wylewka-lucas-rea-8122056270?bi_s=landing_internal&bi_c=sypialnia_2020&bi_m=offer_tiles&",
+      "is_done": false,
+      "login": "ooogyano@gmail.com",
+      "password": "Python123",
+      "email_to_send": "oogyano@gmail.com",
+      "price": 300.0,
+      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div[2]/div[1]",
+      "time": 6,
       "is_on": true
     }
   ]
