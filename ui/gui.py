@@ -541,10 +541,10 @@ class ElementAllegroMonitored(QFrame):
         self.icon_on.addFile(os.path.join(path, "img/switch_on.png"), QSize(), QIcon.Selected, QIcon.On)
         self.icon_off.addFile(os.path.join(path, "img/switch_off.png"), QSize(), QIcon.Selected, QIcon.Off)
         if self.is_on:
-            self.label_is_on.setText("undo")
+            self.label_is_on.setText("Disable")
             self.pushButton_switch.setIcon(self.icon_on)
         else:
-            self.label_is_on.setText("do")
+            self.label_is_on.setText("Enable")
             self.pushButton_switch.setIcon(self.icon_off)
         self.pushButton_switch.setIconSize(QSize(100, 40))
         self.pushButton_switch.setStyleSheet("""QPushButton{border:none; }""")
