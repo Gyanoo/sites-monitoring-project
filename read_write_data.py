@@ -1,7 +1,22 @@
 import json
 from selenium import webdriver
+from time import sleep
+
 
 #dodac sleepa jak zczyta pustego jsona
+# def read_json_file():
+#     while True:
+#         with open("data.json") as file:
+#             data = json.load(file)
+#             if data:
+#                 return data
+#
+#
+# def read_monitored_elements():
+#     data = read_json_file()
+#     elements_list = data["monitored_elements"]
+#     return elements_list
+
 def read_json_file():
     with open("data.json") as file:
         data = json.load(file)
@@ -9,8 +24,7 @@ def read_json_file():
 
 
 def read_monitored_elements():
-    with open("data.json") as file:
-        data = json.load(file)
+    data = read_json_file()
     elements_list = data["monitored_elements"]
     return elements_list
 
@@ -115,6 +129,7 @@ def get_switch_state(link):
     for e in data["monitored_elements"]:
         if e['link'] == link:
             return e['is_on']
+
 
 if __name__ == "__main__":
     print(read_monitored_elements())

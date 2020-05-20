@@ -34,9 +34,8 @@ def check_changes(url, element):
         driver.quit()
 
 
-def check_if_price_lower(element, sd):
+def check_if_price_lower(element, _FINISHED):
     # login.allegro_login(element['login'], element['password'])
-    print(threading.get_ident())
     allegro_login = element["login"]
     allegro_password = element["password"]
     options = webdriver.ChromeOptions()
@@ -60,15 +59,16 @@ def check_if_price_lower(element, sd):
     driver.get(element["link"])
     try:
         while actualPrice >= float(element['price']):
+
+            if _FINISHED[element["link"]]:
+                break
+
             driver.get(element["link"])
             priceText = re.split(' ', driver.find_element_by_xpath(element['xpath']).text)
             priceInParts = re.split(',', priceText[0])
             actualPrice = float(priceInParts[0]) + float(priceInParts[1]) / 100
             print(priceText, "   ", priceInParts, "   ", actualPrice)
             sleep(element["time"])
-            # if sd['isTerminatedP2']:
-            #     print("breaking")
-            #     break
     except NoSuchElementException:
         print('Cant find element')
     except WebDriverException:
@@ -89,32 +89,38 @@ def start_monitor(shared_dict):
     while True:
         # if shared_dict['isTerminatedP2']:
         #     shared_dict['isTerminatedP2'] = False
+        previous_iteration_elements = {elem["link"]: elem for elem in pools.values()}
         elements_all = data.read_monitored_elements()
         for e in elements_all:
+            # print((e["is_on"] is False, e["name"])
             if e["is_done"] is False and e["is_on"] is True and e not in pools.values():
                 print("dodaje")
+                shared_dict[e["link"]] = False
                 globals()['pool%s' % actual_index] = ThreadPool(processes=1)
                 pools[globals()['pool%s' % actual_index]] = e
-                monitor_fun = partial(check_if_price_lower, sd=shared_dict)
-                # globals()['pool%s' % actual_index].map_async(monitor_fun, e)
+                monitor_fun = partial(check_if_price_lower, _FINISHED=shared_dict)
                 globals()['pool%s' % actual_index].apply_async(monitor_fun, (e,))
-                globals()['pool%s' % actual_index].close()
+                # globals()['pool%s' % actual_index].close()
                 actual_index += 1
                 sleep(0.5)
-            elif (e["is_done"] is True or e["is_on"] is False) and e in pools.values():
+            elif e["is_done"] is True or e["is_on"] is False and e["link"] in previous_iteration_elements:
                 print("usuwam")
-                pool_to_remove = list(pools.keys())[list(pools.values()).index(e)]
+                shared_dict[e["link"]] = True
+                pool_to_remove = list(pools.keys())[list(pools.values()).index(previous_iteration_elements[e["link"]])]
                 pools.pop(pool_to_remove)
-                pool_to_remove.close()
+                pool_to_remove.terminate()
                 pool_to_remove.join()
         if len(elements_all) < len(pools):
-            for pool_to_remove, e in pools:
+            for e in pools.values():
                 if e not in elements_all:
+                    pool_to_remove = list(pools.keys())[list(pools.values()).index(previous_iteration_elements[e["link"]])]
+                    shared_dict[e["link"]] = True
                     pools.pop(pool_to_remove)
-                    pool_to_remove.close()
+                    pool_to_remove.terminate()
                     pool_to_remove.join()
+        sleep(0.1)
 
 
 if __name__ == "__main__":
-    d = {'isTerminatedP2': False}
-    start_monitor(d)
+    _FINISHED = {}
+    start_monitor(_FINISHED)
