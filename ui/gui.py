@@ -298,11 +298,11 @@ class PageAllegroAdd(QWidget):
         self.spacer_frame_bottom_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_l)
 
-        self.pushButton_atc = QPushButton("Add to cart", self.frame_bottom)
-        self.pushButton_atc.setMinimumSize(QSize(0, 40))
-        self.pushButton_atc.setStyleSheet(styles.btn_light)
-        self.horizontalLayout_frame_bottom.addWidget(self.pushButton_atc)
-        self.pushButton_atc.setShortcut("Return")
+        self.pushButton_bn = QPushButton("Buy when price drops", self.frame_bottom)
+        self.pushButton_bn.setMinimumSize(QSize(0, 40))
+        self.pushButton_bn.setStyleSheet(styles.btn_light)
+        self.horizontalLayout_frame_bottom.addWidget(self.pushButton_bn)
+        self.pushButton_bn.setShortcut("Return")
 
         self.spacer_frame_bottom_c = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout_frame_bottom.addItem(self.spacer_frame_bottom_c)
@@ -396,7 +396,7 @@ class PageAllegroAdd(QWidget):
             self.lineEdit_xpath.clear()
             self.lineEdit_time.clear()
             try:
-                data.add_monitored_elements(login, email, password, link, price, xpath, time)
+                data.add_monitored_elements(login, email, password, link, price, xpath, time, is_monitoring)
                 self.shared_dict['isTerminatedP2'] = True
             except InvalidArgumentException:
                 self.set_info_text("Warning. Wrong link submitted", True)
@@ -432,7 +432,7 @@ class PageAllegroAdd(QWidget):
 
 class ElementAllegroMonitored(QFrame):
 
-    def __init__(self, name, link, is_done, price, xpath, time, parent=None, shared_dict=None):
+    def __init__(self, name, link, is_done, price, xpath, time, is_monitoring, parent=None, shared_dict=None):
         QFrame.__init__(self, parent)
         self.shared_dict = shared_dict
         self.setMinimumSize(QSize(0, 300))
@@ -558,6 +558,14 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_save_changes.setCursor(QCursor(Qt.PointingHandCursor))
         self.gridLayout_description.addWidget(self.pushButton_save_changes, 4, 3, 1, 2)
 
+        if is_monitoring:
+            monitor_text = "I am monitoring"
+        else:
+            monitor_text = "I am going to buy"
+        self.label_is_monitoring = QLabel(monitor_text, self)
+        self.label_is_monitoring.setStyleSheet(styles.label_allegro_monitored_stat)
+        self.gridLayout_description.addWidget(self.label_is_monitoring, 4, 5, 1, 1)
+
     def on_delete(self, link):
         data.delete_monitored_element(link)
         self.deleteLater()
@@ -627,15 +635,15 @@ class PageAllegroMonitored(QWidget):
         elements = data.read_monitored_elements()
         for element in elements:
             e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], element['price'],
-                                        element['xpath'], element['time'],
+                                        element['xpath'], element['time'], element['is_monitoring'],
                                         self.scrollAreaWidgetContents, self.shared_dict)
             self.gridLayout_scroll_area.addWidget(e)
 
         self.gridLayout_scroll_area.addItem(self.spacer)
 
-    def add_to_list(self, name, link, is_done, price, xpath, time):
+    def add_to_list(self, name, link, is_done, price, xpath, time, is_monitoring):
         self.gridLayout_scroll_area.removeItem(self.spacer)
-        e = ElementAllegroMonitored(name, link, is_done, price, xpath, time)
+        e = ElementAllegroMonitored(name, link, is_done, price, xpath, time, is_monitoring)
         self.gridLayout_scroll_area.addWidget(e)
         self.gridLayout_scroll_area.addItem(self.spacer)
 
@@ -735,12 +743,12 @@ class MainWindow(QMainWindow):
         self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
         self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
         self.navFrame.radioButton_add.setChecked(True)
-        self.stackedWidget.pageAllegroAdd.pushButton_atc.clicked.connect(lambda: self.new_link_handler(True))
+        self.stackedWidget.pageAllegroAdd.pushButton_bn.clicked.connect(lambda: self.new_link_handler(False))
 
     def new_link_handler(self, is_monitor):
         element = self.stackedWidget.pageAllegroAdd.new_link_handler(is_monitor)
         if element is not None:
-            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"], element["price"], element["xpath"], element["time"])
+            self.stackedWidget.pageAllegroMonitored.add_to_list(element["name"], element["link"], element["is_done"], element["price"], element["xpath"], element["time"], element["is_monitoring"])
 
     def init_window(self):
         # set window
