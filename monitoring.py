@@ -77,9 +77,11 @@ def check_if_price_lower(element, _FINISHED):
         print("Attribute not found")
     finally:
         print('My work is done')
-        driver.quit()
         if actualPrice < element["price"]:
+            if not element["is_monitoring"]:
+                driver.find_element_by_id('buy-now-button').click()
             email_send.send_email(element["email_to_send"], element["link"], actualPrice)
+        driver.quit()
 
 
 def start_monitor(shared_dict):
@@ -90,6 +92,7 @@ def start_monitor(shared_dict):
         # if shared_dict['isTerminatedP2']:
         #     shared_dict['isTerminatedP2'] = False
         previous_iteration_elements = {elem["link"]: elem for elem in pools.values()}
+        previous_pools = pools
         elements_all = data.read_monitored_elements()
         for e in elements_all:
             # print((e["is_on"] is False, e["name"])
@@ -111,13 +114,17 @@ def start_monitor(shared_dict):
                 pool_to_remove.terminate()
                 pool_to_remove.join()
         if len(elements_all) < len(pools):
-            for e in pools.values():
+            # for e in pools.values():
+            for e in list(previous_pools.values()):
                 if e not in elements_all:
                     pool_to_remove = list(pools.keys())[list(pools.values()).index(previous_iteration_elements[e["link"]])]
                     shared_dict[e["link"]] = True
                     pools.pop(pool_to_remove)
                     pool_to_remove.terminate()
                     pool_to_remove.join()
+                    if len(elements_all) >= len(pools):
+                        shared_dict[e["link"]] = False
+                        break
         sleep(0.1)
 
 

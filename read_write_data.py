@@ -29,7 +29,7 @@ def read_monitored_elements():
     return elements_list
 
 
-def add_monitored_elements(login, email_to_send, password, link, price, xpath, time):
+def add_monitored_elements(login, email_to_send, password, link, price, xpath, time, is_monitoring):
     data = read_json_file()
     for e in data["monitored_elements"]:
         if e['link'] == link and e['is_done'] is False:
@@ -48,7 +48,8 @@ def add_monitored_elements(login, email_to_send, password, link, price, xpath, t
                 'price': price,
                 'xpath': xpath,
                 'time': time,
-                'is_on': True
+                'is_on': True,
+                'is_monitoring': is_monitoring
                }
     data["monitored_elements"].append(element)
     with open("data.json", "w") as file:
