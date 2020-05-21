@@ -13,7 +13,7 @@ lineEdit = """
 lineEdit_opt = """
         QLineEdit{
              background-color: #83a836;
-             border: 1 solid #fff;
+             border: 2px solid #43454f;;
              border-radius: 5px;
              font: 12pt "Corbel";
              color: #fff;
@@ -293,6 +293,18 @@ QPushButton:hover{
     color: #fff;
 }
 QPushButton:pressed{
+    background-color:  #fff;
+    color: #83a836;
+}
+QPushButton:checked {
+    background-color:  #fff;
+}
+QPushButton:checked:hover {
+    background-color:  #aaa;
+    color: #fff;
+}
+
+QPushButton:checked:pressed{
     background-color:  #fff;
     color: #83a836;
 }

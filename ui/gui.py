@@ -323,6 +323,12 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
         self.timer = QTimer(self)
 
+        auto_login, auto_pwd, auto_email, auto_time = data.get_autofill()
+        self.lineEdit_login.setText(auto_login)
+        self.lineEdit_password.setText(auto_pwd)
+        self.lineEdit_email.setText(auto_email)
+        self.lineEdit_time.setText(str(auto_time))
+
     def new_link_handler(self, is_monitoring):
         # check if fields were filled properly
         no_warnings = True
@@ -404,13 +410,13 @@ class PageAllegroAdd(QWidget):
                 self.set_info_text("Error. This page has already monitored", True)
             else:
                 self.set_info_text("Info. Object was successfully added", False)
-                self.lineEdit_login.clear()
-                self.lineEdit_password.clear()
-                self.lineEdit_email.clear()
+                self.lineEdit_login.setText(self.auto_login)
+                self.lineEdit_password.setText(self.auto_pwd)
+                self.lineEdit_email.setText(self.auto_email)
+                self.lineEdit_time.setText(self.auto_time)
                 self.lineEdit_link.clear()
                 self.lineEdit_price.clear()
                 self.lineEdit_xpath.clear()
-                self.lineEdit_time.clear()
         else:
             self.set_info_text("Warning. Fill all field properly", True)
         return data.get_element(link)
@@ -578,8 +584,6 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_save_changes.setCursor(QCursor(Qt.PointingHandCursor))
         self.gridLayout_description.addWidget(self.pushButton_save_changes, 5, 3, 1, 2)
 
-
-
     def on_delete(self, link):
         data.delete_monitored_element(link)
         self.deleteLater()
@@ -588,7 +592,7 @@ class ElementAllegroMonitored(QFrame):
     def on_save_changes(self, link):
         data.change_price_time(link, self.lineEdit_new_price.text(), self.lineEdit_new_time.text())
         if self.lineEdit_new_price.text() != '':
-            self.label_new_price.setText("Actual price: " +  self.lineEdit_new_price.text())
+            self.label_new_price.setText("Actual price: " + self.lineEdit_new_price.text())
         if self.lineEdit_new_time.text() != '':
             self.label_new_time.setText("Actual refresh time[s]: " + self.lineEdit_new_time.text() + " s")
         self.lineEdit_new_time.clear()
@@ -665,7 +669,9 @@ class PageAllegroMonitored(QWidget):
 class PageAllegroOptions(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self)
-        parent.addWidget(self)
+        self.parent = parent
+        self.parent.addWidget(self)
+        self.auto_login, self.auto_pwd, self.auto_email, self.auto_time = data.get_autofill()
         self.gridLayout = QGridLayout(self)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
@@ -675,49 +681,115 @@ class PageAllegroOptions(QWidget):
         self.pushButton_auto = QPushButton(self)
         self.pushButton_auto.setText("Autofill")
         self.pushButton_auto.setStyleSheet(styles.btn_allegro_ops_auto)
+        self.pushButton_auto.setCheckable(True)
+        self.pushButton_auto.setChecked(True)
+        self.pushButton_auto.clicked.connect(lambda: self.on_auto())
         self.gridLayout.addWidget(self.pushButton_auto, 0, 0, 1, 1)
 
         self.spacer_btn_d = QSpacerItem(40, 20, QSizePolicy.Expanding)
         self.gridLayout.addItem(self.spacer_btn_d, 0, 1, 1, 1)
 
-
         self.stackedWidget = QStackedWidget(self)
         self.stackedWidget.setStyleSheet("""QStackedWidget{background-color: #fff;}""")
         self.gridLayout.addWidget(self.stackedWidget, 0, 1, 2, 1)
 
-        self.widget_opt = QWidget(self.stackedWidget)
-        self.widget_opt.setStyleSheet("""QWidget{background-color: #fff;}""")
-        self.stackedWidget.addWidget(self.widget_opt)
+        self.widget_auto = QWidget(self.stackedWidget)
+        self.widget_auto.setStyleSheet("""QWidget{background-color: #fff;}""")
+        self.stackedWidget.addWidget(self.widget_auto)
 
-        self.gridLayout_opt = QGridLayout(self.widget_opt)
-        self.gridLayout_opt.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_opt.setSpacing(0)
+        self.gridLayout_auto = QGridLayout(self.widget_auto)
+        self.gridLayout_auto.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_auto.setSpacing(20)
+        self.gridLayout_auto.setColumnStretch(0, 1)
+        self.gridLayout_auto.setColumnStretch(1, 1)
+        self.gridLayout_auto.setColumnStretch(2, 1)
+        self.gridLayout_auto.setColumnStretch(3, 1)
+        self.gridLayout_auto.setRowStretch(0, 3)
+        self.gridLayout_auto.setRowStretch(1, 1)
+        self.gridLayout_auto.setRowStretch(2, 1)
+        self.gridLayout_auto.setRowStretch(3, 1)
+        self.gridLayout_auto.setRowStretch(4, 1)
+        self.gridLayout_auto.setRowStretch(5, 1)
+        self.gridLayout_auto.setRowStretch(6, 3)
 
-        self.lineEdit_login = QLineEdit(self.widget_opt)
+        self.lineEdit_login = QLineEdit(self.widget_auto)
         self.lineEdit_login.setMinimumSize(QSize(0, 60))
         self.lineEdit_login.setSizeIncrement(QSize(40, 40))
         self.lineEdit_login.setStyleSheet(styles.lineEdit_opt)
-        self.lineEdit_login.setMaxLength(32767)
-        self.gridLayout_opt.addWidget(self.lineEdit_login, 4, 1, 1, 3)
+        self.gridLayout_auto.addWidget(self.lineEdit_login, 1, 2, 1, 1)
         self.lineEdit_login.setPlaceholderText("login or email of your account")
+        self.lineEdit_login.setText(self.auto_login)
 
-        self.lineEdit_password = QLineEdit(self.widget_opt)
+        self.lineEdit_password = QLineEdit(self.widget_auto)
         self.lineEdit_password.setMinimumSize(QSize(20, 60))
         self.lineEdit_password.setStyleSheet(styles.lineEdit_opt)
         self.lineEdit_password.setEchoMode(QLineEdit.Password)
         self.lineEdit_password.setReadOnly(False)
-        self.gridLayout_opt.addWidget(self.lineEdit_password, 7, 1, 1, 3)
+        self.gridLayout_auto.addWidget(self.lineEdit_password, 2, 2, 1, 1)
         self.lineEdit_password.setPlaceholderText("password of your account")
+        self.lineEdit_password.setText(self.auto_pwd)
 
-        self.lineEdit_email = QLineEdit(self.widget_opt)
+        self.lineEdit_email = QLineEdit(self.widget_auto)
         self.lineEdit_email.setMinimumSize(QSize(0, 60))
         self.lineEdit_email.setStyleSheet(styles.lineEdit_opt)
         self.lineEdit_email.setFrame(True)
         self.lineEdit_email.setEchoMode(QLineEdit.Normal)
-        self.gridLayout_opt.addWidget(self.lineEdit_email, 7, 5, 1, 4)
+        self.gridLayout_auto.addWidget(self.lineEdit_email, 3, 2, 1, 1)
         self.lineEdit_email.setPlaceholderText("email to which the notification will be sent")
+        self.lineEdit_email.setText(self.auto_email)
 
+        self.lineEdit_time = QLineEdit(self.widget_auto)
+        self.lineEdit_time.setMinimumSize(QSize(0, 60))
+        self.lineEdit_time.setStyleSheet(styles.lineEdit)
+        self.gridLayout_auto.addWidget(self.lineEdit_time, 4, 2, 1, 1)
+        self.lineEdit_time.setPlaceholderText("interval between refreshes")
+        self.lineEdit_time.setText(str(self.auto_time))
 
+        self.label_login = QLabel("Allegro login", self)
+        self.label_login.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_auto.addWidget(self.label_login, 1, 1, 1, 1)
+
+        self.label_password = QLabel("Allegro password", self)
+        self.label_password.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_auto.addWidget(self.label_password, 2, 1, 1, 1)
+
+        self.label_email = QLabel("Email to notificate", self)
+        self.label_email.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_auto.addWidget(self.label_email, 3, 1, 1, 1)
+
+        self.label_time = QLabel("Refresh time[s]", self)
+        self.label_time.setStyleSheet(styles.label_lineEdit)
+        self.gridLayout_auto.addWidget(self.label_time, 4, 1, 1, 1)
+
+        self.pushButton_set = QPushButton("Set", self.widget_auto)
+        self.pushButton_set.clicked.connect(lambda: self.on_set())
+        self.pushButton_set.setMinimumSize(QSize(0, 40))
+        self.pushButton_set.setStyleSheet(styles.btn_dark)
+        self.gridLayout_auto.addWidget(self.pushButton_set, 5, 2, 1, 1)
+
+        self.spacer_auto_l = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout_auto.addItem(self.spacer_auto_l, 1, 1, 1, 1)
+
+        self.spacer_auto_r = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout_auto.addItem(self.spacer_auto_r, 1, 3, 1, 1)
+
+        self.spacer_auto_t = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout_auto.addItem(self.spacer_auto_t, 0, 0, 1, 1)
+
+        self.spacer_auto_b = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.gridLayout_auto.addItem(self.spacer_auto_b, 6, 0, 1, 1)
+
+    def on_set(self):
+        data.add_autofill(self.lineEdit_login.text(), self.lineEdit_password.text(), self.lineEdit_email.text(), int(self.lineEdit_time.text()))
+        auto_login, auto_pwd, auto_email, auto_time = data.get_autofill()
+        self.parent.pageAllegroAdd.lineEdit_login.setText(auto_login)
+        self.parent.pageAllegroAdd.lineEdit_password.setText(auto_pwd)
+        self.parent.pageAllegroAdd.lineEdit_email.setText(auto_email)
+        self.parent.pageAllegroAdd.lineEdit_time.setText(str(auto_time))
+
+    def on_auto(self):
+        self.pushButton_auto.setChecked(True)
+        self.stackedWidget.setCurrentIndex(0)
 
 
 class PageAbout(QWidget):

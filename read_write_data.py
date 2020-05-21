@@ -1,21 +1,6 @@
 import json
 from selenium import webdriver
-from time import sleep
 
-
-#dodac sleepa jak zczyta pustego jsona
-# def read_json_file():
-#     while True:
-#         with open("data.json") as file:
-#             data = json.load(file)
-#             if data:
-#                 return data
-#
-#
-# def read_monitored_elements():
-#     data = read_json_file()
-#     elements_list = data["monitored_elements"]
-#     return elements_list
 
 def read_json_file():
     with open("data.json") as file:
@@ -132,9 +117,30 @@ def get_switch_state(link):
             return e['is_on']
 
 
+def get_autofill():
+    data = read_json_file()
+    autofill = data["autofill"]
+    return autofill["login"], autofill["password"], autofill["email_to_send"], autofill["time"]
+
+
+def add_autofill(login, password, email_to_send, time):
+    data = read_json_file()
+    autofill = {
+        "time": time,
+        "password": password,
+        "login": login,
+        "email_to_send": email_to_send
+    }
+    data["autofill"] = autofill
+    with open("data.json", "w") as file:
+        json.dump(data, file, indent=2)
+
+
 if __name__ == "__main__":
+    # add_autofill("@", "", "", 0)
     print(read_monitored_elements())
     add_monitored_elements("https://allegro.pl/oferta/iphone-11-64gb-red-czerwony-nowy-gw-apple-od-reki-8817870462?reco_id=1d92b713-86dd-11ea-a373-ecf4bbd61370&sid=f8bddad5d737919e6c726c989b66bdbe96499e13bc806f55bd0c404f69ac7020",
                            False)
     print(get_element("sfdad"))
     get_name("https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118")
+

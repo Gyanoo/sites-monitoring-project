@@ -39,5 +39,11 @@
       "is_on": true,
       "is_monitoring": false
     }
-  ]
+  ],
+  "autofill": {
+    "time": 20,
+    "password": "Python123",
+    "login": "ooogyano@gmail.com",
+    "email_to_send": "yevhenii.oros@gmail.com"
+  }
 }
