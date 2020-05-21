@@ -686,16 +686,41 @@ class PageAllegroOptions(QWidget):
         self.pushButton_auto.clicked.connect(lambda: self.on_auto())
         self.gridLayout.addWidget(self.pushButton_auto, 0, 0, 1, 1)
 
+        self.pushButton_help = QPushButton(self)
+        self.pushButton_help.setText("Help")
+        self.pushButton_help.setStyleSheet(styles.btn_allegro_ops_auto)
+        self.pushButton_help.setCheckable(True)
+        self.pushButton_help.setChecked(False)
+        self.pushButton_help.clicked.connect(lambda: self.on_help())
+        self.gridLayout.addWidget(self.pushButton_help, 1, 0, 1, 1)
+
         self.spacer_btn_d = QSpacerItem(40, 20, QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_btn_d, 0, 1, 1, 1)
+        self.gridLayout.addItem(self.spacer_btn_d, 2, 0, 1, 1)
 
         self.stackedWidget = QStackedWidget(self)
         self.stackedWidget.setStyleSheet("""QStackedWidget{background-color: #fff;}""")
-        self.gridLayout.addWidget(self.stackedWidget, 0, 1, 2, 1)
+        self.gridLayout.addWidget(self.stackedWidget, 0, 1, 3, 1)
 
         self.widget_auto = QWidget(self.stackedWidget)
         self.widget_auto.setStyleSheet("""QWidget{background-color: #fff;}""")
         self.stackedWidget.addWidget(self.widget_auto)
+
+        self.widget_help = QWidget(self.stackedWidget)
+        self.widget_help.setStyleSheet("""QWidget{background-color: #fff;}""")
+        self.stackedWidget.addWidget(self.widget_help)
+
+        self.gridLayout_help = QVBoxLayout(self.widget_help)
+        self.gridLayout_help.setContentsMargins(50, 50, 50, 50)
+        self.gridLayout_help.setSpacing(50)
+
+        self.label_help = QLabel(self.widget_help)
+        self.label_help.setStyleSheet(styles.label_lineEdit)
+        self.label_help.setWordWrap(True)
+        self.label_help.setText(styles.help_text)
+        self.gridLayout_help.addWidget(self.label_help)
+
+        self.spacer_help = QSpacerItem(40, 20, QSizePolicy.Expanding)
+        self.gridLayout_help.addItem(self.spacer_help)
 
         self.gridLayout_auto = QGridLayout(self.widget_auto)
         self.gridLayout_auto.setContentsMargins(0, 0, 0, 0)
@@ -789,7 +814,13 @@ class PageAllegroOptions(QWidget):
 
     def on_auto(self):
         self.pushButton_auto.setChecked(True)
+        self.pushButton_help.setChecked(False)
         self.stackedWidget.setCurrentIndex(0)
+
+    def on_help(self):
+        self.pushButton_auto.setChecked(False)
+        self.pushButton_help.setChecked(True)
+        self.stackedWidget.setCurrentIndex(1)
 
 
 class PageAbout(QWidget):

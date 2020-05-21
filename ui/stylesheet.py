@@ -285,6 +285,7 @@ QPushButton{
     border-bottom: 1px solid #43454f;
     border-bottom: 1px solid #aaa;
     font: 13pt "Corbel";
+    height: 70px;
     padding:6px;
     color: #83a836;
 }
@@ -310,4 +311,9 @@ QPushButton:checked:pressed{
 }
 """
 
-
+help_text = "Program jest używany do monitorowania stron internetowych\n" \
+            "Dla dodania strony do monitorowania przejdź do kategorii 'Add' \n" \
+            "i wypełnij wszystkie pola. Następnie masz dwie opcji:\n" \
+            "\t1)po prostu monitorowanie\n" \
+            "\t2)monitorowanie i kupowanie produktu\n" \
+            "\nWszystkie twoje moniturujące strone można zobaczyć w kategorii 'Monitored'"
