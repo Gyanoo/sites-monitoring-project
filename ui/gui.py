@@ -463,11 +463,11 @@ class ElementAllegroMonitored(QFrame):
         self.label_name.setWordWrap(False)
         self.gridLayout_description.addWidget(self.label_name, 0, 0, 1, 5)
 
-        url_link = "<a href=\"" + link + "\" style = \" color: #43454f; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check product</a>"
-        self.label_link = QLabel(url_link, self.frame_description)
-        self.label_link.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_link, 1, 1, 1, 2)
-        self.label_link.setOpenExternalLinks(True)
+        url_link = "<a href=\"" + link + "\" style = \" color: #838836; text-decoration: none; font-family:corbel; title=\"Go to monitored page\"\">check product</a>"
+        self.label_monitored_link = QLabel(url_link, self.frame_description)
+        self.label_monitored_link.setStyleSheet(styles.label_allegro_monitored_link)
+        self.gridLayout_description.addWidget(self.label_monitored_link, 1, 1, 2, 2)
+        self.label_monitored_link.setOpenExternalLinks(True)
 
         self.label_stat = QLabel(self.frame_description)
         self.label_stat.setStyleSheet(styles.label_allegro_monitored_stat)
@@ -475,16 +475,16 @@ class ElementAllegroMonitored(QFrame):
 
         self.label_is_on = QLabel(self.frame_description)
         self.label_is_on.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_is_on, 4, 0, 1, 2)
+        self.gridLayout_description.addWidget(self.label_is_on, 5, 0, 1, 2)
 
         self.label_new_time = QLabel("Actual refresh time[s]: " + str(time)+" s", self.frame_description)
         self.label_new_time.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_new_time, 2, 0, 1, 3)
+        self.gridLayout_description.addWidget(self.label_new_time, 4, 0, 1, 3)
 
         self.lineEdit_new_time = QLineEdit(self.frame_description)
         self.lineEdit_new_time.setMinimumSize(QSize(0, 33))
         self.lineEdit_new_time.setStyleSheet(styles.lineEdit)
-        self.gridLayout_description.addWidget(self.lineEdit_new_time, 2, 3, 1, 2)
+        self.gridLayout_description.addWidget(self.lineEdit_new_time, 4, 3, 1, 2)
         self.lineEdit_new_time.setPlaceholderText("Set new interval")
 
         self.label_new_price = QLabel("Actual price: " + str(price), self)
@@ -502,7 +502,7 @@ class ElementAllegroMonitored(QFrame):
         self.label_img_link.setStyleSheet("""QLabel{border: none;}""")
         self.label_img_link.setPixmap(QPixmap(os.path.join(path, "img/link.png")))
         self.label_img_link.setScaledContents(True)
-        self.gridLayout_description.addWidget(self.label_img_link, 1, 0, 1, 1)
+        self.gridLayout_description.addWidget(self.label_img_link, 1, 0, 2, 1)
 
         self.label_img_stat = QLabel("done", self.frame_description)
         if is_done:
@@ -515,6 +515,26 @@ class ElementAllegroMonitored(QFrame):
         self.label_img_stat.setStyleSheet("""QLabel{border: none;}""")
         self.label_img_stat.setScaledContents(True)
         self.gridLayout_description.addWidget(self.label_img_stat, 1, 3, 1, 1)
+
+        self.label_img_monitor = QLabel("done", self.frame_description)
+        if is_monitoring:
+            monitor_text = "I am just monitoring"
+            self.label_img_monitor.setPixmap(QPixmap(os.path.join(path, "img/monitoring.png")))
+        else:
+            monitor_text = "I am going to buy"
+            self.label_img_monitor.setPixmap(QPixmap(os.path.join(path, "img/buy.png")))
+        self.label_is_monitoring = QLabel(monitor_text, self)
+        self.label_is_monitoring.setStyleSheet(styles.label_allegro_monitored_stat)
+        self.gridLayout_description.addWidget(self.label_is_monitoring, 2, 4, 1, 1)
+
+        self.label_img_monitor.setMaximumSize(QSize(20, 20))
+        self.label_img_monitor.setStyleSheet("""QLabel{border: none;}""")
+        self.label_img_monitor.setScaledContents(True)
+        self.gridLayout_description.addWidget(self.label_img_monitor, 2, 3, 1, 1)
+
+
+
+
 
         # create spacer and delete btn
         self.spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -549,22 +569,16 @@ class ElementAllegroMonitored(QFrame):
         self.pushButton_switch.setIconSize(QSize(100, 40))
         self.pushButton_switch.setStyleSheet("""QPushButton{border:none; }""")
         self.pushButton_switch.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_switch, 4, 2, 1, 1)
+        self.gridLayout_description.addWidget(self.pushButton_switch, 5, 2, 1, 1)
 
         self.pushButton_save_changes = QPushButton("Save", self)
         self.pushButton_save_changes.clicked.connect(lambda: self.on_save_changes(link))
         self.pushButton_save_changes.setIconSize(QSize(100, 20))
         self.pushButton_save_changes.setStyleSheet(styles.btn_dark)
         self.pushButton_save_changes.setCursor(QCursor(Qt.PointingHandCursor))
-        self.gridLayout_description.addWidget(self.pushButton_save_changes, 4, 3, 1, 2)
+        self.gridLayout_description.addWidget(self.pushButton_save_changes, 5, 3, 1, 2)
 
-        if is_monitoring:
-            monitor_text = "I am monitoring"
-        else:
-            monitor_text = "I am going to buy"
-        self.label_is_monitoring = QLabel(monitor_text, self)
-        self.label_is_monitoring.setStyleSheet(styles.label_allegro_monitored_stat)
-        self.gridLayout_description.addWidget(self.label_is_monitoring, 4, 5, 1, 1)
+
 
     def on_delete(self, link):
         data.delete_monitored_element(link)
@@ -584,12 +598,12 @@ class ElementAllegroMonitored(QFrame):
     def on_switch(self, link):
         # m.stop_run_monitor()
         if self.is_on:
-            self.label_is_on.setText("do")
+            self.label_is_on.setText("Enable")
             self.pushButton_switch.setIcon(self.icon_off)
             self.is_on = False
             data.switch_state(self.is_on, link)
         else:
-            self.label_is_on.setText("undo")
+            self.label_is_on.setText("Disable")
             self.pushButton_switch.setIcon(self.icon_on)
             self.is_on = True
             data.switch_state(self.is_on, link)
@@ -654,15 +668,56 @@ class PageAllegroOptions(QWidget):
         parent.addWidget(self)
         self.gridLayout = QGridLayout(self)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-
-        self.frame = QFrame(self)
-        self.frame.setStyleSheet("""QFrame{background-color: white}""")
-        self.gridLayout.addWidget(self.frame, 0, 1, 1, 1)
+        self.gridLayout.setSpacing(0)
+        self.gridLayout.setColumnStretch(0, 3)
+        self.gridLayout.setColumnStretch(1, 7)
 
         self.pushButton_auto = QPushButton(self)
         self.pushButton_auto.setText("Autofill")
         self.pushButton_auto.setStyleSheet(styles.btn_allegro_ops_auto)
         self.gridLayout.addWidget(self.pushButton_auto, 0, 0, 1, 1)
+
+        self.spacer_btn_d = QSpacerItem(40, 20, QSizePolicy.Expanding)
+        self.gridLayout.addItem(self.spacer_btn_d, 0, 1, 1, 1)
+
+
+        self.stackedWidget = QStackedWidget(self)
+        self.stackedWidget.setStyleSheet("""QStackedWidget{background-color: #fff;}""")
+        self.gridLayout.addWidget(self.stackedWidget, 0, 1, 2, 1)
+
+        self.widget_opt = QWidget(self.stackedWidget)
+        self.widget_opt.setStyleSheet("""QWidget{background-color: #fff;}""")
+        self.stackedWidget.addWidget(self.widget_opt)
+
+        self.gridLayout_opt = QGridLayout(self.widget_opt)
+        self.gridLayout_opt.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_opt.setSpacing(0)
+
+        self.lineEdit_login = QLineEdit(self.widget_opt)
+        self.lineEdit_login.setMinimumSize(QSize(0, 60))
+        self.lineEdit_login.setSizeIncrement(QSize(40, 40))
+        self.lineEdit_login.setStyleSheet(styles.lineEdit_opt)
+        self.lineEdit_login.setMaxLength(32767)
+        self.gridLayout_opt.addWidget(self.lineEdit_login, 4, 1, 1, 3)
+        self.lineEdit_login.setPlaceholderText("login or email of your account")
+
+        self.lineEdit_password = QLineEdit(self.widget_opt)
+        self.lineEdit_password.setMinimumSize(QSize(20, 60))
+        self.lineEdit_password.setStyleSheet(styles.lineEdit_opt)
+        self.lineEdit_password.setEchoMode(QLineEdit.Password)
+        self.lineEdit_password.setReadOnly(False)
+        self.gridLayout_opt.addWidget(self.lineEdit_password, 7, 1, 1, 3)
+        self.lineEdit_password.setPlaceholderText("password of your account")
+
+        self.lineEdit_email = QLineEdit(self.widget_opt)
+        self.lineEdit_email.setMinimumSize(QSize(0, 60))
+        self.lineEdit_email.setStyleSheet(styles.lineEdit_opt)
+        self.lineEdit_email.setFrame(True)
+        self.lineEdit_email.setEchoMode(QLineEdit.Normal)
+        self.gridLayout_opt.addWidget(self.lineEdit_email, 7, 5, 1, 4)
+        self.lineEdit_email.setPlaceholderText("email to which the notification will be sent")
+
+
 
 
 class PageAbout(QWidget):

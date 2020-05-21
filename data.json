@@ -10,7 +10,7 @@
       "price": 2.0,
       "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]",
       "time": 10,
-      "is_on": true,
+      "is_on": false,
       "is_monitoring": true
     },
     {

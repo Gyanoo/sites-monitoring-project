@@ -9,6 +9,19 @@ lineEdit = """
              padding:10px;
         }
         """
+
+lineEdit_opt = """
+        QLineEdit{
+             background-color: #83a836;
+             border: 1 solid #fff;
+             border-radius: 5px;
+             font: 12pt "Corbel";
+             color: #fff;
+             padding:10px;
+        }
+        """
+
+
 lineEdit_warning = """
     QLineEdit{
          background-color: white;
@@ -187,6 +200,14 @@ QLabel{
 }
 """
 
+label_allegro_monitored_link = """
+QLabel{
+    color: #fff;
+    border: none;
+    font: 14pt "Corbel";  
+}
+"""
+
 main_window = """
  QScrollBar:vertical
  {
@@ -260,6 +281,8 @@ main_window = """
 
 btn_allegro_ops_auto = """
 QPushButton{
+    border:none;
+    border-bottom: 1px solid #43454f;
     border-bottom: 1px solid #aaa;
     font: 13pt "Corbel";
     padding:6px;
