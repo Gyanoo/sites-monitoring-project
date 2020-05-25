@@ -9,8 +9,8 @@
       "email_to_send": "oogyano@gmail.com",
       "price": 2.0,
       "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]",
-      "time": 10,
-      "is_on": false,
+      "time": 7,
+      "is_on": true,
       "is_monitoring": true
     },
     {
@@ -33,11 +33,24 @@
       "login": "ooogyano@gmail.com",
       "password": "Python123",
       "email_to_send": "ooogyano@gmail.com",
-      "price": 17.0,
-      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[4]/div[2]/div",
+      "price": 33.0,
+      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div[2]/div[1]",
       "time": 3,
-      "is_on": true,
+      "is_on": false,
       "is_monitoring": false
+    },
+    {
+      "name": "ale duzo pytan, ja tylko testuje sobie programik",
+      "link": "https://allegro.pl/oferta/ale-duzo-pytan-ja-tylko-testuje-sobie-programik-9308599362",
+      "is_done": false,
+      "login": "ooogyano@gmail.com",
+      "password": "Python123",
+      "email_to_send": "oogyano@gmail.com",
+      "price": 8.0,
+      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[4]/div/div",
+      "time": 5,
+      "is_on": true,
+      "is_monitoring": true
     }
   ],
   "autofill": {

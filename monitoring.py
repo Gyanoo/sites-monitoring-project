@@ -45,7 +45,7 @@ def check_if_price_lower(element, _FINISHED):
     options.add_argument("no-first-run")
     options.add_argument("no-sandbox")
     # with this options driver will work in background
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome()#options=options)
     driver.implicitly_wait(10)
     url_login = 'https://allegro.pl/login/form?authorization_uri=https:%2F%2Fallegro.pl%2Fauth%2Foauth%2Fauthorize%3Fclient_id%3Dtb5SFf3cRxEyspDN%26redirect_uri%3Dhttps:%2F%2Fallegro.pl%2Flogin%2Fauth%26response_type%3Dcode%26state%3DhgnqyY&oauth=true'
     driver.get(url_login)
