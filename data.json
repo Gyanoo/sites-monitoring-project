@@ -9,8 +9,8 @@
       "email_to_send": "oogyano@gmail.com",
       "price": 2.0,
       "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div/div[1]",
-      "time": 10,
-      "is_on": false,
+      "time": 7,
+      "is_on": true,
       "is_monitoring": true
     },
     {
@@ -33,24 +33,11 @@
       "login": "ooogyano@gmail.com",
       "password": "Python123",
       "email_to_send": "ooogyano@gmail.com",
-      "price": 17.0,
-      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[4]/div[2]/div",
+      "price": 33.0,
+      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div[2]/div[1]",
       "time": 3,
-      "is_on": true,
+      "is_on": false,
       "is_monitoring": false
-    },
-    {
-      "name": "4x 205/55R16 91 V Dunlop SP SPORT BLURESPONSE",
-      "link": "https://allegro.pl/oferta/4x-205-55r16-91-v-dunlop-sp-sport-bluresponse-7584523779?bi_m=mpage&utm_source=tdb&utm_medium=afiliacja&utm_content=YieldKit.com+%28PL%29&tduid=edaf02d605c0ddc69117979012eb0ee0",
-      "is_done": false,
-      "login": "ooogyano@gmail.com",
-      "password": "Python123",
-      "email_to_send": "yevhenii.oros@gmail.com",
-      "price": 930.0,
-      "xpath": "/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/div[5]/div[2]/div/span[1]",
-      "time": 20,
-      "is_on": true,
-      "is_monitoring": true
     }
   ],
   "autofill": {

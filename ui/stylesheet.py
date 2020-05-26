@@ -311,9 +311,9 @@ QPushButton:checked:pressed{
 }
 """
 
-help_text = "Program jest używany do monitorowania stron internetowych\n" \
-            "Dla dodania strony do monitorowania przejdź do kategorii 'Add' \n" \
-            "i wypełnij wszystkie pola. Następnie masz dwie opcji:\n" \
+help_text = "Program jest używany do monitorowania strony Allegro\n" \
+            "Aby zacząć monitorowanie przejdź do kategorii 'Add' \n" \
+            "i wypełnij wszystkie pola. Następnie wybierz jedną z opcji:\n" \
             "\t1)po prostu monitorowanie\n" \
-            "\t2)monitorowanie i kupowanie produktu\n" \
+            "\t2)monitorowanie i gdy cena spadnie poniżej zadanej- kupowanie produktu\n" \
             "\nWszystkie twoje moniturujące strone można zobaczyć w kategorii 'Monitored'"

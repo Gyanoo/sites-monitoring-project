@@ -332,11 +332,11 @@ class PageAllegroAdd(QWidget):
         self.horizontalLayout_frame_bottom.setStretch(4, 1)
         self.timer = QTimer(self)
 
-        auto_login, auto_pwd, auto_email, auto_time = data.get_autofill()
-        self.lineEdit_login.setText(auto_login)
-        self.lineEdit_password.setText(auto_pwd)
-        self.lineEdit_email.setText(auto_email)
-        self.lineEdit_time.setText(str(auto_time))
+        self.auto_login, self.auto_pwd, self.auto_email, self.auto_time = data.get_autofill()
+        self.lineEdit_login.setText(self.auto_login)
+        self.lineEdit_password.setText(self.auto_pwd)
+        self.lineEdit_email.setText(self.auto_email)
+        self.lineEdit_time.setText(str(self.auto_time))
 
     def new_link_handler(self, is_monitoring):
         # check if fields were filled properly
