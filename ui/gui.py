@@ -23,9 +23,18 @@ import monitoring
 import multiprocessing
 
 path = os.path.dirname(os.path.abspath(__file__))
+from enum import Enum
 # p2 = multiprocessing.Process(target=monitoring_main.start_monitor)
 # p2.start()
 # p2.join()
+
+
+class Page(Enum):
+    ADD = 1
+    MONITORED = 2
+    OPTIONS = 3
+    ABOUT = 4
+    LOADING = 5
 
 
 class SitesFrame(QFrame):
@@ -55,7 +64,6 @@ class NavFrame(QFrame):
         self.label_img = QLabel(self)
         self.label_img.setFixedSize(QSize(60, 60))
         self.label_img.setPixmap(QPixmap(os.path.join(path, 'img/icon.png')))
-        # self.label_img.setPixmap(QPixmap("../img/icon.png"))
         self.label_img.setScaledContents(True)
         self.gridLayout.addWidget(self.label_img, 2, 1, 1, 1)
 
@@ -127,6 +135,7 @@ class PageLoading(QWidget):
 class PageAllegroAdd(QWidget):
     def __init__(self, parent=None, shared_dict=None):
         QWidget.__init__(self, parent)
+        self.parent = parent
         parent.addWidget(self)
         self.shared_dict = shared_dict
         self.gridLayout = QGridLayout(self)
@@ -403,6 +412,7 @@ class PageAllegroAdd(QWidget):
             self.lineEdit_time.clear()
             try:
                 data.add_monitored_elements(login, email, password, link, price, xpath, time, is_monitoring)
+                self.parent.pageAllegroMonitored.add_to_list(link)
                 self.shared_dict['isTerminatedP2'] = True
             except InvalidArgumentException:
                 self.set_info_text("Warning. Wrong link submitted", True)
@@ -659,11 +669,18 @@ class PageAllegroMonitored(QWidget):
 
         self.gridLayout_scroll_area.addItem(self.spacer)
 
-    def add_to_list(self, name, link, is_done, price, xpath, time, is_monitoring):
-        self.gridLayout_scroll_area.removeItem(self.spacer)
-        e = ElementAllegroMonitored(name, link, is_done, price, xpath, time, is_monitoring)
-        self.gridLayout_scroll_area.addWidget(e)
-        self.gridLayout_scroll_area.addItem(self.spacer)
+    def add_to_list(self, link):
+        elements = data.read_monitored_elements()
+        for element in elements:
+            if element['link'] == link:
+                self.gridLayout_scroll_area.removeItem(self.spacer)
+                e = ElementAllegroMonitored(element['name'], element['link'], element['is_done'], element['price'],
+                                            element['xpath'], element['time'], element['is_monitoring'],
+                                            self.scrollAreaWidgetContents, self.shared_dict)
+                self.gridLayout_scroll_area.addWidget(e)
+                self.gridLayout_scroll_area.addItem(self.spacer)
+                break
+
 
 
 class PageAllegroOptions(QWidget):
@@ -896,10 +913,10 @@ class MainWindow(QMainWindow):
 
     def set_start_state(self):
         # set nav btn connection
-        self.navFrame.radioButton_add.toggled.connect(lambda: self.go_to_page(0))
-        self.navFrame.radioButton_monitored.toggled.connect(lambda: self.go_to_page(1))
-        self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(2))
-        self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(3))
+        self.navFrame.radioButton_add.toggled.connect(lambda: self.go_to_page(Page.ADD))
+        self.navFrame.radioButton_monitored.toggled.connect(lambda: self.go_to_page(Page.MONITORED))
+        self.navFrame.radioButton_options.toggled.connect(lambda: self.go_to_page(Page.OPTIONS))
+        self.navFrame.radioButton_about.toggled.connect(lambda: self.go_to_page(Page.ABOUT))
         self.navFrame.radioButton_add.setChecked(True)
         self.stackedWidget.pageAllegroAdd.pushButton_bn.clicked.connect(lambda: self.new_link_handler(False))
 
@@ -935,16 +952,16 @@ class MainWindow(QMainWindow):
         self.gridLayout_central.addWidget(self.sitesFrame, 0, 1, 1, 1)
         self.gridLayout_central.addWidget(self.stackedWidget, 1, 1, 1, 1)
 
-    def go_to_page(self, index):
-        if index == 0:
+    def go_to_page(self, page):
+        if page == Page.ADD:
             self.stackedWidget.setCurrentIndex(0)
-        elif index == 1:
+        elif page == Page.MONITORED:
             self.stackedWidget.setCurrentIndex(1)
-        elif index == 2:
+        elif page == Page.OPTIONS:
             self.stackedWidget.setCurrentIndex(2)
-        elif index == 3:
+        elif page == Page.ABOUT:
             self.stackedWidget.setCurrentIndex(3)
-        elif index == 4:
+        elif page == Page.LOADING:
             self.stackedWidget.setCurrentIndex(4)
 
 

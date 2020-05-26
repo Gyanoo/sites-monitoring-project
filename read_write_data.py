@@ -1,6 +1,8 @@
 import json
 from selenium import webdriver
 
+is_added = False
+
 
 def read_json_file():
     with open("data.json") as file:
@@ -15,6 +17,7 @@ def read_monitored_elements():
 
 
 def add_monitored_elements(login, email_to_send, password, link, price, xpath, time, is_monitoring):
+    is_added = True
     data = read_json_file()
     for e in data["monitored_elements"]:
         if e['link'] == link and e['is_done'] is False:
