@@ -87,6 +87,16 @@ def get_name(link):
     return name
 
 
+def mark_as_done(link):
+    data = read_json_file()
+    for e in data["monitored_elements"]:
+        if e["link"] == link:
+            e["is_done"] = True
+            break
+    with open("data.json", "w") as file:
+        file.write(json.dumps(data, indent=2))
+
+
 def change_price_time(link, price, time):
     data = read_json_file()
     for e in data["monitored_elements"]:
@@ -143,4 +153,3 @@ if __name__ == "__main__":
                            False)
     print(get_element("sfdad"))
     get_name("https://allegro.pl/oferta/sluchawki-hyperx-cloud-alpha-hx-hsca-gd-nap-gaming-9140143545?reco_id=2645c81a-8634-11ea-9b23-b02628c7f910&sid=3ec404f37aa2fad6253fa5dd6bb023427743f77ee2f01bb84454c4701b8c0118")
-

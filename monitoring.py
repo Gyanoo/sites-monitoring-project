@@ -82,6 +82,7 @@ def check_if_price_lower(element, _FINISHED):
                 driver.find_element_by_id('buy-now-button').click()
             email_send.send_email(element["email_to_send"], element["link"], actualPrice)
         driver.quit()
+        data.mark_as_done(element["link"])
 
 
 def start_monitor(shared_dict):
